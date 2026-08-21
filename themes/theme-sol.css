@@ -1,0 +1,352 @@
+/* @roboborealis/ui — theme-sol.css
+ *
+ * Neutral theme — versatile charcoal dark / warm cream light.
+ * Suitable for apps outside the teal or green brand palette.
+ *
+ * Dark mode:  Charcoal (#202224) with a corporate navy CTA (#2D6FBE)
+ * Light mode: Warm cream (#F7F5F1) with the same navy CTA
+ *
+ * Navy rather than the orange this used to be: orange now means warning, and an
+ * orange CTA sat ΔE 1.8 from a warning badge. Navy rather than the violet it was
+ * briefly given, which read as insufficiently business-like. Slate blue and
+ * indigo were both ruled out for being too close to Midnight's primary.
+ *
+ * Light and dark share a hue per role and differ only in lightness, so a control
+ * is recognisably the same colour in both. Light mode used to use a slate blue
+ * CTA and an amber tertiary — 147° and 130° away from their dark counterparts,
+ * which read as different colours rather than two states of one.
+ * The surfaces are the deliberate exception: cream is warm, charcoal is cool.
+ *
+ * Import: import '@roboborealis/ui/theme-sol'
+ * Activate: <html data-theme="sol" data-mode="dark|light">
+ * Density:   <html data-density="compact|comfortable|spacious">
+ */
+
+@layer robo.tokens, robo.theme, robo.density;
+
+[data-theme='sol'] {
+  /* ── SHARED TOKENS ───────────────────────────────────────── */
+  --font-sans:    'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Open Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Lexend', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* ============================================================
+     FONT FAMILY OVERRIDE
+     Selectable via RoboFontFamilyProvider / data-font-family attribute.
+     Only overrides --font-sans (body/UI text) — headings, display, and
+     mono tokens are unaffected by this setting.
+     ============================================================ */
+  &[data-font-family='inter'],
+  & [data-font-family='inter'] {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='dm-sans'],
+  & [data-font-family='dm-sans'],
+  &:not([data-font-family]) {
+    --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='varela'],
+  & [data-font-family='varela'] {
+    --font-sans: 'Varela', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='open-sans'],
+  & [data-font-family='open-sans'] {
+    --font-sans: 'Open Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='opendyslexic'],
+  & [data-font-family='opendyslexic'] {
+    --font-sans: 'OpenDyslexic', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='sora'],
+  & [data-font-family='sora'] {
+    --font-sans: 'Sora', system-ui, -apple-system, sans-serif;
+  }
+
+  /* --font-sans is only a token — nothing applied it to actual page text, so
+     switching data-font-family had no visible effect anywhere outside a
+     handful of chart/viz components that reference var(--font-sans) inline.
+     Apply it here so it inherits down from <html> to the whole app by
+     default; any component/consumer app can still override locally. */
+  font-family: var(--font-sans);
+
+  --space-1: 0.25rem;  --space-2: 0.5rem;
+  --space-3: 0.75rem;  --space-4: 1rem;
+  --space-6: 1.5rem;   --space-8: 2rem;
+  --space-12: 3rem;    --space-16: 4rem;
+
+  --radius:      0.375rem;  --radius-sm:   0.25rem;
+  --radius-md:   0.375rem;  --radius-lg:   0.5rem;
+  --radius-xl:   0.75rem;   --radius-full: 9999px;
+
+  --btn-h-sm:  32px;  --btn-h-md:  40px;  --btn-h-lg:  48px;
+  --btn-px-sm: 12px;  --btn-px-md: 16px;  --btn-px-lg: 24px;
+  --input-h-sm: 32px; --input-h-md: 40px; --input-h-lg: 48px;
+  --card-p: 24px;
+
+  --duration-instant: 60ms;
+  --duration-fast:    120ms;
+  --duration-normal:  220ms;
+  --duration-slow:    380ms;
+
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-enter:   cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit:    cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Spring physics — balanced defaults */
+  --spring-stiffness: 260;
+  --spring-damping:   20;
+  --spring-mass:      1;
+
+  /* ── DARK MODE (default) ─────────────────────────────────── */
+  &[data-mode='dark'],
+  &:not([data-mode]) {
+    color-scheme: dark;
+
+    --sidebar-background: oklch(0.20 0.03 55);    /* deep warm dusk */
+    --background:         oklch(0.17 0.025 55);   /* deep desert-dusk bg */
+    --card:               oklch(0.22 0.028 55);
+    --popover:            oklch(0.26 0.028 55);
+
+    --foreground:         oklch(0.94 0.015 70);   /* warm near-white */
+    --card-foreground:    oklch(0.94 0.015 70);
+    --popover-foreground: oklch(0.94 0.015 70);
+
+    --muted:              oklch(0.29 0.025 55);
+    --muted-foreground:   oklch(0.63 0.02 60);
+    --secondary-text:     oklch(0.76 0.02 60);
+
+    --border:             oklch(0.31 0.028 55);
+    --input:              oklch(0.245 0.028 55);
+
+    --secondary: oklch(0.60 0.17 330);            /* dusk magenta-purple */
+    --secondary-foreground: oklch(1 0 0);
+    --tertiary: oklch(0.52 0.03 45);              /* warm taupe */
+    --tertiary-foreground: oklch(1 0 0);          /* white */
+
+    --accent:             oklch(0.30 0.03 55);
+    --accent-foreground:  oklch(0.94 0.015 70);
+
+    --destructive: oklch(0.565 0.21 27);          /* #D62526 — uniform across all themes and modes, white label 5.07:1 */
+    --destructive-foreground: oklch(1 0 0);       /* white */
+    --destructive-text: oklch(0.740 0.210 27);    /* on-surface red — was a color-mix that stopped clearing 4.5:1 once --destructive darkened */
+    --warning: oklch(0.555 0.16 50);              /* #B94E00 orange */
+    --warning-foreground:       oklch(1 0 0);  /* white. Orange now means warning, so the primary button is no
+       longer orange and this can be a true orange again rather than the gold it
+       briefly needed to be to stay clear of it. Bright amber cannot take white
+       text at all (2.33:1), so white forces this darker: #B94E00 gives 5.06:1. */
+    --warning-text:             oklch(0.78 0.15 60);
+    --success: oklch(0.525 0.14 155);             /* #008144 — uniform across all themes and modes, white label 5.04:1 */
+    --success-foreground: oklch(1 0 0);           /* white */
+    --success-text: oklch(0.700 0.140 155);       /* on-surface green — same reason */
+
+    /* Alert severity — map-optimised: vivid and distinct on dark charcoal backgrounds */
+    --alert-emergency:              oklch(0.68 0.28 25);             /* vivid red */
+    --alert-emergency-foreground:   oklch(1 0 0);
+    --alert-emergency-text: color-mix(in oklch, var(--alert-emergency) 70%, white);/* 70% not 85% */
+    --alert-warning:                oklch(0.76 0.26 46);             /* vivid orange */
+    --alert-warning-foreground:     oklch(0.10 0 0);
+    --alert-warning-text:           color-mix(in oklch, var(--alert-warning) 85%, white);
+    --alert-watch:                  oklch(0.88 0.24 80);             /* vivid amber-yellow */
+    --alert-watch-foreground:       oklch(0.10 0 0);
+    --alert-watch-text: color-mix(in oklch, var(--alert-watch) 85%, white);/* toward white, not black — this is a dark surface */
+    --alert-advisory:               oklch(0.72 0.26 280);            /* vivid violet */
+    --alert-advisory-foreground:    oklch(1 0 0);
+    --alert-advisory-text:          color-mix(in oklch, var(--alert-advisory) 85%, white);
+    --alert-info:                   oklch(0.74 0.22 220);            /* vivid periwinkle-blue */
+    --alert-info-foreground:        oklch(0.10 0 0);
+    --alert-info-text:              color-mix(in oklch, var(--alert-info) 80%, white);
+
+    /* Chart palette — 6 hues ~60° apart, high chroma, 3:1+ vs --card (charcoal) */
+    --chart-1: oklch(0.76 0.24 35);   /* vivid coral-orange */
+    --chart-2: oklch(0.85 0.23 92);   /* vivid lime-yellow */
+    --chart-3: oklch(0.74 0.25 200);  /* electric cyan */
+    --chart-4: oklch(0.68 0.27 265);  /* electric indigo */
+    --chart-5: oklch(0.76 0.28 315);  /* neon magenta */
+    --chart-6: oklch(0.72 0.22 155);  /* vivid emerald */
+    /* Category marker colors — 4.5:1+ vs both --card and --muted (enforced by src/foundation/contrast/color-contrast.test.ts) */
+    --marker-coral: oklch(0.719 0.24 35);
+    --marker-gold: oklch(0.695 0.23 92);
+    --marker-teal: oklch(0.665 0.25 200);
+    --marker-indigo: oklch(0.707 0.27 265);
+    --marker-magenta: oklch(0.727 0.28 315);
+    --marker-emerald: oklch(0.667 0.22 155);
+    --marker-green: oklch(0.671 0.192 149.6);
+    --marker-forest: oklch(0.674 0.17 149.2);
+    --marker-slate: oklch(0.691 0.041 257.4);
+    --marker-violet: oklch(0.713 0.219 292.7);
+    --marker-amber: oklch(0.701 0.165 70.1);
+    --marker-cyan: oklch(0.681 0.126 215.2);
+    --marker-steel: oklch(0.691 0.035 256.8);
+    --marker-orange: oklch(0.709 0.187 47.6);
+    --marker-yellow: oklch(0.695 0.162 86);
+    --marker-red: oklch(0.717 0.208 25.3);
+
+
+    --sidebar-foreground:          oklch(0.90 0.02 70);
+    --sidebar-border:              oklch(0.28 0.028 55);
+    --sidebar-accent:              oklch(0.29 0.03 55);
+    --sidebar-accent-foreground:   oklch(0.94 0.015 70);
+    --sidebar-muted-foreground:    oklch(0.63 0.02 60);
+
+    --primary: oklch(0.72 0.15 78);               /* desert-sun gold — dark label */
+    --primary-foreground: oklch(0.18 0.04 70);    /* dark ink on gold */
+    --primary-hover:      color-mix(in oklch, var(--primary) 85%, black);
+    --primary-active:     color-mix(in oklch, var(--primary) 70%, black);
+    --primary-text: oklch(0.80 0.15 82);          /* gold as TEXT on dark surfaces — ≥4.5:1 */
+    --ring: var(--primary);
+
+    --sidebar-primary: oklch(0.75 0.15 78);           /* gold lightened for the sidebar */
+    --sidebar-primary-foreground: oklch(0.18 0.04 70); /* dark on gold */
+
+    --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.50);
+    --shadow-md: 0 4px 8px -2px oklch(0 0 0 / 0.60), 0 2px 4px -2px oklch(0 0 0 / 0.44);
+    --shadow-lg: 0 12px 20px -4px oklch(0 0 0 / 0.65), 0 4px 8px -4px oklch(0 0 0 / 0.48);
+  }
+
+  /* ── LIGHT MODE ──────────────────────────────────────────── */
+  &[data-mode='light'] {
+    color-scheme: light;
+
+    --sidebar-background: oklch(0.20 0.03 55);    /* deep warm dusk — same both modes */
+    --background:         oklch(0.94 0.025 75);   /* soft warm-cream pastel — softer than white */
+    --card:               oklch(0.97 0.012 75);     /* soft warm-cream card — never pure white */
+    --popover:            oklch(0.97 0.012 75);
+
+    --foreground:         oklch(0.20 0.03 50);    /* deep warm-brown text */
+    --card-foreground:    oklch(0.20 0.03 50);
+    --popover-foreground: oklch(0.20 0.03 50);
+
+    --muted:              oklch(0.89 0.02 75);
+    --muted-foreground:   oklch(0.48 0.025 55);
+    --secondary-text:     oklch(0.44 0.03 50);
+
+    --border:             oklch(0.85 0.02 75);
+    --input:              oklch(0.97 0.012 75);
+
+    --secondary: oklch(0.52 0.17 330);            /* dusk magenta-purple */
+    --secondary-foreground: oklch(1 0 0);
+    --tertiary: oklch(0.50 0.03 45);              /* warm taupe */
+    --tertiary-foreground: oklch(1 0 0);          /* white */
+
+    --accent:             oklch(0.905 0.025 75);
+    --accent-foreground:  oklch(0.20 0.03 50);
+
+    --destructive: oklch(0.565 0.21 27);          /* #D62526 — uniform across all themes and modes, white label 5.07:1 */
+    --destructive-foreground: oklch(1 0 0);       /* white */
+    --destructive-text: oklch(0.52 0.210 27);     /* on-surface red — darkened to clear 4.5:1 on the pastel page */
+    --warning: oklch(0.555 0.16 50);              /* #B94E00 orange */
+    --warning-foreground:       oklch(1 0 0);  /* white. Orange now means warning, so the primary button is no
+       longer orange and this can be a true orange again rather than the gold it
+       briefly needed to be to stay clear of it. Bright amber cannot take white
+       text at all (2.33:1), so white forces this darker: #B94E00 gives 5.06:1. */
+    --warning-text:             oklch(0.50 0.18 58);
+    --success: oklch(0.525 0.14 155);             /* #008144 — uniform across all themes and modes, white label 5.04:1 */
+    --success-foreground: oklch(1 0 0);           /* white */
+    --success-text: oklch(0.485 0.140 155);       /* on-surface green — darkened to clear 4.5:1 on the pastel page */
+
+    /* Alert severity — map-optimised: vivid and distinct on white/cream backgrounds */
+    --alert-emergency:              oklch(0.52 0.27 25);             /* vivid red */
+    --alert-emergency-foreground:   oklch(1 0 0);
+    --alert-emergency-text:         color-mix(in oklch, var(--alert-emergency) 85%, black);
+    --alert-warning:                oklch(0.56 0.25 46);             /* bold deep-orange */
+    --alert-warning-foreground:     oklch(1 0 0);
+    --alert-warning-text:           color-mix(in oklch, var(--alert-warning) 85%, black);
+    --alert-watch:                  oklch(0.58 0.22 75);             /* bold amber */
+    --alert-watch-foreground:       oklch(0.10 0 0);
+    --alert-watch-text:             color-mix(in oklch, var(--alert-watch) 85%, black);
+    --alert-advisory:               oklch(0.48 0.26 280);            /* vivid violet */
+    --alert-advisory-foreground:    oklch(1 0 0);
+    --alert-advisory-text:          color-mix(in oklch, var(--alert-advisory) 85%, black);
+    --alert-info:                   oklch(0.48 0.22 220);            /* vivid periwinkle-blue */
+    --alert-info-foreground:        oklch(1 0 0);
+    --alert-info-text:              color-mix(in oklch, var(--alert-info) 85%, black);
+
+    /* Chart palette — 6 hues ~60° apart, high chroma, 3:1+ vs --card (white) */
+    --chart-1: oklch(0.56 0.24 35);   /* bold coral-orange */
+    --chart-2: oklch(0.52 0.24 90);   /* bold lime-gold */
+    --chart-3: oklch(0.48 0.23 155);  /* bold emerald */
+    --chart-4: oklch(0.44 0.27 265);  /* bold indigo */
+    --chart-5: oklch(0.53 0.28 315);  /* bold magenta */
+    --chart-6: oklch(0.46 0.22 205);  /* bold teal */
+    /* Category marker colors — 4.5:1+ vs both --card and --muted (enforced by src/foundation/contrast/color-contrast.test.ts) */
+    --marker-coral: oklch(0.485 0.24 35);
+    --marker-gold: oklch(0.485 0.23 92);
+    --marker-teal: oklch(0.415 0.25 200);
+    --marker-indigo: oklch(0.505 0.27 265);
+    --marker-magenta: oklch(0.505 0.28 315);
+    --marker-emerald: oklch(0.435 0.22 155);
+    --marker-green: oklch(0.45 0.192 149.6);
+    --marker-forest: oklch(0.46 0.17 149.2);
+    --marker-slate: oklch(0.485 0.041 257.4);
+    --marker-violet: oklch(0.51 0.219 292.7);
+    --marker-amber: oklch(0.49 0.165 70.1);
+    --marker-cyan: oklch(0.46 0.126 215.2);
+    --marker-steel: oklch(0.485 0.035 256.8);
+    --marker-orange: oklch(0.5 0.187 47.6);
+    --marker-yellow: oklch(0.485 0.162 86);
+    --marker-red: oklch(0.51 0.208 25.3);
+
+
+    --sidebar-foreground:          oklch(0.90 0.02 70);
+    --sidebar-border:              oklch(0.28 0.028 55);
+    --sidebar-accent:              oklch(0.29 0.03 55);
+    --sidebar-accent-foreground:   oklch(0.95 0.01 70);
+    --sidebar-muted-foreground:    oklch(0.63 0.02 60);
+
+    /* Desert-sun gold — dark ink label. Same gold family across modes. */
+    --primary: oklch(0.68 0.15 78);
+    --primary-foreground: oklch(0.18 0.04 70);    /* dark ink on gold */
+    --primary-hover:      color-mix(in oklch, var(--primary) 85%, black);
+    --primary-active:     color-mix(in oklch, var(--primary) 70%, black);
+    --primary-text: oklch(0.52 0.13 70);          /* gold-brown as TEXT on light surfaces — ≥4.5:1 */
+    --ring: var(--primary);
+
+    --sidebar-primary: oklch(0.75 0.15 78);           /* gold lightened for the sidebar */
+    --sidebar-primary-foreground: oklch(0.18 0.04 70); /* dark on gold */
+
+    --shadow-sm: 0 1px 2px 0 oklch(0.12 0.01 270 / 0.08);
+    --shadow-md: 0 4px 8px -2px oklch(0.12 0.01 270 / 0.12), 0 2px 4px -2px oklch(0.12 0.01 270 / 0.08);
+    --shadow-lg: 0 12px 20px -4px oklch(0.12 0.01 270 / 0.14), 0 4px 8px -4px oklch(0.12 0.01 270 / 0.10);
+  }
+
+  /* ── DENSITY ─────────────────────────────────────────────── */
+  &[data-density='compact'],
+  & [data-density='compact'] {
+    --density-scale: 0.5;
+    --space-1: 0.125rem;  --space-2: 0.25rem;
+    --space-3: 0.375rem;  --space-4: 0.5rem;
+    --space-6: 0.75rem;   --space-8: 1rem;
+    font-size: 0.75rem;
+    --btn-h-sm: 20px;   --btn-h-md: 24px;   --btn-h-lg: 30px;
+    --btn-px-sm: 6px;   --btn-px-md: 8px;   --btn-px-lg: 12px;
+    --input-h-sm: 20px; --input-h-md: 24px; --input-h-lg: 30px;
+    --card-p: 6px;
+  }
+
+  &[data-density='comfortable'],
+  & [data-density='comfortable'],
+  &:not([data-density]) {
+    --density-scale: 1;
+    font-size: 0.875rem;
+    --btn-h-sm: 26px;   --btn-h-md: 32px;   --btn-h-lg: 40px;
+    --btn-px-sm: 10px;  --btn-px-md: 12px;  --btn-px-lg: 18px;
+    --input-h-sm: 26px; --input-h-md: 32px; --input-h-lg: 40px;
+    --card-p: 14px;
+  }
+
+  &[data-density='spacious'],
+  & [data-density='spacious'] {
+    --density-scale: 1.25;
+    --space-1: 0.3125rem; --space-2: 0.625rem;
+    --space-3: 0.9375rem; --space-4: 1.25rem;
+    --space-6: 1.875rem;  --space-8: 2.5rem;
+    font-size: 1rem;
+  }
+}

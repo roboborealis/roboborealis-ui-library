@@ -1,0 +1,245 @@
+{
+  "name": "@roboborealis/components",
+  "version": "0.34.2",
+  "workspaces": [
+    "capture",
+    "designer",
+    "packages/*"
+  ],
+  "description": "RoboBorealis — a React + Tailwind UI component library",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=10.0.0"
+  },
+  "main": "./dist/core.cjs",
+  "module": "./dist/core.mjs",
+  "types": "./dist/core.d.ts",
+  "files": [
+    "dist",
+    "themes",
+    "fonts"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.mjs",
+      "require": "./dist/core.cjs"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.mjs",
+      "require": "./dist/core.cjs"
+    },
+    "./forms": {
+      "types": "./dist/forms.d.ts",
+      "import": "./dist/forms.mjs",
+      "require": "./dist/forms.cjs"
+    },
+    "./navigation": {
+      "types": "./dist/navigation.d.ts",
+      "import": "./dist/navigation.mjs",
+      "require": "./dist/navigation.cjs"
+    },
+    "./tables": {
+      "types": "./dist/tables.d.ts",
+      "import": "./dist/tables.mjs",
+      "require": "./dist/tables.cjs"
+    },
+    "./feedback": {
+      "types": "./dist/feedback.d.ts",
+      "import": "./dist/feedback.mjs",
+      "require": "./dist/feedback.cjs"
+    },
+    "./layout": {
+      "types": "./dist/layout.d.ts",
+      "import": "./dist/layout.mjs",
+      "require": "./dist/layout.cjs"
+    },
+    "./charts": {
+      "types": "./dist/charts.d.ts",
+      "import": "./dist/charts.mjs",
+      "require": "./dist/charts.cjs"
+    },
+    "./icons": {
+      "types": "./dist/icons.d.ts",
+      "import": "./dist/icons.mjs",
+      "require": "./dist/icons.cjs"
+    },
+    "./editor": {
+      "types": "./dist/editor.d.ts",
+      "import": "./dist/editor.mjs",
+      "require": "./dist/editor.cjs"
+    },
+    "./tokens": {
+      "types": "./dist/tokens.d.ts",
+      "import": "./dist/tokens.mjs",
+      "require": "./dist/tokens.cjs"
+    },
+    "./theme-midnight": "./themes/theme-midnight.css",
+    "./theme-aurora": "./themes/theme-aurora.css",
+    "./theme-sol": "./themes/theme-sol.css",
+    "./fonts/dm-sans": "./fonts/dm-sans/index.css",
+    "./fonts/inter": "./fonts/inter/index.css",
+    "./fonts/open-sans": "./fonts/open-sans/index.css",
+    "./fonts/opendyslexic": "./fonts/opendyslexic/index.css",
+    "./fonts/sora": "./fonts/sora/index.css",
+    "./fonts/varela": "./fonts/varela/index.css",
+    "./flags": {
+      "types": "./dist/flags.d.ts",
+      "import": "./dist/flags.mjs",
+      "require": "./dist/flags.cjs"
+    },
+    "./visualizations": {
+      "types": "./dist/visualizations.d.ts",
+      "import": "./dist/visualizations.mjs",
+      "require": "./dist/visualizations.cjs"
+    },
+    "./agent-context": {
+      "types": "./dist/agent.d.ts",
+      "import": "./dist/agent.mjs",
+      "require": "./dist/agent.cjs"
+    },
+    "./templates": {
+      "types": "./dist/templates.d.ts",
+      "import": "./dist/templates.mjs",
+      "require": "./dist/templates.cjs"
+    },
+    "./animations": {
+      "types": "./dist/animations.d.ts",
+      "import": "./dist/animations.mjs",
+      "require": "./dist/animations.cjs"
+    },
+    "./router": {
+      "types": "./dist/router.d.ts",
+      "import": "./dist/router.mjs",
+      "require": "./dist/router.cjs"
+    }
+  },
+  "scripts": {
+    "dev": "npm run build-storybook && npm run storybook",
+    "prepublishOnly": "npm run generate-agent-context && npm run check-storypaths && npm run ci:local && npm run copy-fonts && npm run build:lib",
+    "build:lib": "TSUP_BATCH=1 tsup && TSUP_BATCH=2 tsup && TSUP_BATCH=3 tsup && TSUP_BATCH=server tsup",
+    "copy-fonts": "tsx scripts/copy-fonts.ts",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src/",
+    "ci:local": "npm run typecheck && npm run lint && npm run test:coverage",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:story-smoke": "vitest run -c vitest.smoke.config.ts",
+    "test:watch": "vitest",
+    "lint:fix": "eslint src/ --fix",
+    "test:stories": "test-storybook --url http://127.0.0.1:6006 --config-dir designer/.storybook",
+    "storybook": "storybook dev -p 6006 --config-dir designer/.storybook",
+    "build-storybook": "storybook build --config-dir designer/.storybook",
+    "rebuild": "rm -rf node_modules package-lock.json && npm cache clean --force && npm install",
+    "generate-manifest": "tsx scripts/generate-manifest.ts",
+    "check-storypaths": "tsx scripts/check-archetype-storypaths.ts",
+    "generate-stories-catalog": "tsx scripts/generate-stories-catalog.ts",
+    "scaffold:component": "tsx scripts/scaffold-component.ts",
+    "verify:component": "tsx scripts/verify-component.ts",
+    "verify:storybook-assets": "tsx scripts/verify-storybook-assets.ts",
+    "postbuild-storybook": "npm run generate-agent-context",
+    "capture": "tsx capture/cli.ts",
+    "capture:all": "tsx capture/cli.ts --all",
+    "generate-agent-context": "npm run generate-manifest && npm run generate-stories-catalog",
+    "security:audit": "npm audit --omit=dev --audit-level=high",
+    "security:audit:all": "npm audit",
+    "prepare": "husky"
+  },
+  "publishConfig": {
+    "@roboborealis:registry": "https://registry.npmjs.org/",
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@radix-ui/react-accordion": ">=1.0.0",
+    "@radix-ui/react-avatar": ">=1.0.0",
+    "@radix-ui/react-dialog": ">=1.0.0",
+    "@radix-ui/react-dropdown-menu": ">=1.0.0",
+    "@radix-ui/react-popover": ">=1.0.0",
+    "@radix-ui/react-progress": ">=1.0.0",
+    "@radix-ui/react-slot": ">=1.0.0",
+    "@radix-ui/react-tabs": ">=1.0.0",
+    "@radix-ui/react-toast": ">=1.0.0",
+    "@radix-ui/react-tooltip": ">=1.0.0",
+    "@tanstack/react-router": ">=1.0.0",
+    "motion": ">=11.0.0",
+    "react": ">=18",
+    "react-dom": ">=18"
+  },
+  "peerDependenciesMeta": {
+    "@tanstack/react-router": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@eslint/js": "^9",
+    "@storybook/addon-a11y": "^10.3.6",
+    "@storybook/react": "^10.3.6",
+    "@storybook/react-vite": "^10.3.6",
+    "@storybook/test-runner": "^0.24.4",
+    "@tailwindcss/postcss": "^4.2.4",
+    "@tanstack/react-router": "^1.170.16",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/geojson": "^7946.0.16",
+    "@types/is-hotkey": "^0.1.10",
+    "@types/node": "^22",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitest/coverage-v8": "^4.1.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "culori": "^4.0.2",
+    "echarts-stat": "^1.2.0",
+    "eslint": "^9",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^5",
+    "husky": "^9.1.7",
+    "lucide-react": "^1.14.0",
+    "motion": "^11.18.2",
+    "radix-ui": "^1.4.3",
+    "storybook": "^10.3.6",
+    "tailwind-merge": "^3.5.0",
+    "ts-morph": "^25.0.0",
+    "tsup": "^8.5.1",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "typescript-eslint": "^8.59.1",
+    "vite": "^8.0.10",
+    "vitest": "^4.1.9",
+    "vitest-axe": "^0.1.0"
+  },
+  "optionalDependencies": {
+    "@oxc-parser/binding-linux-x64-gnu": "^0.135.0",
+    "@oxc-resolver/binding-linux-x64-gnu": "^11.20.0"
+  },
+  "dependencies": {
+    "@fontsource/dm-sans": "^5.2.8",
+    "@fontsource/inter": "^5.2.8",
+    "@fontsource/open-sans": "^5.2.7",
+    "@fontsource/opendyslexic": "^5.2.5",
+    "@fontsource/sora": "^5.2.8",
+    "@fontsource/varela": "^5.2.8",
+    "@hookform/resolvers": "^5.2.2",
+    "@tanstack/react-table": "^8.21.3",
+    "@tanstack/react-virtual": "^3.13.24",
+    "cmdk": "^1.1.1",
+    "date-fns": "^4.1.0",
+    "echarts": "^6.1.0",
+    "echarts-extension-gmap": "^1.7.0",
+    "echarts-for-react": "^3.0.6",
+    "is-hotkey": "^0.2.0",
+    "react-day-picker": "^9.14.0",
+    "react-hook-form": "^7.74.0",
+    "react-joyride": "^3.1.0",
+    "slate": "^0.124.1",
+    "slate-history": "^0.113.1",
+    "slate-react": "^0.124.0",
+    "zod": "^4.4.1"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ]
+}

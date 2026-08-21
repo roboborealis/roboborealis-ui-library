@@ -1,0 +1,57 @@
+name: Validate agent context
+
+on:
+  pull_request:
+    paths:
+      - 'src/**/*.stories.tsx'
+      - 'src/**/robo-*.tsx'
+      - 'src/agent/archetypes.ts'
+      - 'src/agent/manifest.json'
+      - 'src/agent/stories-catalog.json'
+      - 'src/agent/component-metadata.json'
+      - 'src/templates/**'
+      - 'scripts/generate-manifest.ts'
+      - 'scripts/generate-stories-catalog.ts'
+      - 'scripts/check-archetype-storypaths.ts'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Check agent context is up to date
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Regenerate agent context
+        run: npm run generate-agent-context
+
+      - name: Fail if manifest or stories catalog is stale
+        run: |
+          # Strip the 'generated' timestamp before comparing — it changes every run
+          # and is not a meaningful signal of staleness.
+          for f in src/agent/manifest.json src/agent/stories-catalog.json; do
+            jq 'del(.generated)' "$f" > /tmp/regen.json
+            git checkout HEAD -- "$f"
+            jq 'del(.generated)' "$f" > /tmp/committed.json
+            if ! diff -q /tmp/committed.json /tmp/regen.json > /dev/null; then
+              echo ""
+              echo "ERROR: $f is out of date."
+              echo "Run 'npm run generate-agent-context' locally and commit the result."
+              diff /tmp/committed.json /tmp/regen.json | head -100
+              exit 1
+            fi
+          done
+          echo "Agent context is up to date."
+
+      - name: Check archetype storyPath values aren't stale
+        run: npm run check-storypaths

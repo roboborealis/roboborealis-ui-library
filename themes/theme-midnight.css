@@ -1,0 +1,414 @@
+/* @roboborealis/ui — theme-midnight.css
+ *
+ * Midnight theme — dark, deep purple sidebar with a muted palette.
+ *
+ * Design language: deep purple surfaces (hue 300) across sidebar and content,
+ * with an indigo-purple primary CTA. Dark sidebar slightly deeper than the
+ * content area.
+ *
+ * Palette:
+ *   --brand-orange:   #F88E63  oklch(0.752 0.141 42.4)  — accent; warning only, never primary
+ *   --brand-teal:     #084349  oklch(0.3511 0.0564 205.6)  — accent teal; not used for primary
+ *   Green bg:                  oklch(0.175 0.038 145) — dark content area
+ *   Sidebar deep:              oklch(0.095 0.022 145) — navigation surface
+ *   CTA (both modes):          oklch(0.540 0.090 245)  — steel blue primary button (#3d74a0)
+ *   Warning:                   oklch(0.555 0.16 50)    — orange (#B94E00), white label
+ *
+ * WCAG 2.1 AA:
+ *   --brand-orange (#BB5600) on white:   7.2:1 ✅
+ *   --brand-orange (#F88E63) on dark green: ✅
+ *   --brand-teal (#084349) on white:    11.1:1 ✅
+ *   near-white on dark green: ✅
+ *
+ * Import: import '@roboborealis/ui/theme-midnight'
+ * Activate: <html data-theme="midnight" data-mode="dark|light">
+ * Density:  <html data-density="compact|comfortable|spacious">
+ */
+
+@layer robo.tokens, robo.theme, robo.density;
+
+[data-theme='midnight'] {
+  /* ============================================================
+     SHARED TOKENS (both modes inherit these)
+     ============================================================ */
+  --font-sans:    'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Open Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Lexend', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* ============================================================
+     FONT FAMILY OVERRIDE
+     Selectable via RoboFontFamilyProvider / data-font-family attribute.
+     Only overrides --font-sans (body/UI text) — headings, display, and
+     mono tokens are unaffected by this setting.
+     ============================================================ */
+  &[data-font-family='inter'],
+  & [data-font-family='inter'] {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='dm-sans'],
+  & [data-font-family='dm-sans'],
+  &:not([data-font-family]) {
+    --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='varela'],
+  & [data-font-family='varela'] {
+    --font-sans: 'Varela', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='open-sans'],
+  & [data-font-family='open-sans'] {
+    --font-sans: 'Open Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='opendyslexic'],
+  & [data-font-family='opendyslexic'] {
+    --font-sans: 'OpenDyslexic', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='sora'],
+  & [data-font-family='sora'] {
+    --font-sans: 'Sora', system-ui, -apple-system, sans-serif;
+  }
+
+  /* --font-sans is only a token — nothing applied it to actual page text, so
+     switching data-font-family had no visible effect anywhere outside a
+     handful of chart/viz components that reference var(--font-sans) inline.
+     Apply it here so it inherits down from <html> to the whole app by
+     default; any component/consumer app can still override locally. */
+  font-family: var(--font-sans);
+
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  --radius:      0.375rem;
+  --radius-sm:   0.25rem;
+  --radius-md:   0.375rem;
+  --radius-lg:   0.5rem;
+  --radius-xl:   0.75rem;
+  --radius-full: 9999px;
+
+  /* Component sizing defaults (= spacious level, overridden per density below) */
+  --btn-h-sm:  32px;  --btn-h-md:  40px;  --btn-h-lg:  48px;
+  --btn-px-sm: 12px;  --btn-px-md: 16px;  --btn-px-lg: 24px;
+  --input-h-sm: 32px; --input-h-md: 40px; --input-h-lg: 48px;
+  --card-p: 24px;
+
+  --duration-instant: 60ms;
+  --duration-fast:    120ms;
+  --duration-normal:  220ms;
+  --duration-slow:    380ms;
+
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-enter:   cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit:    cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Spring physics — "precision military" feel: snappy, crisp */
+  --spring-stiffness: 280;
+  --spring-damping:   22;
+  --spring-mass:      1;
+
+  /*
+   * Brand accent colors — use these everywhere a fixed brand color is needed
+   * (hero banners, branded panels, marketing elements, illustrations).
+   *
+   *   --brand-orange:  #BB5600  — warning status. NOT the primary action colour
+   *   --brand-teal:    #084349  — the secondary brand anchor color; deep teal used in
+   *                               the product palette, dark sidebar/panel
+   *                               surfaces, and as the light-mode primary action color in
+   *                               @roboborealis/ui/theme-aurora. Use freely on any dark surface.
+   *   --brand-cyan:    #06B6D4  — secondary action color (secondary buttons, badges)
+   *   --brand-purple:  #A855F7  — tertiary action color (tertiary buttons, tags, highlights)
+   *
+   * WCAG notes:
+   *   --brand-orange (#BB5600) on white:     7.2:1 ✅
+   *   --brand-orange on #292B2D:              6.8:1 ✅
+   *   --brand-cyan (#06B6D4) on white:        7.3:1 ✅
+   *   --brand-cyan on #292B2D:                8.5:1 ✅
+   *   --brand-purple (#A855F7) on white:      5.9:1 ✅
+   *   --brand-purple on #292B2D:              7.2:1 ✅
+   */
+  --brand-orange: oklch(0.5702 0.1514 49.7);   /* #BB5600 */
+  --brand-teal:   oklch(0.3511 0.0564 205.6);  /* #084349 */
+  --brand-teal-secondary: oklch(0.57 0.097 201.2); /* #00888F — secondary accent */
+  --brand-blue:   oklch(0.414 0.135 272.8);   /* #354193 French blue — tertiary accent */
+
+  /* ============================================================
+     DARK MODE (default — applied when no data-mode set)
+     ============================================================ */
+  &[data-mode='dark'],
+  &:not([data-mode]) {
+    color-scheme: dark;
+
+    /* Depth hierarchy: sidebar < background < card < elevated < popover */
+    --sidebar-background: oklch(0.155 0.075 300);    /* deep purple navigation surface */
+    --background:          oklch(0.135 0.065 300);   /* deep purple content bg */
+    --card:                oklch(0.195 0.065 300);   /* lifted purple card */
+    --popover:             oklch(0.235 0.065 300);   /* elevated */
+
+    --foreground:          oklch(0.94 0.01 300);     /* near white, faint indigo tint */
+    --card-foreground:     oklch(0.94 0.01 300);
+    --popover-foreground:  oklch(0.94 0.01 300);
+
+    --muted:               oklch(0.285 0.04 300);    /* distinct panel vs card */
+    --muted-foreground:    oklch(0.62 0.03 300);     /* disabled states only (WCAG-exempt) */
+    --secondary-text:      oklch(0.76 0.03 300);     /* active secondary labels — ≥4.5:1 ✅ */
+
+    --border:              oklch(0.31 0.045 300);
+    --input:               oklch(0.245 0.045 300);
+
+    --secondary: oklch(0.52 0.14 210);            /* cyan — distinct from the indigo primary */
+    --secondary-foreground: oklch(1 0 0);
+
+    --tertiary: oklch(0.55 0.045 265);            /* blue-grey */
+    --tertiary-foreground: oklch(1 0 0);
+
+    --accent:              oklch(0.30 0.05 300);     /* hover bg */
+    --accent-foreground:   oklch(0.94 0.01 300);
+
+    /* Semantic */
+    --destructive: oklch(0.565 0.21 27);          /* #D62526 — uniform across all themes and modes, white label 5.07:1 */
+    --destructive-foreground: oklch(1 0 0);       /* white */
+    --destructive-text: oklch(0.700 0.210 27);    /* on-surface red — was a color-mix that stopped clearing 4.5:1 once --destructive darkened */
+    --warning: oklch(0.555 0.16 50);              /* #B94E00 orange */
+    --warning-foreground:       oklch(1 0 0);  /* white. Orange now means warning, so the primary button is no
+       longer orange and this can be a true orange again rather than the gold it
+       briefly needed to be to stay clear of it. Bright amber cannot take white
+       text at all (2.33:1), so white forces this darker: #B94E00 gives 5.06:1. */
+    --warning-text:             oklch(0.78 0.15 60);   /* standalone amber text on dark bg — ~4.7:1 ✅ */
+    --success: oklch(0.525 0.14 155);             /* #008144 — uniform across all themes and modes, white label 5.04:1 */
+    --success-foreground: oklch(1 0 0);           /* white */
+    --success-text: oklch(0.660 0.140 155);       /* on-surface green — same reason */
+
+    /* Alert severity — 5-level scale for map alerts, alert panels, and status indicators */
+    --alert-emergency:              oklch(0.68 0.28 25);             /* vivid red — max urgency */
+    --alert-emergency-foreground:   oklch(1 0 0);
+    --alert-emergency-text: color-mix(in oklch, var(--alert-emergency) 80%, white);/* 80% not 85% — 85% left it at 4.46:1 on --popover */
+    --alert-warning:                oklch(0.76 0.26 46);             /* vivid orange — clearly distinct from red */
+    --alert-warning-foreground:     oklch(0.10 0 0);
+    --alert-warning-text:           color-mix(in oklch, var(--alert-warning) 85%, white);
+    --alert-watch:                  oklch(0.88 0.24 80);             /* vivid amber-yellow — distinct from orange */
+    --alert-watch-foreground:       oklch(0.10 0 0);
+    --alert-watch-text: color-mix(in oklch, var(--alert-watch) 85%, white);/* toward white, not black — this is a dark surface */
+    --alert-advisory:               oklch(0.72 0.26 280);            /* vivid violet — breaks warm-color run */
+    --alert-advisory-foreground:    oklch(1 0 0);
+    --alert-advisory-text:          color-mix(in oklch, var(--alert-advisory) 85%, white);
+    --alert-info:                   oklch(0.74 0.22 220);            /* bright periwinkle-blue — distinct from violet */
+    --alert-info-foreground:        oklch(0.10 0 0);
+    --alert-info-text:              color-mix(in oklch, var(--alert-info) 80%, white);
+
+    /* Chart palette — 6 hues ~60° apart, high chroma, 3:1+ vs card (oklch 0.248) */
+    --chart-1: oklch(0.76 0.24 35);    /* vivid coral-orange — brand anchor */
+    --chart-2: oklch(0.85 0.23 92);    /* vivid lime-yellow */
+    --chart-3: oklch(0.74 0.25 200);   /* electric cyan */
+    --chart-4: oklch(0.68 0.27 265);   /* electric indigo */
+    --chart-5: oklch(0.76 0.28 315);   /* neon magenta */
+    --chart-6: oklch(0.72 0.22 155);   /* vivid emerald */
+    /* Category marker colors — 4.5:1+ vs both --card and --muted (enforced by src/foundation/contrast/color-contrast.test.ts) */
+    --marker-coral: oklch(0.687 0.24 35);
+    --marker-gold: oklch(0.664 0.23 92);
+    --marker-teal: oklch(0.633 0.25 200);
+    --marker-indigo: oklch(0.675 0.27 265);
+    --marker-magenta: oklch(0.696 0.28 315);
+    --marker-emerald: oklch(0.635 0.22 155);
+    --marker-green: oklch(0.639 0.192 149.6);
+    --marker-forest: oklch(0.641 0.17 149.2);
+    --marker-slate: oklch(0.659 0.041 257.4);
+    --marker-violet: oklch(0.681 0.219 292.7);
+    --marker-amber: oklch(0.669 0.165 70.1);
+    --marker-cyan: oklch(0.649 0.126 215.2);
+    --marker-steel: oklch(0.659 0.035 256.8);
+    --marker-orange: oklch(0.677 0.187 47.6);
+    --marker-yellow: oklch(0.663 0.162 86);
+    --marker-red: oklch(0.684 0.208 25.3);
+
+
+    /* Sidebar — deep indigo */
+    --sidebar-foreground:          oklch(0.88 0.02 300);
+    --sidebar-border:              oklch(0.28 0.05 300);
+    --sidebar-accent:              oklch(0.29 0.055 300);  /* active nav item */
+    --sidebar-accent-foreground:   oklch(0.94 0.01 300);
+    --sidebar-muted-foreground:    oklch(0.62 0.03 300);
+
+    /* Primary — deep indigo (white label ≥4.5:1 ✅) */
+    --primary: oklch(0.53 0.19 300);
+    --primary-foreground: oklch(1 0 0);           /* white */
+    --primary-hover:       color-mix(in oklch, var(--primary) 85%, white);
+    --primary-active:      color-mix(in oklch, var(--primary) 70%, white);
+    --primary-text: oklch(0.72 0.16 300);         /* indigo as TEXT on a surface — ≥4.5:1 on card/bg/popover */
+    --ring: var(--primary);
+
+    --sidebar-primary: oklch(0.66 0.17 300);          /* theme primary lightened for the sidebar */
+    --sidebar-primary-foreground: oklch(0.15 0 0);    /* dark on the accent */
+
+    /* Shadows */
+    --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.50);
+    --shadow-md: 0 4px 8px -2px oklch(0 0 0 / 0.60), 0 2px 4px -2px oklch(0 0 0 / 0.44);
+    --shadow-lg: 0 12px 20px -4px oklch(0 0 0 / 0.65), 0 4px 8px -4px oklch(0 0 0 / 0.48);
+  }
+
+  /* ============================================================
+     LIGHT MODE
+     ============================================================ */
+  &[data-mode='light'] {
+    color-scheme: light;
+
+    /* Sidebar stays deep purple in light mode (matches dark mode sidebar) */
+    --sidebar-background: oklch(0.155 0.075 300);     /* deep purple — same in both modes */
+    --background:          oklch(0.93 0.03 300);      /* soft lavender pastel — softer than white */
+    --card:                oklch(0.97 0.015 300);      /* soft lavender card — never pure white */
+    --popover:             oklch(0.97 0.015 300);
+
+    --foreground:          oklch(0.16 0.04 300);      /* very dark indigo text */
+    --card-foreground:     oklch(0.16 0.04 300);
+    --popover-foreground:  oklch(0.16 0.04 300);
+
+    --muted:               oklch(0.89 0.03 300);      /* lavender panel, darker than card */
+    --muted-foreground:    oklch(0.46 0.03 300);     /* disabled states only (WCAG-exempt) */
+    --secondary-text:      oklch(0.42 0.03 300);     /* active secondary labels — ≥4.5:1 ✅ */
+
+    --border:              oklch(0.85 0.03 300);      /* indigo-tinted border */
+    --input:               oklch(0.965 0.012 300);
+
+    --secondary: oklch(0.52 0.14 210);            /* cyan — distinct from the indigo primary */
+    --secondary-foreground: oklch(1 0 0);
+
+    --tertiary: oklch(0.50 0.045 265);            /* blue-grey */
+    --tertiary-foreground: oklch(1 0 0);
+
+    --accent:              oklch(0.905 0.03 300);
+    --accent-foreground:   oklch(0.16 0.04 300);
+
+    --destructive: oklch(0.565 0.21 27);          /* #D62526 — uniform across all themes and modes, white label 5.07:1 */
+    --destructive-foreground: oklch(1 0 0);       /* white */
+    --destructive-text: oklch(0.52 0.210 27);     /* on-surface red — darkened to clear 4.5:1 on the pastel page */
+    --warning: oklch(0.555 0.16 50);              /* #B94E00 orange */
+    --warning-foreground:       oklch(1 0 0);  /* white. Orange now means warning, so the primary button is no
+       longer orange and this can be a true orange again rather than the gold it
+       briefly needed to be to stay clear of it. Bright amber cannot take white
+       text at all (2.33:1), so white forces this darker: #B94E00 gives 5.06:1. */
+    --warning-text:             oklch(0.50 0.18 58);   /* standalone amber text on light bg — ~4.7:1 ✅ */
+    --success: oklch(0.525 0.14 155);             /* #008144 — uniform across all themes and modes, white label 5.04:1 */
+    --success-foreground: oklch(1 0 0);           /* white */
+    --success-text: oklch(0.485 0.140 155);       /* on-surface green — darkened to clear 4.5:1 on the pastel page */
+
+    /* Alert severity — map-optimised: vivid and distinct on white/light backgrounds */
+    --alert-emergency:              oklch(0.52 0.27 25);             /* vivid red */
+    --alert-emergency-foreground:   oklch(1 0 0);
+    --alert-emergency-text:         color-mix(in oklch, var(--alert-emergency) 85%, black);
+    --alert-warning:                oklch(0.56 0.25 46);             /* bold deep-orange */
+    --alert-warning-foreground:     oklch(1 0 0);
+    --alert-warning-text:           color-mix(in oklch, var(--alert-warning) 85%, black);
+    --alert-watch:                  oklch(0.58 0.22 75);             /* bold amber — distinct from orange */
+    --alert-watch-foreground:       oklch(0.10 0 0);
+    --alert-watch-text:             color-mix(in oklch, var(--alert-watch) 85%, black);
+    --alert-advisory:               oklch(0.48 0.26 280);            /* vivid violet — breaks warm-color run */
+    --alert-advisory-foreground:    oklch(1 0 0);
+    --alert-advisory-text:          color-mix(in oklch, var(--alert-advisory) 85%, black);
+    --alert-info:                   oklch(0.48 0.22 220);            /* vivid periwinkle-blue — distinct from violet */
+    --alert-info-foreground:        oklch(1 0 0);
+    --alert-info-text:              color-mix(in oklch, var(--alert-info) 85%, black);
+
+    /* Chart palette — 6 hues ~60° apart, high chroma, 3:1+ vs --card (white) */
+    --chart-1: oklch(0.56 0.24 35);   /* bold coral-orange */
+    --chart-2: oklch(0.52 0.24 90);   /* bold lime-gold */
+    --chart-3: oklch(0.48 0.23 155);  /* bold emerald */
+    --chart-4: oklch(0.44 0.27 265);  /* bold indigo */
+    --chart-5: oklch(0.53 0.28 315);  /* bold magenta */
+    --chart-6: oklch(0.46 0.22 205);  /* bold teal */
+    /* Category marker colors — 4.5:1+ vs both --card and --muted (enforced by src/foundation/contrast/color-contrast.test.ts) */
+    --marker-coral: oklch(0.485 0.24 35);
+    --marker-gold: oklch(0.485 0.23 92);
+    --marker-teal: oklch(0.415 0.25 200);
+    --marker-indigo: oklch(0.505 0.27 265);
+    --marker-magenta: oklch(0.505 0.28 315);
+    --marker-emerald: oklch(0.435 0.22 155);
+    --marker-green: oklch(0.45 0.192 149.6);
+    --marker-forest: oklch(0.46 0.17 149.2);
+    --marker-slate: oklch(0.485 0.041 257.4);
+    --marker-violet: oklch(0.51 0.219 292.7);
+    --marker-amber: oklch(0.49 0.165 70.1);
+    --marker-cyan: oklch(0.46 0.126 215.2);
+    --marker-steel: oklch(0.485 0.035 256.8);
+    --marker-orange: oklch(0.5 0.187 47.6);
+    --marker-yellow: oklch(0.485 0.162 86);
+    --marker-red: oklch(0.51 0.208 25.3);
+
+
+    /* Sidebar stays dark forest green in light mode */
+    --sidebar-foreground:          oklch(0.88 0.02 300);
+    --sidebar-border:              oklch(0.28 0.05 300);
+    --sidebar-accent:              oklch(0.29 0.055 300);
+    --sidebar-accent-foreground:   oklch(0.95 0 0);
+    --sidebar-muted-foreground:    oklch(0.62 0.03 300);
+
+    /* Primary — deep indigo (unifies CTA across modes) */
+    --primary: oklch(0.53 0.19 300);
+    --primary-foreground: oklch(1 0 0);           /* white */
+    --primary-hover:       color-mix(in oklch, var(--primary) 85%, black);
+    --primary-active:      color-mix(in oklch, var(--primary) 70%, black);
+    --primary-text: oklch(0.50 0.19 300);         /* indigo text on light surfaces — ≥4.5:1 */
+    --ring: var(--primary);
+
+    --sidebar-primary: oklch(0.66 0.17 300);
+    --sidebar-primary-foreground: oklch(0.15 0 0);
+
+    --shadow-sm: 0 1px 2px 0 oklch(0.12 0.04 220 / 0.08);
+    --shadow-md: 0 4px 8px -2px oklch(0.12 0.04 220 / 0.12), 0 2px 4px -2px oklch(0.12 0.04 220 / 0.08);
+    --shadow-lg: 0 12px 20px -4px oklch(0.12 0.04 220 / 0.14), 0 4px 8px -4px oklch(0.12 0.04 220 / 0.10);
+  }
+
+  /* ============================================================
+     DENSITY
+     ─────────────────────────────────────────────────────────────
+     Scale:  spacious = current comfortable baseline (16px, full size)
+             comfortable = 2 notches tighter  (14px, medium size)
+             compact = 2 more notches tighter (12px, minimal size)
+     ============================================================ */
+
+  /* compact — operational dashboards, maximum data density */
+  &[data-density='compact'],
+  & [data-density='compact'] {
+    --density-scale: 0.5;
+    --space-1: 0.125rem;  --space-2: 0.25rem;
+    --space-3: 0.375rem;  --space-4: 0.5rem;
+    --space-6: 0.75rem;   --space-8: 1rem;
+    font-size: 0.75rem;
+    --btn-h-sm: 20px;   --btn-h-md: 24px;   --btn-h-lg: 30px;
+    --btn-px-sm: 6px;   --btn-px-md: 8px;   --btn-px-lg: 12px;
+    --input-h-sm: 20px; --input-h-md: 24px; --input-h-lg: 30px;
+    --card-p: 6px;
+  }
+
+  /* comfortable — default for most views */
+  &[data-density='comfortable'],
+  & [data-density='comfortable'],
+  &:not([data-density]) {
+    --density-scale: 1;
+    font-size: 0.875rem;
+    --btn-h-sm: 26px;   --btn-h-md: 32px;   --btn-h-lg: 40px;
+    --btn-px-sm: 12px;  --btn-px-md: 14px;  --btn-px-lg: 20px;
+    --input-h-sm: 26px; --input-h-md: 32px; --input-h-lg: 40px;
+    --card-p: 14px;
+  }
+
+  /* spacious — forms, settings, onboarding; matches previous comfortable baseline */
+  &[data-density='spacious'],
+  & [data-density='spacious'] {
+    --density-scale: 1.25;
+    --space-1: 0.3125rem; --space-2: 0.625rem;
+    --space-3: 0.9375rem; --space-4: 1.25rem;
+    --space-6: 1.875rem;  --space-8: 2.5rem;
+    font-size: 1rem;
+    /* component tokens use base defaults = spacious level */
+  }
+}

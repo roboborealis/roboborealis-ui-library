@@ -1,0 +1,48 @@
+{
+  "name": "designer",
+  "version": "0.1.1",
+  "description": "Storybook host and component development environment for @roboborealis/components",
+  "private": true,
+  "scripts": {
+    "lint": "eslint . --ext .ts,.tsx,.js,.jsx",
+    "typecheck": "tsc --noEmit",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build",
+    "rebuild": "rm -rf node_modules && rm -rf package-lock.json && npm cache clean --force && npm install"
+  },
+  "dependencies": {
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^1.14.0",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "tailwind-merge": "^3.5.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^30.2.0",
+    "@storybook/addon-a11y": "^10.3.6",
+    "@storybook/react": "^10.3.6",
+    "@storybook/react-vite": "^10.3.6",
+    "@tailwindcss/postcss": "^4.2.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/jest": "^30.0.0",
+    "@types/jest-axe": "^3.5.9",
+    "@types/node": "^22",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "eslint": "^9",
+    "jest": "^30.3.0",
+    "jest-axe": "^10.0.0",
+    "jest-environment-jsdom": "^30.3.0",
+    "jest-junit": "^17.0.0",
+    "storybook": "^10.3.6",
+    "tailwindcss": "^4.2.0",
+    "ts-jest": "^29.4.9",
+    "ts-node": "^10.9.2",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vite": "^6.4.1"
+  }
+}

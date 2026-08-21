@@ -1,0 +1,37 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "allowJs": true,
+    "noEmit": true,
+    "module": "esnext",
+    "incremental": true,
+    "paths": {
+      "@/lib/*":        ["../src/lib/*"],
+      "@/core/*":       ["../src/core/*"],
+      "@/icons/*":      ["../src/icons/*"],
+      "@/navigation/*": ["../src/navigation/*"],
+      "@/tables/*":     ["../src/tables/*"],
+      "@/feedback/*":   ["../src/feedback/*"],
+      "@/layout/*":     ["../src/layout/*"],
+      "@/forms/*":      ["../src/forms/*"],
+      "@/charts/*":     ["../src/charts/*"],
+      "@/editor/*":     ["../src/editor/*"],
+      "@/maps/*":       ["../src/maps/*"],
+      "@/flags/*":      ["../src/flags/*"],
+      "@/brand/*":      ["../src/brand/*"],
+      "@/tokens/*":     ["../src/tokens/*"],
+      "@/foundation/*": ["../src/foundation/*"],
+      "@/showcase/*":   ["../src/showcase/*"],
+      "@/types/*":      ["../src/types/*"],
+      "@/*":            ["./*"]
+    }
+  },
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.mts"
+  ],
+  "exclude": ["node_modules"]
+}

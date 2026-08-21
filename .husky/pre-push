@@ -1,0 +1,34 @@
+# Backstop for the agent context, mirroring CI's agent-context freshness check.
+#
+# .husky/pre-commit already regenerates when a commit touches source or
+# package.json, so in the normal case this finds nothing. It exists because that
+# hook can only react to paths it was told about. This check is path-agnostic:
+# it compares real output against what is committed, so no forgotten trigger
+# path can defeat it.
+#
+# `del(.generated)` is essential, not cosmetic — both files embed a generation
+# timestamp, so a raw diff is ALWAYS dirty and this would commit on every push.
+#
+# Skips rather than fails if jq is missing: CI installs it and will still catch a
+# stale file, so a missing local tool must not block a push.
+if command -v jq > /dev/null 2>&1; then
+  npm run generate-agent-context > /dev/null 2>&1
+  agent_stale=""
+  for f in src/agent/manifest.json src/agent/stories-catalog.json; do
+    jq 'del(.generated)' "$f" > /tmp/robo-agent-regen.json 2>/dev/null || continue
+    git show "HEAD:$f" | jq 'del(.generated)' > /tmp/robo-agent-committed.json 2>/dev/null || continue
+    if ! diff -q /tmp/robo-agent-committed.json /tmp/robo-agent-regen.json > /dev/null 2>&1; then
+      agent_stale="yes"
+    fi
+  done
+
+  if [ -n "$agent_stale" ]; then
+    echo "agent-context: committed manifest/catalog was stale, regenerating before push..."
+    git add src/agent/manifest.json src/agent/stories-catalog.json
+    git commit -m "chore(agent): regenerate manifest + stories catalog"
+  else
+    # Discard the timestamp-only churn from the regeneration above, so a push
+    # never leaves the working tree dirty for no reason.
+    git checkout -- src/agent/manifest.json src/agent/stories-catalog.json
+  fi
+fi

@@ -1,0 +1,405 @@
+/* @roboborealis/ui — theme-aurora.css
+ *
+ * Aurora theme — deep purple surfaces with glowing teal / aqua accents.
+ *
+ * The aurora borealis: teal-green lights over a purple night sky. Purple is the
+ * brand surface (sidebar, dark-mode page); teal is the action colour; aqua is the
+ * highlight. This is what separates Aurora from Midnight — Midnight is all indigo,
+ * Aurora answers a purple frame with a teal/aqua glow.
+ *
+ * Source palette (user-provided):
+ *   #4E1F6E  oklch(0.350 0.133 308)  — deep purple → sidebar / dark surfaces
+ *   #3E3E75  oklch(0.392 0.092 281)  — indigo      → secondary
+ *   #45A9A9  oklch(0.677 0.092 195)  — teal        → primary (darkened for a white label)
+ *   #98E8DE  oklch(0.877 0.080 186)  — pale aqua   → accents / light-mode surfaces / highlights
+ *
+ * Role hues: primary teal ~195, secondary indigo ~285, surfaces purple ~308
+ * (dark) / aqua ~186 (light). Light mode reads mint; dark mode reads purple; the
+ * purple sidebar and teal primary anchor both.
+ *
+ * No pure white: cards and popovers are a soft tinted off-white, never #FFF.
+ *
+ * WCAG 2.1 AA — the contrast/hue suite is the source of truth:
+ *   src/foundation/contrast/{color-contrast,on-surface-text,mode-hue-consistency}.test.ts
+ *
+ * Import: import '@roboborealis/ui/theme-aurora'
+ * Activate: <html data-theme="aurora" data-mode="dark|light">
+ * Density:  <html data-density="compact|comfortable|spacious">
+ *
+ * IMPORTANT: This file MUST NOT define vars on :root — always imported alongside
+ * theme-midnight.css. Only [data-theme='aurora'] compound selectors are used.
+ */
+
+@layer robo.tokens, robo.theme, robo.density;
+
+/* ============================================================
+   SHARED TOKENS (both modes inherit these)
+   ============================================================ */
+[data-theme='aurora'] {
+  --font-sans:    'DM Sans', system-ui, -apple-system, sans-serif;
+  --font-heading: 'Open Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Lexend', system-ui, -apple-system, sans-serif;
+  --font-mono:    'JetBrains Mono', 'Fira Code', Consolas, monospace;
+
+  /* ============================================================
+     FONT FAMILY OVERRIDE
+     Selectable via RoboFontFamilyProvider / data-font-family attribute.
+     Only overrides --font-sans (body/UI text) — headings, display, and
+     mono tokens are unaffected by this setting.
+     ============================================================ */
+  &[data-font-family='inter'],
+  & [data-font-family='inter'] {
+    --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='dm-sans'],
+  & [data-font-family='dm-sans'],
+  &:not([data-font-family]) {
+    --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='varela'],
+  & [data-font-family='varela'] {
+    --font-sans: 'Varela', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='open-sans'],
+  & [data-font-family='open-sans'] {
+    --font-sans: 'Open Sans', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='opendyslexic'],
+  & [data-font-family='opendyslexic'] {
+    --font-sans: 'OpenDyslexic', system-ui, -apple-system, sans-serif;
+  }
+
+  &[data-font-family='sora'],
+  & [data-font-family='sora'] {
+    --font-sans: 'Sora', system-ui, -apple-system, sans-serif;
+  }
+
+  /* --font-sans is only a token — nothing applied it to actual page text, so
+     switching data-font-family had no visible effect anywhere outside a
+     handful of chart/viz components that reference var(--font-sans) inline.
+     Apply it here so it inherits down from <html> to the whole app by
+     default; any component/consumer app can still override locally. */
+  font-family: var(--font-sans);
+
+  --space-1:  0.25rem;
+  --space-2:  0.5rem;
+  --space-3:  0.75rem;
+  --space-4:  1rem;
+  --space-6:  1.5rem;
+  --space-8:  2rem;
+  --space-12: 3rem;
+  --space-16: 4rem;
+
+  --radius:      0.5rem;
+  --radius-sm:   0.375rem;
+  --radius-md:   0.5rem;
+  --radius-lg:   0.625rem;
+  --radius-xl:   0.875rem;
+  --radius-full: 9999px;
+
+  /* Component sizing defaults (= spacious level, overridden per density below) */
+  --btn-h-sm:  32px;  --btn-h-md:  40px;  --btn-h-lg:  48px;
+  --btn-px-sm: 12px;  --btn-px-md: 16px;  --btn-px-lg: 24px;
+  --input-h-sm: 32px; --input-h-md: 40px; --input-h-lg: 48px;
+  --card-p: 24px;
+
+  --duration-instant: 80ms;
+  --duration-fast:    150ms;
+  --duration-normal:  250ms;
+  --duration-slow:    400ms;
+
+  --ease-default: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-enter:   cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit:    cubic-bezier(0.4, 0, 1, 1);
+  --ease-spring:  cubic-bezier(0.34, 1.56, 0.64, 1);
+
+  /* Spring physics — "commercial polished" feel: smooth, gentle */
+  --spring-stiffness: 220;
+  --spring-damping:   26;
+  --spring-mass:      1;
+
+  /*
+   * Brand accent colors (same tokens as theme-midnight.css) — fixed brand
+   * anchors, NOT the theme identity. Left unchanged by the recolor.
+   */
+  --brand-teal:   oklch(0.3511 0.0564 205.6);      /* #084349 — accent teal */
+  --brand-orange: oklch(0.5702 0.1514 49.7);       /* #BB5600 — primary orange */
+  --brand-teal-secondary: oklch(0.57 0.097 201.2); /* #00888F — secondary teal */
+  --brand-blue:   oklch(0.414 0.135 272.8);       /* #354193 French blue — tertiary accent */
+
+  /* ============================================================
+     LIGHT MODE (default for Aurora)
+     Pale mint page, soft mint cards, deep-purple sidebar, teal primary.
+     ============================================================ */
+  &,
+  &[data-mode='light'] {
+    color-scheme: light;
+
+    /* Depth hierarchy: sidebar (deep purple) < muted < background < card */
+    --sidebar-background:  oklch(0.30 0.115 308);   /* deep purple sidebar */
+    --background:          oklch(0.93 0.03 186);    /* pale mint page */
+    --card:                oklch(0.965 0.02 186);   /* soft mint card — never pure white */
+    --popover:             oklch(0.965 0.02 186);
+
+    /* Text — deep purple ink */
+    --foreground:          oklch(0.25 0.05 300);
+    --card-foreground:     oklch(0.25 0.05 300);
+    --popover-foreground:  oklch(0.25 0.05 300);
+
+    --muted:               oklch(0.89 0.03 186);    /* mint panel, darker than card/page */
+    --muted-foreground:    oklch(0.48 0.02 300);     /* disabled states only (WCAG-exempt) */
+    --secondary-text:      oklch(0.44 0.04 285);     /* active secondary labels — ≥4.5:1 ✅ */
+
+    --border:              oklch(0.85 0.03 195);    /* teal-tinted border */
+    --input:               oklch(0.955 0.02 186);
+
+    --secondary: oklch(0.45 0.10 285);            /* indigo */
+    --secondary-foreground: oklch(1 0 0);          /* white on indigo */
+
+    --tertiary: oklch(0.55 0.15 160);             /* green — complementary accent */
+    --tertiary-foreground: oklch(1 0 0);          /* white */
+
+    --accent:              oklch(0.90 0.05 186);    /* pale aqua hover */
+    --accent-foreground:   oklch(0.25 0.05 300);
+
+    /* Semantic — WCAG AA verified on the mint page/cards */
+    --destructive: oklch(0.565 0.21 27);          /* #D62526 — uniform across all themes and modes, white label 5.07:1 */
+    --destructive-foreground: oklch(1 0 0);       /* white */
+    --destructive-text: oklch(0.52 0.21 27);      /* on-surface red — clears 4.5:1 on the soft page */
+    --warning: oklch(0.555 0.16 50);              /* #B94E00 orange */
+    --warning-foreground:       oklch(1 0 0);  /* white. Orange means warning, so the primary button is not
+       orange and this is a true orange. Bright amber cannot take white text at all
+       (2.33:1), so white forces this darker: #B94E00 gives 5.06:1. */
+    --warning-text:             oklch(0.50 0.18 60);   /* standalone amber text on light bg — ≥4.5:1 ✅ */
+    --success: oklch(0.525 0.14 155);             /* #008144 — uniform across all themes and modes, white label 5.04:1 */
+    --success-foreground: oklch(1 0 0);           /* white */
+    --success-text: oklch(0.485 0.14 155);        /* on-surface green — clears 4.5:1 on the soft page */
+
+    /* Alert severity — map-optimised: vivid and distinct on light backgrounds */
+    --alert-emergency:              oklch(0.52 0.27 25);             /* vivid red */
+    --alert-emergency-foreground:   oklch(1 0 0);
+    --alert-emergency-text:         color-mix(in oklch, var(--alert-emergency) 85%, black);
+    --alert-warning:                oklch(0.56 0.25 46);             /* bold deep-orange */
+    --alert-warning-foreground:     oklch(1 0 0);
+    --alert-warning-text:           color-mix(in oklch, var(--alert-warning) 85%, black);
+    --alert-watch:                  oklch(0.58 0.22 75);             /* bold amber */
+    --alert-watch-foreground:       oklch(0.10 0 0);
+    --alert-watch-text:             color-mix(in oklch, var(--alert-watch) 85%, black);
+    --alert-advisory:               oklch(0.48 0.26 280);            /* vivid violet */
+    --alert-advisory-foreground:    oklch(1 0 0);
+    --alert-advisory-text:          color-mix(in oklch, var(--alert-advisory) 85%, black);
+    --alert-info:                   oklch(0.48 0.22 220);            /* vivid periwinkle-blue */
+    --alert-info-foreground:        oklch(1 0 0);
+    --alert-info-text:              color-mix(in oklch, var(--alert-info) 85%, black);
+
+    /* Chart palette — 6 hues ~60° apart, high chroma, 3:1+ vs --card */
+    --chart-1: oklch(0.56 0.24 35);   /* bold coral-orange */
+    --chart-2: oklch(0.52 0.24 90);   /* bold lime-gold */
+    --chart-3: oklch(0.48 0.23 155);  /* bold emerald */
+    --chart-4: oklch(0.44 0.27 265);  /* bold indigo */
+    --chart-5: oklch(0.53 0.28 315);  /* bold magenta */
+    --chart-6: oklch(0.46 0.22 205);  /* bold teal */
+    /* Category marker colors — deepened for light mode so they clear 4.5:1 on the
+       soft (non-white) card and muted panels (enforced by color-contrast.test.ts) */
+    --marker-coral: oklch(0.485 0.24 35);
+    --marker-gold: oklch(0.485 0.23 92);
+    --marker-teal: oklch(0.415 0.25 200);
+    --marker-indigo: oklch(0.505 0.27 265);
+    --marker-magenta: oklch(0.505 0.28 315);
+    --marker-emerald: oklch(0.435 0.22 155);
+    --marker-green: oklch(0.45 0.192 149.6);
+    --marker-forest: oklch(0.46 0.17 149.2);
+    --marker-slate: oklch(0.485 0.041 257.4);
+    --marker-violet: oklch(0.51 0.219 292.7);
+    --marker-amber: oklch(0.49 0.165 70.1);
+    --marker-cyan: oklch(0.46 0.126 215.2);
+    --marker-steel: oklch(0.485 0.035 256.8);
+    --marker-orange: oklch(0.5 0.187 47.6);
+    --marker-yellow: oklch(0.485 0.162 86);
+    --marker-red: oklch(0.51 0.208 25.3);
+
+
+    /* Sidebar — deep purple surface, same in both modes */
+    --sidebar-foreground:          oklch(0.92 0.02 300);
+    --sidebar-border:              oklch(0.38 0.10 308);
+    --sidebar-accent:              oklch(0.38 0.11 308);    /* active nav item */
+    --sidebar-accent-foreground:   oklch(0.96 0 0);
+    --sidebar-muted-foreground:    oklch(0.70 0.04 300);
+
+    /* Primary — teal (all interactive: buttons, links, focus rings) */
+    --primary: oklch(0.52 0.10 195);              /* teal — Aurora's action colour, white label 5.2:1 */
+    --primary-foreground: oklch(1 0 0);           /* white */
+    --primary-hover:       color-mix(in oklch, var(--primary) 85%, black);
+    --primary-active:      color-mix(in oklch, var(--primary) 70%, black);
+    --primary-text: oklch(0.50 0.09 195);         /* teal text on light surfaces — ≥4.5:1 */
+    --ring: var(--primary);
+
+    /* Aqua accent lightened for the deep-purple sidebar. */
+    --sidebar-primary: oklch(0.76 0.11 300);          /* lavender accent, matches the purple sidebar */
+    --sidebar-primary-foreground: oklch(0.15 0 0);    /* dark on the accent */
+
+    --shadow-sm: 0 1px 2px 0 oklch(0.17 0.06 300 / 0.18);
+    --shadow-md: 0 4px 8px -2px oklch(0.17 0.06 300 / 0.22), 0 2px 4px -2px oklch(0.17 0.06 300 / 0.14);
+    --shadow-lg: 0 12px 20px -4px oklch(0.17 0.06 300 / 0.28), 0 4px 8px -4px oklch(0.17 0.06 300 / 0.18);
+  }
+
+  /* ============================================================
+     DARK MODE
+     Deep purple page and cards, purple sidebar, teal primary, aqua accents.
+     ============================================================ */
+  &[data-mode='dark'] {
+    color-scheme: dark;
+
+    --sidebar-background:  oklch(0.30 0.115 308);   /* deep purple sidebar */
+    --background:          oklch(0.17 0.045 220);    /* deep teal page — distinct from Midnight's purple */
+    --card:                oklch(0.24 0.05 218);     /* lifted teal card */
+    --popover:             oklch(0.28 0.05 218);     /* elevated above card */
+
+    --foreground:          oklch(0.95 0.01 200);     /* near white, faint aqua tint */
+    --card-foreground:     oklch(0.95 0.01 200);
+    --popover-foreground:  oklch(0.95 0.01 200);
+
+    --muted:               oklch(0.30 0.04 218);
+    --muted-foreground:    oklch(0.66 0.02 200);      /* disabled states only (WCAG-exempt) */
+    --secondary-text:      oklch(0.75 0.03 200);     /* active secondary labels — ≥4.5:1 vs purple bg ✅ */
+
+    --border:              oklch(0.35 0.05 218);
+    --input:               oklch(0.27 0.045 218);
+
+    --secondary: oklch(0.55 0.11 285);            /* indigo */
+    --secondary-foreground: oklch(1 0 0);          /* white on indigo */
+
+    --tertiary: oklch(0.55 0.15 160);             /* green — complementary accent */
+    --tertiary-foreground: oklch(1 0 0);          /* white */
+
+    --accent:              oklch(0.34 0.05 218);    /* visible hover on card */
+    --accent-foreground:   oklch(0.95 0.01 200);
+
+    /* Semantic */
+    --destructive: oklch(0.565 0.21 27);          /* #D62526 — uniform across all themes and modes, white label 5.07:1 */
+    --destructive-foreground: oklch(1 0 0);       /* white */
+    --destructive-text: oklch(0.745 0.210 27);    /* on-surface red for dark surfaces */
+    --warning: oklch(0.555 0.16 50);              /* #B94E00 orange */
+    --warning-foreground:       oklch(1 0 0);  /* white. Orange means warning, so the primary button is not
+       orange and this is a true orange. Bright amber cannot take white text at all
+       (2.33:1), so white forces this darker: #B94E00 gives 5.06:1. */
+    --warning-text:             oklch(0.82 0.18 80);   /* standalone amber text on deep purple bg — ≥4.5:1 ✅ */
+    --success: oklch(0.525 0.14 155);             /* #008144 — uniform across all themes and modes, white label 5.04:1 */
+    --success-foreground: oklch(1 0 0);           /* white */
+    --success-text: oklch(0.700 0.140 155);       /* on-surface green for dark surfaces */
+
+    /* Alert severity — map-optimised: vivid and distinct on deep purple backgrounds */
+    --alert-emergency:              oklch(0.68 0.28 25);             /* vivid red */
+    --alert-emergency-foreground:   oklch(1 0 0);
+    --alert-emergency-text: color-mix(in oklch, var(--alert-emergency) 75%, white);
+    --alert-warning:                oklch(0.76 0.26 46);             /* vivid orange */
+    --alert-warning-foreground:     oklch(0.10 0 0);
+    --alert-warning-text:           color-mix(in oklch, var(--alert-warning) 85%, white);
+    --alert-watch:                  oklch(0.88 0.24 80);             /* vivid amber-yellow */
+    --alert-watch-foreground:       oklch(0.10 0 0);
+    --alert-watch-text: color-mix(in oklch, var(--alert-watch) 85%, white);
+    --alert-advisory:               oklch(0.72 0.26 280);            /* vivid violet */
+    --alert-advisory-foreground:    oklch(1 0 0);
+    --alert-advisory-text:          color-mix(in oklch, var(--alert-advisory) 85%, white);
+    --alert-info:                   oklch(0.74 0.22 220);            /* vivid periwinkle-blue */
+    --alert-info-foreground:        oklch(0.10 0 0);
+    --alert-info-text:              color-mix(in oklch, var(--alert-info) 80%, white);
+
+    /* Chart palette — 6 hues ~60° apart, high chroma, 3:1+ vs --card */
+    --chart-1: oklch(0.76 0.24 35);   /* vivid coral-orange */
+    --chart-2: oklch(0.85 0.23 92);   /* vivid lime-yellow */
+    --chart-3: oklch(0.74 0.25 200);  /* electric cyan */
+    --chart-4: oklch(0.72 0.27 265);  /* electric indigo */
+    --chart-5: oklch(0.76 0.28 315);  /* neon magenta */
+    --chart-6: oklch(0.72 0.22 155);  /* vivid emerald */
+    /* Category marker colors — 4.5:1+ vs both --card and --muted (dark mode) */
+    --marker-coral: oklch(0.733 0.24 35);
+    --marker-gold: oklch(0.71 0.23 92);
+    --marker-teal: oklch(0.68 0.25 200);
+    --marker-indigo: oklch(0.721 0.27 265);
+    --marker-magenta: oklch(0.742 0.28 315);
+    --marker-emerald: oklch(0.681 0.22 155);
+    --marker-green: oklch(0.686 0.192 150);
+    --marker-forest: oklch(0.688 0.17 149);
+    --marker-slate: oklch(0.706 0.041 257);
+    --marker-violet: oklch(0.727 0.219 293);
+    --marker-amber: oklch(0.715 0.165 70);
+    --marker-cyan: oklch(0.695 0.126 215);
+    --marker-steel: oklch(0.706 0.035 257);
+    --marker-orange: oklch(0.724 0.187 48);
+    --marker-yellow: oklch(0.71 0.162 86);
+    --marker-red: oklch(0.731 0.208 25);
+
+
+    /* Sidebar — deep purple (brand identity, same in both modes) */
+    --sidebar-foreground:          oklch(0.92 0.02 300);
+    --sidebar-border:              oklch(0.38 0.10 308);
+    --sidebar-accent:              oklch(0.42 0.11 308);
+    --sidebar-accent-foreground:   oklch(0.96 0 0);
+    --sidebar-muted-foreground:    oklch(0.70 0.04 300);
+
+    /* Primary — teal (same hue as light mode; distinct from midnight indigo) */
+    --primary: oklch(0.52 0.10 195);              /* teal — Aurora's action colour, white label 5.2:1 */
+    --primary-foreground: oklch(1 0 0);           /* white */
+    --primary-hover:       color-mix(in oklch, var(--primary) 85%, white);
+    --primary-active:      color-mix(in oklch, var(--primary) 70%, white);
+    --primary-text: oklch(0.80 0.10 190);         /* aqua text on dark surfaces — ≥4.5:1 */
+    --ring: var(--primary);
+
+    --sidebar-primary: oklch(0.76 0.11 300);          /* lavender accent, matches the purple sidebar */
+    --sidebar-primary-foreground: oklch(0.15 0 0);    /* dark on the accent */
+
+    --shadow-sm: 0 1px 2px 0 oklch(0 0 0 / 0.50);
+    --shadow-md: 0 4px 8px -2px oklch(0 0 0 / 0.60), 0 2px 4px -2px oklch(0 0 0 / 0.44);
+    --shadow-lg: 0 12px 20px -4px oklch(0 0 0 / 0.65), 0 4px 8px -4px oklch(0 0 0 / 0.48);
+  }
+
+  /* ============================================================
+     DENSITY
+     ─────────────────────────────────────────────────────────────
+     Scale:  spacious = current comfortable baseline (16px, full size)
+             comfortable = 2 notches tighter  (14px, medium size)
+             compact = 2 more notches tighter (12px, minimal size)
+     ============================================================ */
+
+  /* compact — operational dashboards, maximum data density */
+  &[data-density='compact'],
+  & [data-density='compact'] {
+    --density-scale: 0.5;
+    --space-1: 0.125rem;  --space-2: 0.25rem;
+    --space-3: 0.375rem;  --space-4: 0.5rem;
+    --space-6: 0.75rem;   --space-8: 1rem;
+    font-size: 0.75rem;
+    --btn-h-sm: 20px;   --btn-h-md: 24px;   --btn-h-lg: 30px;
+    --btn-px-sm: 6px;   --btn-px-md: 8px;   --btn-px-lg: 12px;
+    --input-h-sm: 20px; --input-h-md: 24px; --input-h-lg: 30px;
+    --card-p: 6px;
+  }
+
+  /* comfortable — default for most views */
+  &[data-density='comfortable'],
+  & [data-density='comfortable'],
+  &:not([data-density]) {
+    --density-scale: 1;
+    font-size: 0.875rem;
+    --btn-h-sm: 26px;   --btn-h-md: 32px;   --btn-h-lg: 40px;
+    --btn-px-sm: 12px;  --btn-px-md: 14px;  --btn-px-lg: 20px;
+    --input-h-sm: 26px; --input-h-md: 32px; --input-h-lg: 40px;
+    --card-p: 14px;
+  }
+
+  /* spacious — forms, settings, onboarding; matches previous comfortable baseline */
+  &[data-density='spacious'],
+  & [data-density='spacious'] {
+    --density-scale: 1.25;
+    --space-1: 0.3125rem; --space-2: 0.625rem;
+    --space-3: 0.9375rem; --space-4: 1.25rem;
+    --space-6: 1.875rem;  --space-8: 2.5rem;
+    font-size: 1rem;
+    /* component tokens use base defaults = spacious level */
+  }
+}
