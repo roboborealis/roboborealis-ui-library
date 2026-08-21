@@ -21,6 +21,10 @@ jobs:
 
       - name: Require a version bump
         run: |
+          if [ "$GITHUB_ACTOR" = "dependabot[bot]" ]; then
+            echo "Dependabot PR — version bump not required. Deps ride into the next release."
+            exit 0
+          fi
           git fetch origin main --depth=1
           MAIN_VERSION=$(git show origin/main:package.json | node -p "JSON.parse(require('fs').readFileSync(0,'utf8')).version")
           PR_VERSION=$(node -p "require('./package.json').version")
