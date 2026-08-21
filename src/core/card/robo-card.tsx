@@ -2,6 +2,7 @@ import * as React from 'react';
 import { cva, type VariantProps } from 'class-variance-authority';
 
 import { cn } from '@/lib/utils';
+import { usePointerGlow, mergePointerGlow } from '@/lib/use-pointer-glow';
 import { RoboFadeIn } from '@/animations';
 
 const cardVariants = cva('rounded-[var(--radius-lg)]', {
@@ -51,8 +52,9 @@ export interface RoboCardProps
  * </RoboCard>
  * ```
  */
-function RoboCard({ className, variant, hoverable, onClick, onKeyDown, animateEntrance = false, ref, ...props }: RoboCardProps) {
+function RoboCard({ className, variant, hoverable, onClick, onKeyDown, onPointerMove, animateEntrance = false, ref, ...props }: RoboCardProps) {
   const isInteractive = Boolean(onClick);
+  const { onPointerMove: glowMove } = usePointerGlow<HTMLDivElement>();
 
     const handleKeyDown = (e: React.KeyboardEvent<HTMLDivElement>) => {
       if (e.key === 'Enter' || e.key === ' ') {
@@ -65,10 +67,13 @@ function RoboCard({ className, variant, hoverable, onClick, onKeyDown, animateEn
     const card = (
       <div
         ref={ref}
+        data-slot='card'
+        data-glow
         role={isInteractive ? 'button' : undefined}
         tabIndex={isInteractive ? 0 : undefined}
         onClick={onClick}
         onKeyDown={isInteractive ? handleKeyDown : onKeyDown}
+        onPointerMove={mergePointerGlow(glowMove, onPointerMove)}
         className={cn(
           '@container',
           cardVariants({ variant }),

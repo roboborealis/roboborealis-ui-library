@@ -86,6 +86,15 @@ export { RoboDateFormatProvider, useDateFormat } from './providers/robo-date-for
 export type { DateFormatId, RoboDateFormatProviderProps } from './providers/robo-date-format-provider';
 export { RoboGlassModeProvider, useGlassMode } from './providers/robo-glass-mode-provider';
 export type { RoboGlassModeProviderProps } from './providers/robo-glass-mode-provider';
+export {
+  RoboSurfaceStyleProvider,
+  useSurfaceStyle,
+  SURFACE_STYLES,
+} from './providers/robo-surface-style-provider';
+export type {
+  RoboSurfaceStyleProviderProps,
+  SurfaceStyle,
+} from './providers/robo-surface-style-provider';
 export { RoboFontFamilyProvider, useFontFamily } from './providers/robo-font-family-provider';
 export type { FontFamily, RoboFontFamilyProviderProps } from './providers/robo-font-family-provider';
 
@@ -104,3 +113,5 @@ export type { RoboProductTourProps, RoboTourStep } from './tour/robo-product-tou
 export { RoboTourSettingsCard } from './tour/robo-tour-settings-card';
 
 export { formatDate, formatDateTime, DATE_FORMAT_OPTIONS } from './formatting/format-date';
+
+export { usePointerGlow, mergePointerGlow, installPointerGlow } from '@/lib/use-pointer-glow';

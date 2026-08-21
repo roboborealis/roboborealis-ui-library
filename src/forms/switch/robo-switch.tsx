@@ -101,10 +101,12 @@ function RoboSwitch({
           checked={checked}
           onCheckedChange={onCheckedChange}
           disabled={disabled}
+          data-slot='switch-track'
+          data-glow
           className={trackVariants({ size })}
           {...props}
         >
-          <Switch.Thumb className={thumbVariants({ size })} />
+          <Switch.Thumb data-slot='switch-thumb' className={thumbVariants({ size })} />
         </Switch.Root>
 
         {(label || description) && (

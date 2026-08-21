@@ -25,6 +25,7 @@ function RoboRadioItem({ value, label, description, disabled, className, id: idP
         id={id}
         value={value}
         disabled={disabled}
+        data-glow
         className={cn(
           'mt-0.5 flex h-4 w-4 shrink-0 items-center justify-center rounded-full',
           'border border-[var(--border)] bg-[var(--input)]',

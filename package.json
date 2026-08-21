@@ -1,6 +1,6 @@
 {
   "name": "@roboborealis/components",
-  "version": "0.34.5",
+  "version": "0.35.0",
   "private": true,
   "workspaces": [
     "capture",
@@ -80,6 +80,7 @@
     "./theme-midnight": "./themes/theme-midnight.css",
     "./theme-aurora": "./themes/theme-aurora.css",
     "./theme-sol": "./themes/theme-sol.css",
+    "./surface-styles": "./themes/surface-styles.css",
     "./fonts/dm-sans": "./fonts/dm-sans/index.css",
     "./fonts/inter": "./fonts/inter/index.css",
     "./fonts/open-sans": "./fonts/open-sans/index.css",
