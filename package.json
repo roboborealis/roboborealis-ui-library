@@ -145,9 +145,6 @@
     "generate-agent-context": "npm run generate-manifest && npm run generate-stories-catalog",
     "security:audit": "npm audit --omit=dev --audit-level=high",
     "security:audit:all": "npm audit",
-    "changelog:generate": "tsx scripts/changelog.ts generate",
-    "changelog:check": "tsx scripts/changelog.ts check",
-    "changelog:release": "tsx scripts/changelog.ts release",
     "prepare": "husky"
   },
   "publishConfig": {
@@ -199,7 +196,6 @@
     "eslint": "^9",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^5",
-    "git-cliff": "^2.13.1",
     "husky": "^9.1.7",
     "lucide-react": "^1.14.0",
     "motion": "^11.18.2",

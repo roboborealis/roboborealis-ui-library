@@ -124,7 +124,7 @@ git branch -d develop
 git branch -d chore/no-ticket_sync_main_into_develop
 git branch -d feat/no-ticket_templates_subpath
 git branch -d refactor/no-ticket_robo-first-audit-consolidation
-git branch -d chore/no-ticket_claude-infrastructure-audit
+git branch -d chore/no-ticket_agent-infrastructure-audit
 ```
 
 **Remote:**
@@ -132,7 +132,7 @@ git branch -d chore/no-ticket_claude-infrastructure-audit
 git push origin --delete chore/no-ticket_bump_0.4.0
 git push origin --delete chore/no-ticket_final_sync
 git push origin --delete chore/no-ticket_github_migration
-git push origin --delete chore/no-ticket_claude-infrastructure-audit
+git push origin --delete chore/no-ticket_agent-infrastructure-audit
 git push origin --delete chore/no-ticket_sync_main_into_develop
 git push origin --delete chore/no-ticket_sync_main_post_0.3.0
 git push origin --delete develop

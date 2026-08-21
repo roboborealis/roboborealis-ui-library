@@ -4,7 +4,7 @@
  * Exported as a const string so the CLI can inject it into LLM system prompts
  * without a network fetch or .md import complexity with tsup.
  *
- * Content consolidated from CLAUDE.md + CONTRIBUTING.md.
+ * Content consolidated from AGENTS.md + CONTRIBUTING.md.
  */
 export const designGuide = `# RoboBorealis Design Guide for Agents
 

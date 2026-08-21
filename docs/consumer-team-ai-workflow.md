@@ -1,6 +1,6 @@
 # AI Agent Workflow for Consumer Teams
 
-How to configure your team's Claude Code agent to design and build UIs using
+How to configure your team's AI coding agent to design and build UIs using
 `@roboborealis/components`. This guide is for teams who want their AI agent to
 understand the design system and make correct component choices automatically.
 
@@ -41,11 +41,11 @@ const match = archetypes.find(a => a.keywords.some(k => description.includes(k))
 
 ---
 
-## Setting Up Your Consumer App's Claude Code
+## Setting Up Your Consumer App's AI Agent
 
-### Step 1: Add a CLAUDE.md to your app repo
+### Step 1: Add an AGENTS.md to your app repo
 
-Create or update your app's `CLAUDE.md` to tell your agent about `@roboborealis/components`.
+Create or update your app's `AGENTS.md` to tell your agent about `@roboborealis/components`.
 Copy this starter block:
 
 ```markdown
@@ -112,7 +112,7 @@ in sync with the components because it is generated from them.
 
 ### Step 2: Inject the design guide into your agent's system prompt
 
-For custom tooling or Claude API integrations, inject `designGuide` as context:
+For custom tooling or AI API integrations, inject `designGuide` as context:
 
 ```typescript
 import { designGuide } from '@roboborealis/components/agent-context';
@@ -332,7 +332,7 @@ consumer apps create maintenance burden and divergence from the design language.
 | Full integration guide | [docs/consumer-integration.md](./consumer-integration.md) |
 | Theming guide | [docs/theming-guide.md](./theming-guide.md) |
 | Agent-first architecture | [docs/agent-first-architecture.md](./agent-first-architecture.md) |
-| CLAUDE.md for this repo | [CLAUDE.md](../CLAUDE.md) |
+| AGENTS.md for this repo | [AGENTS.md](../AGENTS.md) |
 | Design system rules (text) | `designGuide` from `@roboborealis/components/agent-context` |
 | Component manifest (JSON) | `manifest` from `@roboborealis/components/agent-context` |
 | Stories catalog (NLP) | `storiesCatalog` from `@roboborealis/components/agent-context` |

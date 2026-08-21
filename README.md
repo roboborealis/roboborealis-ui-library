@@ -43,7 +43,7 @@ import { FilterTableDetailTemplate } from '@roboborealis/components/templates';
 
 See [docs/agent-first-architecture.md](./docs/agent-first-architecture.md) for the
 full 5-stage workflow and [docs/consumer-team-ai-workflow.md](./docs/consumer-team-ai-workflow.md)
-to set up your team's Claude Code agent to design UIs with this library.
+to set up your team's AI coding agent to design UIs with this library.
 
 ---
 
@@ -302,7 +302,7 @@ and quality checklist.
 
 | Document | Purpose |
 |----------|---------|
-| [CLAUDE.md](./CLAUDE.md) | AI agent guidance, architecture decisions |
+| [AGENTS.md](./AGENTS.md) | AI agent guidance, architecture decisions |
 | [CONTRIBUTING.md](./CONTRIBUTING.md) | MR process, testing, component checklist |
 | [DESIGN.md](./DESIGN.md) | Machine-readable design tokens (Google Labs spec) |
 | [docs/getting-started.md](./docs/getting-started.md) | New developer onboarding |
@@ -311,4 +311,3 @@ and quality checklist.
 | [docs/agent-first-architecture.md](./docs/agent-first-architecture.md) | Agent tooling and manifests |
 | [docs/consumer-team-ai-workflow.md](./docs/consumer-team-ai-workflow.md) | Setting up your team's AI agent with this library |
 | [docs/consumer-integration.md](./docs/consumer-integration.md) | Using @roboborealis/components in your app |
-| [CHANGELOG.md](./CHANGELOG.md) | Version history |

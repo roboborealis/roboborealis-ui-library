@@ -1,7 +1,7 @@
 # Agent-First Architecture
 
 @roboborealis/components ships a machine-readable knowledge layer alongside the component library.
-This lets AI agents (Claude Code, Copilot, custom CLI tools) discover components,
+This lets AI agents (coding assistants and custom CLI tools) discover components,
 scaffold new ones, verify quality, and stay in sync with the design system — all without
 human-in-the-loop lookup.
 
@@ -273,7 +273,7 @@ CI fails any MR that leaves `src/agent/manifest.json` or
 
 ## Using Agent Context in Practice
 
-### Claude Code / AI Agents
+### AI Agents
 
 Agents working in this repo should:
 

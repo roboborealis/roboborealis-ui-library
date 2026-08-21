@@ -138,7 +138,7 @@ See [`docs/consumer-integration.md`](./consumer-integration.md) for the full tar
 **Symptom:** TypeScript errors appear in consumer code after updating `@roboborealis/components`.
 
 **Fixes:**
-1. Check `CHANGELOG.md` for any breaking prop changes in the new version.
+1. Check the GitHub release notes for any breaking prop changes in the new version.
 2. Clear the TypeScript cache: `rm -rf node_modules/.cache/typescript`.
 3. Restart your TypeScript server in VS Code: `Cmd+Shift+P → TypeScript: Restart TS Server`.
 

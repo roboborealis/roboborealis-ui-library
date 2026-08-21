@@ -149,7 +149,7 @@ All MRs target `main`.
 
 | File | Purpose |
 |------|---------|
-| [CLAUDE.md](../CLAUDE.md) | AI agent guidance, architecture decisions, component patterns |
+| [AGENTS.md](../AGENTS.md) | AI agent guidance, architecture decisions, component patterns |
 | [CONTRIBUTING.md](../CONTRIBUTING.md) | MR process, testing requirements, component checklist |
 | [DESIGN.md](../DESIGN.md) | Machine-readable design tokens + human-readable design rules |
 | [docs/theming-guide.md](./theming-guide.md) | Deep dive on the CSS variable token system |

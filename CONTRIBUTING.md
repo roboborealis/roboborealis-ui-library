@@ -254,5 +254,5 @@ Ensure all checks pass before merging.
 
 - Read [docs/getting-started.md](docs/getting-started.md) for onboarding
 - Browse Storybook (`npm run storybook`) for existing components
-- Check [CLAUDE.md](./CLAUDE.md) for navigation to topic files
+- Check [AGENTS.md](./AGENTS.md) for navigation to topic files
 - Contact the RoboBorealis Design System team

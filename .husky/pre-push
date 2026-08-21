@@ -1,17 +1,3 @@
-# Keep CHANGELOG.md's Unreleased section in sync with conventional commits
-# before they leave this machine, so the CI changelog-freshness check never
-# has to catch it after the fact. Mirrors .husky/pre-commit's philosophy for
-# manifest.json/stories-catalog.json — silently fix generated-file staleness
-# rather than block on it. Unlike that hook, this can't run at pre-commit time:
-# git-cliff reads commit *messages*, and the commit being made doesn't exist
-# yet until after pre-commit finishes.
-if ! npm run changelog:check --silent > /dev/null 2>&1; then
-  echo "changelog: Unreleased section is stale, regenerating before push..."
-  npm run changelog:generate
-  git add CHANGELOG.md
-  git commit -m "docs(changelog): regenerate Unreleased section"
-fi
-
 # Backstop for the agent context, mirroring CI's agent-context freshness check.
 #
 # .husky/pre-commit already regenerates when a commit touches source or

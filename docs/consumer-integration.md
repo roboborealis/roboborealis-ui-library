@@ -341,7 +341,7 @@ Until v1.0, use tilde pinning in your `package.json`:
 "@roboborealis/components": "~0.6.0"
 ```
 
-Until v1.0, minor version bumps may include breaking changes — check the CHANGELOG before upgrading.
+Until v1.0, minor version bumps may include breaking changes - check the GitHub release notes before upgrading.
 
 ---
 
@@ -393,5 +393,5 @@ rm -rf .next && npm run dev
 For patterns specific to consumer apps — tRPC integration, Prisma queries, form wiring with Zod, and
 full-page examples — see the showcase patterns under `src/showcase/`.
 
-To set up your team's AI agent (Claude Code) to generate UIs using this library, see
+To set up your team's AI agent to generate UIs using this library, see
 [`docs/consumer-team-ai-workflow.md`](./consumer-team-ai-workflow.md).
