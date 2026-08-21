@@ -19,8 +19,8 @@ const GlassModeContext = React.createContext<GlassModeContextValue | null>(null)
 
 /**
  * Fallback returned by `useGlassMode()` when no `RoboGlassModeProvider` is mounted.
- * Deliberately does NOT throw (unlike `useDensity`/`useTheme`) — map overlay panels
- * (`RoboFloatingPanel`, `RoboSheet`, `RoboInfoIsland`, ...) call this hook internally and
+ * Deliberately does NOT throw (unlike `useDensity`/`useTheme`) — glass surface panels
+ * (`RoboSheet`, `RoboInfoIsland`, ...) call this hook internally and
  * must keep working standalone: in Storybook, in apps that haven't adopted the
  * provider yet, and in unit tests that render a panel in isolation.
  */
@@ -59,9 +59,9 @@ const serializeGlassMode = (value: boolean): string => String(value);
 const glassModeToAttribute = (value: boolean): string => (value ? 'on' : 'off');
 
 /**
- * RoboGlassModeProvider — app-wide setting controlling whether map-overlay panels
- * (`RoboFloatingPanel` and everything built on it, `RoboSheet`/`RoboHoverSheet`,
- * `RoboInfoIsland`) render a translucent glass surface or a solid one by default.
+ * RoboGlassModeProvider — app-wide setting controlling whether glass surface panels
+ * (`RoboSheet`/`RoboHoverSheet` and everything built on them, `RoboInfoIsland`)
+ * render a translucent glass surface or a solid one by default.
  * Any panel can still override this per-instance via its own `transparent` prop.
  *
  * @example

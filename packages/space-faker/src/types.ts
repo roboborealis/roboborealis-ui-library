@@ -199,3 +199,108 @@ export interface ObservationEvent {
   objectsTracked: number;
   description: string;
 }
+
+// ---------------------------------------------------------------------------
+// Observational-astronomy types
+// ---------------------------------------------------------------------------
+
+export type DeepSkyObjectType =
+  | 'Galaxy'
+  | 'Emission Nebula'
+  | 'Planetary Nebula'
+  | 'Open Cluster'
+  | 'Globular Cluster'
+  | 'Double Star'
+  | 'Variable Star'
+  | 'Supernova Remnant';
+
+export interface DeepSkyObject {
+  id: string;
+  /** Catalog designation, e.g. 'M31' or 'NGC 7000'. */
+  designation: string;
+  commonName: string;
+  type: DeepSkyObjectType;
+  constellation: string;
+  /** Right ascension, e.g. '00h 42m'. */
+  ra: string;
+  /** Declination, e.g. '+41° 16''. */
+  dec: string;
+  /** Apparent visual magnitude (lower = brighter). */
+  magnitude: number;
+  distanceLy: number;
+  discoveredYear: number;
+}
+
+export type DetectionMethod =
+  | 'Transit'
+  | 'Radial Velocity'
+  | 'Direct Imaging'
+  | 'Microlensing'
+  | 'Astrometry';
+
+export interface Exoplanet {
+  id: string;
+  name: string;
+  hostStar: string;
+  method: DetectionMethod;
+  /** Orbital period in days. */
+  periodDays: number;
+  /** Radius in Earth radii (R⊕). */
+  radiusEarth: number;
+  /** Mass in Earth masses (M⊕). */
+  massEarth: number;
+  distanceLy: number;
+  discoveredYear: number;
+  confirmed: boolean;
+  /** 0-100 Earth-similarity / habitability index. */
+  habitabilityScore: number;
+}
+
+export type ObservatoryType = 'Optical' | 'Radio' | 'Infrared' | 'Space';
+
+export interface Observatory {
+  id: string;
+  name: string;
+  site: string;
+  /** Primary mirror / dish aperture in metres. */
+  apertureM: number;
+  type: ObservatoryType;
+  altitudeM: number;
+  operator: string;
+}
+
+/** Antoniadi seeing scale: 1 (perfect) to 5 (very poor). */
+export type SeeingScale = 1 | 2 | 3 | 4 | 5;
+
+export type TransparencyGrade = 'Excellent' | 'Good' | 'Fair' | 'Poor';
+
+export type ObservationStatus = 'scheduled' | 'observing' | 'complete' | 'aborted';
+
+export type ObservationPriority = 'low' | 'medium' | 'high';
+
+/** A single target observation within an observing run. */
+export interface Observation {
+  id: string;
+  target: string;
+  targetType: DeepSkyObjectType;
+  instrument: string;
+  seeing: SeeingScale;
+  limitingMagnitude: number;
+  startTime: string;
+  durationMin: number;
+  notes: string;
+}
+
+/** A night's observing run at an observatory, with nested observations. */
+export interface ObservationSession {
+  id: string;
+  runId: string;
+  observatory: string;
+  observer: string;
+  date: string;
+  status: ObservationStatus;
+  transparency: TransparencyGrade;
+  priority: ObservationPriority;
+  targetCount: number;
+  observations: Observation[];
+}

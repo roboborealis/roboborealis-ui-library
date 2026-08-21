@@ -80,7 +80,7 @@ export const componentMeta = {
   category: 'layout' as const,
   keywords: ['page', 'shell', 'layout', 'scaffold', 'app', 'chrome', 'sidebar', 'topbar', 'wrapper'],
   whenToUse: 'As the outermost layout wrapper for every page — provides sidebar, topbar, and content area',
-  whenNotToUse: 'For map-centric pages compose RoboMapbox + RoboFloatingPanel directly (map archetypes have no template); for embedded widgets skip the shell',
+  whenNotToUse: 'For embedded widgets or panels dropped into another page, skip the shell and compose the content directly',
   pairsWith: ['RoboSidebar', 'RoboTopbar', 'RoboBreadcrumbs', 'RoboDensityProvider'],
   a11y: 'Provides proper landmark structure (banner, navigation, main); skip-to-content link included',
 };

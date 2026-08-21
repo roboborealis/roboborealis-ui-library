@@ -17,41 +17,46 @@ interface PatternStory {
 
 const PATTERNS: { name: string; stories: PatternStory[]; description: string }[] = [
   {
-    name: 'Maps',
+    name: 'Forms',
     stories: [
-      { label: 'Constellation Monitor', id: 'showcase-patterns-maps-constellation-monitor--constellation-monitor' },
+      { label: 'Observation Log', id: 'showcase-patterns-forms-observation-log--observation-log-pattern' },
+      { label: 'Form Controls', id: 'showcase-patterns-forms-form-controls--form-controls-playground' },
+      { label: 'Button & Actions', id: 'showcase-patterns-forms-button-actions--button-actions-playground' },
     ],
-    description: 'Full-screen Mapbox patterns: floating stat panels, asset layers, alert integration, and animated timeline tracks.',
+    description: 'react-hook-form + Zod + RoboFormField 2-column grid, plus control and action-button galleries.',
   },
   {
     name: 'Tables',
     stories: [
-      { label: 'Constellation Manifest', id: 'showcase-patterns-tables-constellation-manifest--constellation-manifest-pattern' },
-      { label: 'Flight Plan Reports', id: 'showcase-patterns-tables-flight-plan-reports--sailing-plan-reports-pattern' },
-      { label: 'Satellite Search', id: 'showcase-patterns-tables-satellite-search--satellite-search-pattern' },
+      { label: 'Object Catalog', id: 'showcase-patterns-tables-object-catalog--object-catalog-pattern' },
+      { label: 'Observing Schedule', id: 'showcase-patterns-tables-observing-schedule--observing-schedule-pattern' },
+      { label: 'Object Explorer', id: 'showcase-patterns-tables-object-explorer--object-explorer-pattern' },
+      { label: 'Observation Review Queue', id: 'showcase-patterns-tables-observation-review-queue--observation-review-queue' },
+      { label: 'Exoplanet Catalog', id: 'showcase-patterns-tables-exoplanet-catalog--exoplanet-catalog' },
+      { label: 'Observing Run History', id: 'showcase-patterns-tables-observing-run-history--observing-run-history-with-nested-observations' },
     ],
-    description: 'Data table patterns from simple list+search up to 3-column filter → table → detail. All powered by RoboDataTable.',
+    description: 'Data table patterns from list+search up to 3-column filter → table → detail, inline-edit queues, and nested master-detail. All powered by RoboDataTable.',
   },
   {
     name: 'Dashboards',
     stories: [
-      { label: 'Ops Center', id: 'showcase-patterns-dashboards-ops-center--ops-dashboard-pattern' },
+      { label: 'Observatory Night', id: 'showcase-patterns-dashboards-observatory-night--observatory-dashboard-pattern' },
     ],
-    description: 'KPI StatCards + line/bar charts + recent activity table. The standard at-a-glance ops view.',
+    description: 'KPI StatCards + line/bar charts + recent activity table. The standard at-a-glance dashboard view.',
   },
   {
-    name: 'Intelligence',
+    name: 'Flows',
     stories: [
-      { label: 'Correlation Analysis', id: 'showcase-patterns-intelligence-correlation-analysis--default' },
+      { label: 'Target List Editor', id: 'showcase-patterns-flows-target-list-editor--target-list-editor-pattern' },
     ],
-    description: 'Filter panel + network visualization (force graph, matrix, sankey) + entity dossier/data feed.',
+    description: 'Connected table → form mini-app: select a row, edit it in a validated form, save back to the table.',
   },
   {
-    name: 'Forms',
+    name: 'Information Displays',
     stories: [
-      { label: 'Incident Report', id: 'showcase-patterns-forms-incident-report--incident-report-pattern' },
+      { label: 'Object Dossier', id: 'showcase-patterns-information-displays-object-dossier--default' },
     ],
-    description: 'react-hook-form + Zod + RoboFormField 2-column grid. Field-level errors, submit feedback via RoboToast.',
+    description: 'Dense single-entity view: property grid, event timeline, relationships, and status indicators.',
   },
 ];
 

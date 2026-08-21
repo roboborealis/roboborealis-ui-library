@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-import { makeSpacecraftName } from './vessels';
+import { makeSpacecraftName } from './spacecraft';
 import type {
   EventSeverity,
   EventStatus,

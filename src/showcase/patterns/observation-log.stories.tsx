@@ -1,8 +1,9 @@
 // ---------------------------------------------------------------------------
 // SHOWCASE PATTERN — Form + Validation (Archetype 7)
 //
-// Incident Report Form: react-hook-form + Zod + RoboFormField, 2-column grid,
-// field-level validation, and submit feedback.
+// Observation Log Entry: react-hook-form + Zod + RoboFormField, 2-column grid,
+// field-level validation, and submit feedback. An observer logs a deep-sky
+// observation session.
 //
 // Pattern: RoboPageShell + RoboForm + RoboFormField (2-col grid)
 // State: react-hook-form (no external state)
@@ -13,7 +14,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import type { Meta, StoryObj } from '@storybook/react';
-import { FileWarning } from 'lucide-react';
+import { Telescope } from 'lucide-react';
+import { OBSERVATORY_NAMES } from '@roboborealis/space-faker';
 import { RoboPageShell } from '@roboborealis/components/layout';
 import { RoboBadge, RoboButton, RoboCard, RoboCardBody, RoboCardHeader, RoboInput, RoboSeparator } from '@roboborealis/components/core';
 import { RoboForm, RoboFormField, RoboRadioGroup, RoboSelect, RoboSwitch, RoboTextarea } from '@roboborealis/components/forms';
@@ -23,53 +25,57 @@ import { RoboForm, RoboFormField, RoboRadioGroup, RoboSelect, RoboSwitch, RoboTe
 // Schema + types
 // ---------------------------------------------------------------------------
 
-const incidentSchema = z.object({
-  incidentType:  z.string().min(1, 'Select an incident type'),
-  satelliteMmsi:    z.string()
-    .regex(/^\d{9}$/, 'NORAD ID must be exactly 9 digits'),
-  satelliteName:    z.string().min(2, 'Enter the satellite name'),
-  location:      z.string().min(3, 'Enter a location (port, coordinates, or region)'),
-  severity:      z.enum(['low', 'medium', 'high', 'critical'], {
-    required_error: 'Select a severity level',
+const observationSchema = z.object({
+  designation:  z.string().min(1, 'Enter the object designation'),
+  objectType:   z.string().min(1, 'Select an object type'),
+  observatory:  z.string().min(1, 'Select an observatory / instrument'),
+  observedOn:   z.string().min(1, 'Enter the observation date'),
+  limitingMag:  z.string().regex(/^\d{1,2}(\.\d)?$/, 'Enter a magnitude, e.g. 14.5'),
+  seeing:       z.enum(['1', '2', '3', '4', '5'], {
+    required_error: 'Rate the seeing (Antoniadi I-V)',
   }),
-  description:   z.string()
-    .min(20, 'Description must be at least 20 characters')
+  transparency: z.string().min(1, 'Select a transparency grade'),
+  notes:        z.string()
+    .min(10, 'Notes must be at least 10 characters')
     .max(2000, 'Max 2000 characters'),
-  notifyCoast:   z.boolean(),
-  notifyOwner:   z.boolean(),
+  addToProgram: z.boolean(),
+  flagFollowup: z.boolean(),
 });
 
-type IncidentFormValues = z.infer<typeof incidentSchema>;
+type ObservationFormValues = z.infer<typeof observationSchema>;
 
 // ---------------------------------------------------------------------------
 // Form options
 // ---------------------------------------------------------------------------
 
-const INCIDENT_TYPES = [
-  { value: 'anomaly',       label: 'Satellite in Anomaly' },
-  { value: 'deorbit',       label: 'Deorbit / Reentry' },
-  { value: 'conjunction',   label: 'Conjunction Warning' },
-  { value: 'signal-loss',   label: 'Loss of Signal' },
-  { value: 'debris',        label: 'Debris Event' },
-  { value: 'propulsion',    label: 'Propulsion Failure' },
-  { value: 'payload',       label: 'Payload / Stability Issue' },
-  { value: 'medical',       label: 'Crew Medical Emergency' },
-  { value: 'security',      label: 'Security / Interference' },
-  { value: 'other',         label: 'Other' },
+const OBJECT_TYPES = [
+  { value: 'galaxy',            label: 'Galaxy' },
+  { value: 'emission-nebula',   label: 'Emission Nebula' },
+  { value: 'planetary-nebula',  label: 'Planetary Nebula' },
+  { value: 'open-cluster',      label: 'Open Cluster' },
+  { value: 'globular-cluster',  label: 'Globular Cluster' },
+  { value: 'double-star',       label: 'Double Star' },
+  { value: 'variable-star',     label: 'Variable Star' },
+  { value: 'supernova',         label: 'Supernova Remnant' },
+  { value: 'comet',             label: 'Comet' },
+  { value: 'planet',            label: 'Planet' },
+  { value: 'other',             label: 'Other' },
 ];
 
-const SEVERITY_OPTIONS = [
-  { value: 'low',      label: 'Low — Monitor; no immediate action' },
-  { value: 'medium',   label: 'Medium — Heightened watch' },
-  { value: 'high',     label: 'High — Immediate response likely' },
-  { value: 'critical', label: 'Critical — Anomaly response team activation' },
+const OBSERVATORY_OPTIONS = OBSERVATORY_NAMES.map((name) => ({ value: name, label: name }));
+
+const TRANSPARENCY_OPTIONS = [
+  { value: 'excellent', label: 'Excellent — Milky Way structure obvious' },
+  { value: 'good',      label: 'Good — faint stars visible' },
+  { value: 'fair',      label: 'Fair — some haze / light pollution' },
+  { value: 'poor',      label: 'Poor — only bright objects usable' },
 ];
 
 // ---------------------------------------------------------------------------
 // Topbar stub
 // ---------------------------------------------------------------------------
 
-function ReportTopbar() {
+function LogTopbar() {
   return (
     <div
       style={{
@@ -82,9 +88,9 @@ function ReportTopbar() {
         gap: 12,
       }}
     >
-      <FileWarning size={18} style={{ opacity: 0.6 }} />
-      <span style={{ fontWeight: 700, fontSize: 15 }}>Incident Report</span>
-      <RoboBadge variant='warning' style={{ marginLeft: 4 }}>New</RoboBadge>
+      <Telescope size={18} style={{ opacity: 0.6 }} />
+      <span style={{ fontWeight: 700, fontSize: 15 }}>Observation Log</span>
+      <RoboBadge variant='info' style={{ marginLeft: 4 }}>New entry</RoboBadge>
     </div>
   );
 }
@@ -117,16 +123,16 @@ function SubmitSuccess({ onReset }: { onReset: () => void }) {
           justifyContent: 'center',
         }}
       >
-        <FileWarning size={24} color="white" />
+        <Telescope size={24} color="white" />
       </div>
       <div>
-        <p style={{ margin: '0 0 6px', fontWeight: 700, fontSize: 18 }}>Report Submitted</p>
+        <p style={{ margin: '0 0 6px', fontWeight: 700, fontSize: 18 }}>Observation Logged</p>
         <p style={{ margin: 0, fontSize: 13, opacity: 0.6, maxWidth: 360 }}>
-          The incident report has been logged and the appropriate parties have been notified.
-          A case number has been assigned.
+          The observation has been saved to your log. It is now available in your
+          catalog and observing history.
         </p>
       </div>
-      <RoboButton variant='secondary' onClick={onReset}>File Another Report</RoboButton>
+      <RoboButton variant='secondary' onClick={onReset}>Log Another Observation</RoboButton>
     </div>
   );
 }
@@ -135,46 +141,48 @@ function SubmitSuccess({ onReset }: { onReset: () => void }) {
 // Form component
 // ---------------------------------------------------------------------------
 
-function IncidentReportForm() {
+function ObservationLogForm() {
   const [submitted, setSubmitted] = React.useState(false);
 
-  const form = useForm<IncidentFormValues>({
-    resolver: zodResolver(incidentSchema),
+  const form = useForm<ObservationFormValues>({
+    resolver: zodResolver(observationSchema),
     defaultValues: {
-      incidentType: '',
-      satelliteMmsi:   '',
-      satelliteName:   '',
-      location:     '',
-      severity:     undefined,
-      description:  '',
-      notifyCoast:  true,
-      notifyOwner:  false,
+      designation:  '',
+      objectType:   '',
+      observatory:  '',
+      observedOn:   '',
+      limitingMag:  '',
+      seeing:       undefined,
+      transparency: '',
+      notes:        '',
+      addToProgram: true,
+      flagFollowup: false,
     },
   });
 
-  function onSubmit(data: IncidentFormValues) {
-    console.log('[IncidentReport] Submitted:', data);
+  function onSubmit(data: ObservationFormValues) {
+    console.log('[ObservationLog] Submitted:', data);
     setSubmitted(true);
   }
 
   if (submitted) {
     return (
-      <RoboPageShell topbar={<ReportTopbar />}>
+      <RoboPageShell topbar={<LogTopbar />}>
         <SubmitSuccess onReset={() => { setSubmitted(false); form.reset(); }} />
       </RoboPageShell>
     );
   }
 
   return (
-    <RoboPageShell topbar={<ReportTopbar />}>
+    <RoboPageShell topbar={<LogTopbar />}>
       <div style={{ padding: '20px 24px', maxWidth: 900 }}>
         <RoboForm form={form} onSubmit={onSubmit}>
           <RoboCard>
             <RoboCardHeader>
               <div>
-                <p style={{ margin: '0 0 2px', fontWeight: 700, fontSize: 15 }}>Incident Details</p>
+                <p style={{ margin: '0 0 2px', fontWeight: 700, fontSize: 15 }}>Observation Details</p>
                 <p style={{ margin: 0, fontSize: 12, opacity: 0.55 }}>
-                  Complete all required fields. Reports are logged immediately on submission.
+                  Complete all required fields. Entries are saved to your log on submission.
                 </p>
               </div>
             </RoboCardHeader>
@@ -186,16 +194,15 @@ function IncidentReportForm() {
                 {/* Row 1 */}
                 <RoboFormField
                   control={form.control}
-                  name="incidentType"
-                  label="Incident Type"
+                  name="designation"
+                  label="Object Designation"
+                  helperText="Catalog id, e.g. M42 or NGC 7000"
                 >
                   {({ field, error }: { field: Record<string, unknown>; error?: string }) => (
-                    <RoboSelect
+                    <RoboInput
                       {...field}
                       value={field.value as string}
-                      onValueChange={field.onChange as (v: string) => void}
-                      options={INCIDENT_TYPES}
-                      placeholder="Select type…"
+                      placeholder="e.g. M42"
                       error={error}
                     />
                   )}
@@ -203,16 +210,16 @@ function IncidentReportForm() {
 
                 <RoboFormField
                   control={form.control}
-                  name="severity"
-                  label="Severity"
+                  name="objectType"
+                  label="Object Type"
                 >
                   {({ field, error }: { field: Record<string, unknown>; error?: string }) => (
                     <RoboSelect
                       {...field}
                       value={field.value as string}
                       onValueChange={field.onChange as (v: string) => void}
-                      options={SEVERITY_OPTIONS}
-                      placeholder="Select severity…"
+                      options={OBJECT_TYPES}
+                      placeholder="Select type…"
                       error={error}
                     />
                   )}
@@ -221,16 +228,16 @@ function IncidentReportForm() {
                 {/* Row 2 */}
                 <RoboFormField
                   control={form.control}
-                  name="satelliteMmsi"
-                  label="Satellite NORAD ID"
-                  helperText="9-digit orbital identification number"
+                  name="observatory"
+                  label="Observatory / Instrument"
                 >
                   {({ field, error }: { field: Record<string, unknown>; error?: string }) => (
-                    <RoboInput
+                    <RoboSelect
                       {...field}
                       value={field.value as string}
-                      placeholder="123456789"
-                      maxLength={9}
+                      onValueChange={field.onChange as (v: string) => void}
+                      options={OBSERVATORY_OPTIONS}
+                      placeholder="Select instrument…"
                       error={error}
                     />
                   )}
@@ -238,14 +245,14 @@ function IncidentReportForm() {
 
                 <RoboFormField
                   control={form.control}
-                  name="satelliteName"
-                  label="Satellite Name"
+                  name="observedOn"
+                  label="Observation Date"
                 >
                   {({ field, error }: { field: Record<string, unknown>; error?: string }) => (
                     <RoboInput
                       {...field}
                       value={field.value as string}
-                      placeholder="e.g. SENTINEL RELAY"
+                      type="date"
                       error={error}
                     />
                   )}
@@ -254,26 +261,43 @@ function IncidentReportForm() {
                 {/* Row 3 */}
                 <RoboFormField
                   control={form.control}
-                  name="location"
-                  label="Location"
-                  helperText="Orbit, coordinates, or region"
-                  style={{ gridColumn: '1 / -1' }}
+                  name="limitingMag"
+                  label="Limiting Magnitude"
+                  helperText="Faintest star visible, e.g. 14.5"
                 >
                   {({ field, error }: { field: Record<string, unknown>; error?: string }) => (
                     <RoboInput
                       {...field}
                       value={field.value as string}
-                      placeholder="e.g. GEO 105.5°W — 35,786 km altitude"
+                      placeholder="14.5"
                       error={error}
                     />
                   )}
                 </RoboFormField>
 
-                {/* Severity radio — full width */}
                 <RoboFormField
                   control={form.control}
-                  name="severity"
-                  label="Severity Level"
+                  name="transparency"
+                  label="Sky Transparency"
+                >
+                  {({ field, error }: { field: Record<string, unknown>; error?: string }) => (
+                    <RoboSelect
+                      {...field}
+                      value={field.value as string}
+                      onValueChange={field.onChange as (v: string) => void}
+                      options={TRANSPARENCY_OPTIONS}
+                      placeholder="Select transparency…"
+                      error={error}
+                    />
+                  )}
+                </RoboFormField>
+
+                {/* Seeing radio — full width */}
+                <RoboFormField
+                  control={form.control}
+                  name="seeing"
+                  label="Seeing (Antoniadi I-V)"
+                  helperText="I = perfect still air, V = very turbulent"
                   style={{ gridColumn: '1 / -1' }}
                 >
                   {({ field, error }: { field: Record<string, unknown>; error?: string }) => (
@@ -282,10 +306,11 @@ function IncidentReportForm() {
                       value={field.value as string}
                       onValueChange={field.onChange as (v: string) => void}
                       options={[
-                        { value: 'low',      label: 'Low' },
-                        { value: 'medium',   label: 'Medium' },
-                        { value: 'high',     label: 'High' },
-                        { value: 'critical', label: 'Critical' },
+                        { value: '1', label: 'I' },
+                        { value: '2', label: 'II' },
+                        { value: '3', label: 'III' },
+                        { value: '4', label: 'IV' },
+                        { value: '5', label: 'V' },
                       ]}
                       orientation="horizontal"
                       error={error}
@@ -293,12 +318,12 @@ function IncidentReportForm() {
                   )}
                 </RoboFormField>
 
-                {/* Description — full width */}
+                {/* Notes — full width */}
                 <RoboFormField
                   control={form.control}
-                  name="description"
-                  label="Incident Description"
-                  helperText={`${form.watch('description')?.length ?? 0} / 2000 characters`}
+                  name="notes"
+                  label="Observation Notes"
+                  helperText={`${form.watch('notes')?.length ?? 0} / 2000 characters`}
                   style={{ gridColumn: '1 / -1' }}
                 >
                   {({ field, error }: { field: Record<string, unknown>; error?: string }) => (
@@ -306,7 +331,7 @@ function IncidentReportForm() {
                       {...field}
                       value={field.value as string}
                       rows={5}
-                      placeholder="Describe the incident in detail — circumstances, actions taken, current status…"
+                      placeholder="Describe the view — detail seen, filters used, comparison stars, sketch reference…"
                       error={error}
                     />
                   )}
@@ -316,14 +341,14 @@ function IncidentReportForm() {
 
               <RoboSeparator style={{ margin: '20px 0 16px' }} />
 
-              {/* Notification toggles */}
+              {/* Toggles */}
               <p style={{ margin: '0 0 12px', fontSize: 12, fontWeight: 700, opacity: 0.45, textTransform: 'uppercase', letterSpacing: '0.07em' }}>
-                Notifications
+                Options
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 <RoboFormField
                   control={form.control}
-                  name="notifyCoast"
+                  name="addToProgram"
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}
                 >
                   {({ field }: { field: Record<string, unknown> }) => (
@@ -331,17 +356,17 @@ function IncidentReportForm() {
                       <RoboSwitch
                         checked={field.value as boolean}
                         onCheckedChange={field.onChange as (v: boolean) => void}
-                        id="notifyCoast"
+                        id="addToProgram"
                       />
-                      <label htmlFor="notifyCoast" style={{ fontSize: 13, cursor: 'pointer' }}>
-                        Notify mission control watch desk
+                      <label htmlFor="addToProgram" style={{ fontSize: 13, cursor: 'pointer' }}>
+                        Add to observing program
                       </label>
                     </div>
                   )}
                 </RoboFormField>
                 <RoboFormField
                   control={form.control}
-                  name="notifyOwner"
+                  name="flagFollowup"
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 12 }}
                 >
                   {({ field }: { field: Record<string, unknown> }) => (
@@ -349,10 +374,10 @@ function IncidentReportForm() {
                       <RoboSwitch
                         checked={field.value as boolean}
                         onCheckedChange={field.onChange as (v: boolean) => void}
-                        id="notifyOwner"
+                        id="flagFollowup"
                       />
-                      <label htmlFor="notifyOwner" style={{ fontSize: 13, cursor: 'pointer' }}>
-                        Notify satellite owner / operator
+                      <label htmlFor="flagFollowup" style={{ fontSize: 13, cursor: 'pointer' }}>
+                        Flag for follow-up observation
                       </label>
                     </div>
                   )}
@@ -372,7 +397,7 @@ function IncidentReportForm() {
               Reset
             </RoboButton>
             <RoboButton type="submit" variant="default">
-              Submit Report
+              Save Observation
             </RoboButton>
           </div>
         </RoboForm>
@@ -386,14 +411,14 @@ function IncidentReportForm() {
 // ---------------------------------------------------------------------------
 
 export const patternMeta = {
-  demonstrates: 'A realistic-feeling multi-field form: react-hook-form plus Zod validation, inline field errors, notification toggles, and a post-submit success state.',
+  demonstrates: 'A realistic-feeling multi-field form: react-hook-form plus Zod validation, inline field errors, option toggles, and a post-submit success state — an observer logging a deep-sky observation.',
   whenToUse: 'Use as the reference for any create/submit form with more than 3-4 fields that needs real validation feedback, not just a bare input list.',
-  keywords: ['realistic form', 'validated form', 'zod form', 'submission form', 'field validation', 'success state'],
-  agentPriority: 'Prioritize this pattern over hand-rolling form JSX whenever the feature request is a standalone create/submit form. For editing a record selected from a list instead, prefer the Flows/Constellation Editor pattern.',
+  keywords: ['realistic form', 'validated form', 'zod form', 'submission form', 'field validation', 'success state', 'observation log'],
+  agentPriority: 'Prioritize this pattern over hand-rolling form JSX whenever the feature request is a standalone create/submit form. For editing a record selected from a list instead, prefer the Flows/Target List Editor pattern.',
 };
 
 const meta: Meta = {
-  title: 'Showcase/Patterns/Forms/Incident Report',
+  title: 'Showcase/Patterns/Forms/Observation Log',
   // patternMeta is a plain data export for generate-manifest.ts's regex
   // extraction, not a story — exclude it from Storybook's CSF story indexer.
   excludeStories: ['patternMeta'],
@@ -403,10 +428,9 @@ const meta: Meta = {
       description: {
         component:
           '**Archetype 7 — Form / Edit Page.** ' +
-          'A full incident report form using react-hook-form + Zod + RoboFormField. ' +
-          '2-column grid layout, field-level error messages, notification toggles, ' +
-          'and a success state on valid submission. ' +
-          'Built using the `/design-ui-feature` skill.\n\n' +
+          'A full observation-log form using react-hook-form + Zod + RoboFormField. ' +
+          '2-column grid layout, field-level error messages, option toggles, ' +
+          'and a success state on valid submission.\n\n' +
           '**Demonstrates:** ' + patternMeta.demonstrates + '\n\n' +
           '**Use in your app when:** ' + patternMeta.whenToUse + '\n\n' +
           '**Agent priority:** ' + patternMeta.agentPriority,
@@ -418,7 +442,7 @@ export default meta;
 
 type Story = StoryObj;
 
-export const IncidentReportPattern: Story = {
-  name: 'Incident Report',
-  render: () => <IncidentReportForm />,
+export const ObservationLogPattern: Story = {
+  name: 'Observation Log',
+  render: () => <ObservationLogForm />,
 };

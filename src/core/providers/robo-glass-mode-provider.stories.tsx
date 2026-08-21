@@ -11,9 +11,9 @@ export const componentMeta = {
   description: 'App-wide setting controlling whether map-overlay panels render a translucent glass surface or a solid one by default',
   category: 'layout' as const,
   keywords: ['glass', 'transparent', 'blur', 'panel', 'provider', 'context', 'setting', 'map'],
-  whenToUse: 'Wrap the app (typically in AppShellTemplate) to give every RoboFloatingPanel/RoboSheet/RoboInfoIsland a shared, user-controllable glass-vs-solid default',
+  whenToUse: 'Wrap the app (typically in AppShellTemplate) to give every RoboSheet/RoboInfoIsland a shared, user-controllable glass-vs-solid default',
   whenNotToUse: 'For color theme use RoboThemeProvider; for spacing use RoboDensityProvider',
-  pairsWith: ['RoboFloatingPanel', 'RoboSheet', 'RoboHoverSheet', 'RoboInfoIsland'],
+  pairsWith: ['RoboSheet', 'RoboHoverSheet', 'RoboInfoIsland'],
   a11y: 'useGlassMode() never throws — safe to call from any panel even when no provider is mounted',
 };
 
@@ -72,7 +72,7 @@ function GlassModeControls() {
       >
         <p style={{ margin: 0, fontWeight: 600 }}>Sample panel</p>
         <p style={{ margin: 0, fontSize: '0.8rem', opacity: 0.8 }}>
-          Every RoboFloatingPanel/RoboSheet/RoboInfoIsland responds to this setting.
+          Every RoboSheet/RoboInfoIsland responds to this setting.
         </p>
       </div>
     </div>

@@ -1,8 +1,8 @@
 // ---------------------------------------------------------------------------
 // SHOWCASE PATTERN — Dashboard Grid (Archetype 5)
 //
-// Ops Center Dashboard: at-a-glance KPI summary, trend charts, and a
-// recent activity feed. Read-only — no user interaction required.
+// Observatory Night: at-a-glance KPI summary, trend charts, and a recent
+// activity feed for a night's observing. Read-only — no user interaction.
 //
 // Pattern: RoboPageShell + 4× RoboStatCard + RoboLineChart + RoboBarChart
 //          + compact RoboDataTable
@@ -11,7 +11,7 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
 import { createColumnHelper } from '@tanstack/react-table';
-import { Activity, AlertTriangle, FileText, Gauge, Satellite } from 'lucide-react';
+import { Activity, Clock, Gauge, Sparkles, Telescope } from 'lucide-react';
 import { RoboBarChart, RoboLineChart, RoboStatCard } from '@roboborealis/components/charts';
 import { RoboDataTable, createDateCell, createStatusCell } from '@roboborealis/components/tables';
 import { RoboPageShell } from '@roboborealis/components/layout';
@@ -22,40 +22,40 @@ import { RoboBadge, RoboSeparator } from '@roboborealis/components/core';
 // Mock data
 // ---------------------------------------------------------------------------
 
-const TRAFFIC_DATA = [
-  { day: 'Mon', active: 168, reported: 154 },
-  { day: 'Tue', active: 172, reported: 160 },
-  { day: 'Wed', active: 185, reported: 171 },
-  { day: 'Thu', active: 179, reported: 165 },
-  { day: 'Fri', active: 182, reported: 175 },
-  { day: 'Sat', active: 194, reported: 183 },
-  { day: 'Sun', active: 182, reported: 174 },
+const NIGHTLY_DATA = [
+  { night: 'Mon', observed: 22, planned: 28 },
+  { night: 'Tue', observed: 31, planned: 33 },
+  { night: 'Wed', observed: 12, planned: 30 },
+  { night: 'Thu', observed: 29, planned: 30 },
+  { night: 'Fri', observed: 34, planned: 34 },
+  { night: 'Sat', observed: 41, planned: 42 },
+  { night: 'Sun', observed: 38, planned: 40 },
 ];
 
 const TYPE_DATA = [
-  { type: 'Satellite', count: 74 },
-  { type: 'Probe',     count: 52 },
-  { type: 'Telescope', count: 38 },
-  { type: 'Capsule',   count: 12 },
-  { type: 'Other',     count: 6 },
+  { type: 'Galaxy',   count: 74 },
+  { type: 'Nebula',   count: 52 },
+  { type: 'Cluster',  count: 38 },
+  { type: 'Double',   count: 21 },
+  { type: 'Variable', count: 14 },
 ];
 
 type EventSeverity = 'info' | 'warning' | 'critical';
 
 interface ActivityEvent {
   id: string;
-  satellite: string;
+  target: string;
   event: string;
   severity: EventSeverity;
   timestamp: Date;
 }
 
 const RECENT_EVENTS: ActivityEvent[] = [
-  { id: 'e1', satellite: 'FALCON UPLINK',   event: 'FR submitted — orbit insertion complete', severity: 'info',     timestamp: new Date(Date.now() - 420_000) },
-  { id: 'e2', satellite: 'SENTINEL RELAY',  event: 'Velocity drop below 5 km/s — alert triggered', severity: 'warning',  timestamp: new Date(Date.now() - 900_000) },
-  { id: 'e3', satellite: 'RIGEL BEACON',    event: 'Telemetry overdue by 24h',         severity: 'critical', timestamp: new Date(Date.now() - 3_600_000) },
-  { id: 'e4', satellite: 'KEPLER SURVEYOR', event: 'Launch report received',           severity: 'info',     timestamp: new Date(Date.now() - 7_200_000) },
-  { id: 'e5', satellite: 'COSMOS GUARDIAN', event: 'Telemetry overdue by 48h',         severity: 'critical', timestamp: new Date(Date.now() - 14_400_000) },
+  { id: 'e1', target: 'M42 — Orion Nebula',   event: 'Observation complete — 45 min exposure logged', severity: 'info',     timestamp: new Date(Date.now() - 420_000) },
+  { id: 'e2', target: 'NGC 4526',             event: 'Transient candidate flagged for follow-up',     severity: 'warning',  timestamp: new Date(Date.now() - 900_000) },
+  { id: 'e3', target: 'Dome',                 event: 'Weather hold — cloud cover exceeded 60%',        severity: 'critical', timestamp: new Date(Date.now() - 3_600_000) },
+  { id: 'e4', target: 'M13 — Hercules',       event: 'Target acquired — guiding locked',               severity: 'info',     timestamp: new Date(Date.now() - 7_200_000) },
+  { id: 'e5', target: 'Calibration',          event: 'Flat frames captured for all filters',           severity: 'info',     timestamp: new Date(Date.now() - 14_400_000) },
 ];
 
 const SEVERITY_COLOR_MAP: Record<EventSeverity, 'muted' | 'warning' | 'destructive'> = {
@@ -71,8 +71,8 @@ const SEVERITY_COLOR_MAP: Record<EventSeverity, 'muted' | 'warning' | 'destructi
 const col = createColumnHelper<ActivityEvent>();
 
 const activityColumns = [
-  col.accessor('satellite', {
-    header: 'Satellite',
+  col.accessor('target', {
+    header: 'Target',
     size: 200,
     cell: (info) => <span style={{ fontWeight: 500 }}>{info.getValue()}</span>,
   }),
@@ -110,7 +110,7 @@ function DashboardTopbar() {
       }}
     >
       <Activity size={18} style={{ opacity: 0.6 }} />
-      <span style={{ fontWeight: 700, fontSize: 15 }}>Ops Center</span>
+      <span style={{ fontWeight: 700, fontSize: 15 }}>Observatory Night</span>
       <RoboBadge variant='status' style={{ marginLeft: 4 }}>Live</RoboBadge>
     </div>
   );
@@ -132,39 +132,39 @@ function SectionHeading({ children }: { children: React.ReactNode }) {
 // Pattern component
 // ---------------------------------------------------------------------------
 
-function OpsDashboard() {
+function ObservatoryDashboard() {
   return (
     <RoboPageShell topbar={<DashboardTopbar />}>
       <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 24 }}>
 
         {/* KPI row */}
         <div>
-          <SectionHeading>Key Metrics — Today</SectionHeading>
+          <SectionHeading>Key Metrics — Tonight</SectionHeading>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
             <RoboStatCard
-              label="Active Satellites"
-              value={182}
+              label="Objects Observed"
+              value={38}
               change={4.2}
-              changeLabel="vs yesterday"
-              icon={<Satellite size={18} />}
+              changeLabel="vs last night"
+              icon={<Sparkles size={18} />}
             />
             <RoboStatCard
-              label="Open Alerts"
-              value={7}
-              change={-2}
-              changeLabel="vs yesterday"
-              icon={<AlertTriangle size={18} />}
+              label="Clear Hours"
+              value="6.4 h"
+              change={-1.1}
+              changeLabel="vs last night"
+              icon={<Clock size={18} />}
             />
             <RoboStatCard
-              label="Reports Due"
-              value={23}
-              change={12}
-              changeLabel="this week"
-              icon={<FileText size={18} />}
+              label="Active Instruments"
+              value={5}
+              change={1}
+              changeLabel="online now"
+              icon={<Telescope size={18} />}
             />
             <RoboStatCard
-              label="Avg Velocity"
-              value="7.6 km/s"
+              label="Median Seeing"
+              value={'1.8"'}
               icon={<Gauge size={18} />}
             />
           </div>
@@ -174,23 +174,23 @@ function OpsDashboard() {
 
         {/* Charts row */}
         <div>
-          <SectionHeading>Traffic — Last 7 Days</SectionHeading>
+          <SectionHeading>Observing — Last 7 Nights</SectionHeading>
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
             <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, padding: 16 }}>
-              <p style={{ margin: '0 0 12px', fontWeight: 600, fontSize: 13 }}>Satellite Traffic</p>
+              <p style={{ margin: '0 0 12px', fontWeight: 600, fontSize: 13 }}>Observations per Night</p>
               <RoboLineChart
-                data={TRAFFIC_DATA}
-                xAxisKey="day"
+                data={NIGHTLY_DATA}
+                xAxisKey="night"
                 lines={[
-                  { dataKey: 'active',   name: 'Active satellites' },
-                  { dataKey: 'reported', name: 'Reports received', color: 'var(--muted-foreground)' },
+                  { dataKey: 'observed', name: 'Observed' },
+                  { dataKey: 'planned',  name: 'Planned', color: 'var(--muted-foreground)' },
                 ]}
                 height={220}
                 showLegend
               />
             </div>
             <div style={{ background: 'var(--card)', border: '1px solid var(--border)', borderRadius: 8, padding: 16 }}>
-              <p style={{ margin: '0 0 12px', fontWeight: 600, fontSize: 13 }}>Satellite Types</p>
+              <p style={{ margin: '0 0 12px', fontWeight: 600, fontSize: 13 }}>Objects by Type</p>
               <RoboBarChart
                 data={TYPE_DATA}
                 xAxisKey="type"
@@ -229,13 +229,13 @@ function OpsDashboard() {
 
 export const patternMeta = {
   demonstrates: 'The Dashboard Grid archetype: a read-only KPI summary row, line and bar trend charts, and a compact recent-activity table, all on one full page.',
-  whenToUse: 'Use as the reference for any full-page operations dashboard where the page itself is the dashboard, not a widget dropped into another page, and no user interaction beyond reading is required.',
-  keywords: ['ops dashboard', 'kpi row', 'stat card', 'trend chart', 'bar chart', 'line chart', 'activity feed', 'dashboard grid'],
+  whenToUse: 'Use as the reference for any full-page dashboard where the page itself is the dashboard, not a widget dropped into another page, and no user interaction beyond reading is required.',
+  keywords: ['observatory dashboard', 'kpi row', 'stat card', 'trend chart', 'bar chart', 'line chart', 'activity feed', 'dashboard grid'],
   agentPriority: 'This is the canonical storyPath for the dashboard-grid archetype in src/agent/archetypes.ts. Prioritize it whenever the feature request matches that archetype (full-page KPI-plus-charts dashboard). For a compact dashboard panel embedded inside another page or modal, use the data-dashboard archetype/template instead, not this pattern.',
 };
 
 const meta: Meta = {
-  title: 'Showcase/Patterns/Dashboards/Ops Center',
+  title: 'Showcase/Patterns/Dashboards/Observatory Night',
   excludeStories: ['patternMeta'],
   parameters: {
     layout: 'fullscreen',
@@ -243,9 +243,8 @@ const meta: Meta = {
       description: {
         component:
           '**Archetype 5 — Dashboard Grid.** ' +
-          'An at-a-glance operations dashboard: 4 KPI StatCards, line and bar trend charts, ' +
-          'and a compact recent-activity DataTable. Read-only — no user interaction needed. ' +
-          'Built using the `/design-ui-feature` skill.',
+          'An at-a-glance observatory dashboard: 4 KPI StatCards, line and bar trend charts, ' +
+          'and a compact recent-activity DataTable. Read-only — no user interaction needed.',
       },
     },
   },
@@ -254,7 +253,7 @@ export default meta;
 
 type Story = StoryObj;
 
-export const OpsDashboardPattern: Story = {
-  name: 'Ops Center Dashboard',
-  render: () => <OpsDashboard />,
+export const ObservatoryDashboardPattern: Story = {
+  name: 'Observatory Night',
+  render: () => <ObservatoryDashboard />,
 };

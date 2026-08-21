@@ -10,19 +10,19 @@ import { RoboCheckbox, RoboRadioGroup, RoboSelect, RoboSlider, RoboSwitch, RoboT
 // ---------------------------------------------------------------------------
 
 const regionOptions = [
-  { value: 'leo', label: 'Low Earth Orbit' },
-  { value: 'meo', label: 'Medium Earth Orbit' },
-  { value: 'geo', label: 'Geostationary Orbit' },
-  { value: 'sso', label: 'Sun-Synchronous Orbit' },
-  { value: 'heo', label: 'Highly Elliptical Orbit' },
-  { value: 'polar', label: 'Polar Orbit' },
+  { value: 'galaxy', label: 'Galaxy' },
+  { value: 'nebula', label: 'Nebula' },
+  { value: 'open-cluster', label: 'Open Cluster' },
+  { value: 'globular-cluster', label: 'Globular Cluster' },
+  { value: 'double-star', label: 'Double Star' },
+  { value: 'variable-star', label: 'Variable Star' },
 ];
 
 const reportTypeOptions = [
-  { value: 'fr', label: 'Final Report (FR)', description: 'Filed at end of mission' },
-  { value: 'pr', label: 'Position Report (PR)', description: 'Interim position update' },
-  { value: 'sp', label: 'Special Report (SP)', description: 'Filed on special events' },
-  { value: 'dr', label: 'Deviation Report (DR)', description: 'Orbit deviation notification' },
+  { value: 'ol', label: 'Observation Log (OL)', description: 'Visual or imaging session notes' },
+  { value: 'ph', label: 'Photometry (PH)', description: 'Brightness measurement' },
+  { value: 'sp', label: 'Spectroscopy (SP)', description: 'Spectral analysis' },
+  { value: 'as', label: 'Astrometry (AS)', description: 'Position measurement' },
 ];
 
 const notificationOptions = [
@@ -116,13 +116,13 @@ function FormControlsDemo() {
   const [switches, setSwitches] = useState({ darkMode: false, autoRefresh: true, sounds: false });
 
   // Slider
-  const [sliderValue, setSliderValue] = useState([40]);
+  const [sliderValue, setSliderValue] = useState([14]);
 
   // Checkboxes
   const [checkedItems, setCheckedItems] = useState<string[]>(['email']);
 
   // Radio
-  const [radioValue, setRadioValue] = useState('pr');
+  const [radioValue, setRadioValue] = useState('ph');
 
   // Textarea
   const [textareaValue, setTextareaValue] = useState('');
@@ -148,8 +148,8 @@ function FormControlsDemo() {
         <div style={fieldGroupStyle}>
           <p style={sectionHeadingStyle}>RoboInput</p>
           <RoboInput
-            label='Satellite name'
-            placeholder='e.g. Sentinel Relay'
+            label='Object designation'
+            placeholder='e.g. M42'
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             helperText={`${inputValue.length} characters`}
@@ -161,8 +161,8 @@ function FormControlsDemo() {
         <div style={fieldGroupStyle}>
           <p style={sectionHeadingStyle}>RoboSelect</p>
           <RoboSelect
-            label='Orbital regime'
-            placeholder='Select regime…'
+            label='Object type'
+            placeholder='Select type…'
             options={regionOptions}
             value={selectedRegion}
             onValueChange={setSelectedRegion}
@@ -208,16 +208,16 @@ function FormControlsDemo() {
         <div style={fieldGroupStyle}>
           <p style={sectionHeadingStyle}>RoboSlider</p>
           <RoboSlider
-            label='Search radius'
-            min={0}
-            max={500}
-            step={5}
+            label='Limiting magnitude'
+            min={6}
+            max={22}
+            step={0.5}
             value={sliderValue}
             onChange={setSliderValue}
             showValue
-            formatValue={(v) => `${v} km`}
+            formatValue={(v) => `mag ${v}`}
           />
-          <LiveValue label='Value' value={`${sliderValue[0]} km`} />
+          <LiveValue label='Value' value={`mag ${sliderValue[0]}`} />
         </div>
 
         {/* RoboCheckbox group */}
@@ -252,8 +252,8 @@ function FormControlsDemo() {
         <div style={{ ...fieldGroupStyle, gridColumn: '1 / -1' }}>
           <p style={sectionHeadingStyle}>RoboTextarea</p>
           <RoboTextarea
-            label='Mission remarks'
-            placeholder='Add any additional notes about this mission…'
+            label='Observation notes'
+            placeholder='Add any additional notes about this observation…'
             value={textareaValue}
             onChange={(e) => setTextareaValue(e.target.value)}
             showCount
@@ -276,7 +276,7 @@ export const patternMeta = {
   demonstrates: 'A gallery of the core form control family together: text inputs, checkboxes, radios, selects, sliders, switches, and textareas.',
   whenToUse: 'Use as the reference to see every basic form control rendered together before composing a form, or to check visual and spacing consistency across control types.',
   keywords: ['form controls', 'input gallery', 'checkbox', 'radio group', 'select', 'slider', 'switch', 'textarea'],
-  agentPriority: 'Prioritize this pattern for control-level reference only. For a full validated form page, use Incident Report (Form + Validation archetype) instead, and for a table-driven edit form, use Flows/Constellation Editor.',
+  agentPriority: 'Prioritize this pattern for control-level reference only. For a full validated form page, use Observation Log (Form + Validation archetype) instead, and for a table-driven edit form, use Flows/Target List Editor.',
 };
 
 const meta: Meta = {

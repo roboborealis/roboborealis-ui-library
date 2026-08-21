@@ -186,8 +186,8 @@ function RoboTabsPillIndicator({ container, tone = 'orange' }: RoboTabsPillIndic
     // Tracks whichever trigger is currently observed for its own resize —
     // re-pointed at the active trigger every time `measure` runs. Needed
     // because the active trigger can grow from 0×0 to its natural size
-    // after this effect's first measurement (e.g. while an ancestor like
-    // RoboFloatingPanel is still mid mount/expand animation) without the
+    // after this effect's first measurement (e.g. while an ancestor panel
+    // is still mid mount/expand animation) without the
     // *container*'s own box ever resizing — the container-only
     // ResizeObserver below would never see that and the indicator would be
     // stuck at its stale zero-size rect.

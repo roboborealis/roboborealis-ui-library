@@ -91,7 +91,7 @@
   },
   "RoboSidebar": {
     "whenToUse": "App-level navigation, always visible on desktop, collapsible on mobile",
-    "neverUse": "Content sidebars or secondary panels — use RoboFloatingPanel for map contexts",
+    "neverUse": "Content sidebars or secondary panels — use RoboCard or an aside region instead",
     "accessibilityNote": "Uses <nav> landmark. Keyboard navigable with arrow keys"
   },
   "RoboTopbar": {
@@ -103,31 +103,6 @@
     "whenToUse": "Switching between related views without navigation",
     "neverUse": "Multi-step wizards — use a stepper pattern. Navigation — use RoboSidebar",
     "accessibilityNote": "Uses Radix Tabs with role=tablist, arrow key navigation"
-  },
-  "RoboMapbox": {
-    "whenToUse": "Any map view — provides theme-aware tile switching and consistent controls",
-    "neverUse": "Raw mapbox-gl directly — always wrap in RoboMapbox",
-    "accessibilityNote": "Map is role=application. Provide skip-to-content link before the map"
-  },
-  "RoboFloatingPanel": {
-    "whenToUse": "Detail panels, asset info, lists overlaid on the map",
-    "neverUse": "Outside map context — use RoboCard or RoboDialog for non-map views",
-    "accessibilityNote": "Draggable panels need keyboard alternative for repositioning"
-  },
-  "RoboEntityInspectorPanel": {
-    "whenToUse": "Any map click-to-inspect flow for a single feature (port, vessel, region, cable, train, traffic incident, etc.) — a compact teaser by default that expands into the full RoboEntityDossier on demand",
-    "neverUse": "A view that should always show full detail with no compact state — use RoboEntityDossier directly inside your own RoboFloatingPanel instead",
-    "accessibilityNote": "The expand/collapse icon toggle has an accessible label that flips between 'Show more' and 'Show less'; content transitions respect prefers-reduced-motion via useReducedMotion()"
-  },
-  "RoboMapOverlay": {
-    "whenToUse": "Container for multiple RoboFloatingPanel instances over the map. RoboMapbox wraps children in this automatically",
-    "neverUse": "Directly inside RoboMapbox children — it is already provided. Adding another breaks magnetic snap",
-    "accessibilityNote": "Manages z-index stacking of floating panels"
-  },
-  "RoboAssetLayer": {
-    "whenToUse": "Rendering vessel/asset markers on the map with icon sets",
-    "neverUse": "Static markers — use mapbox-gl markers directly for non-asset points",
-    "accessibilityNote": "Asset markers should have aria-label with vessel/asset name for screen readers"
   },
   "RoboRichTextEditor": {
     "whenToUse": "Multi-line rich text input with formatting (bold, italic, lists, links)",
@@ -209,11 +184,6 @@
     "neverUse": "Discrete comparisons — use RoboBarChart. Simple trends — use RoboLineChart",
     "accessibilityNote": "Provide a data table alternative for screen readers"
   },
-  "RoboAssetTooltip": {
-    "whenToUse": "Hover info on map asset markers showing vessel/asset quick details",
-    "neverUse": "Outside map context — use RoboTooltip for general UI tooltips",
-    "accessibilityNote": "Visible on focus as well as hover for keyboard users"
-  },
   "RoboAvatar": {
     "whenToUse": "User profile images, initials, or placeholder icons in headers, comments, lists",
     "neverUse": "Decorative images — use an img tag. Logo display — use brand assets",
@@ -244,23 +214,13 @@
     "neverUse": "Primary navigation — use RoboSidebar. Search — use RoboInput with search results",
     "accessibilityNote": "Uses combobox pattern with aria-activedescendant for list selection"
   },
-  "RoboCompassControl": {
-    "whenToUse": "Map compass showing current bearing, click to reset north",
-    "neverUse": "Outside RoboMapbox context",
-    "accessibilityNote": "Provide aria-label='Reset map bearing to north'"
-  },
-  "RoboCoordinateDisplay": {
-    "whenToUse": "Showing cursor or point coordinates on the map (lat/lon)",
-    "neverUse": "Outside map context — use plain text for static coordinates",
-    "accessibilityNote": "Uses aria-live='polite' for real-time coordinate updates"
-  },
   "RoboCopyButton": {
     "whenToUse": "Copying text to clipboard (IDs, codes, URLs, coordinates)",
     "neverUse": "Large content blocks — provide a download/export option instead",
     "accessibilityNote": "Announces 'Copied' to screen readers via aria-live"
   },
   "RoboCourseIndicator": {
-    "whenToUse": "Displaying vessel heading/course as a compass direction indicator",
+    "whenToUse": "Displaying a heading, bearing, or position angle as a compass direction indicator",
     "neverUse": "General rotation/angle display — use plain text",
     "accessibilityNote": "Include aria-label with numeric degrees and cardinal direction"
   },
@@ -279,55 +239,15 @@
     "neverUse": "Spacing only — use margin/padding. Semantic sections — use heading hierarchy",
     "accessibilityNote": "Uses role=separator with proper orientation"
   },
-  "RoboDrawControl": {
-    "whenToUse": "Drawing polygons, lines, or points on the map (geofencing, route planning)",
-    "neverUse": "Outside RoboMapbox context",
-    "accessibilityNote": "Provide keyboard alternative for drawing operations"
-  },
-  "RoboEmergencyPulseLayer": {
-    "whenToUse": "Highlighting emergency/distress signals on the map with animated pulse",
-    "neverUse": "Non-emergency alerts — use RoboZoneAlertLayer for zone-based warnings",
-    "accessibilityNote": "Ensure pulse animation respects prefers-reduced-motion"
-  },
   "RoboExportButton": {
     "whenToUse": "Exporting table or list data to CSV/Excel",
     "neverUse": "Single-value copy — use RoboCopyButton",
     "accessibilityNote": "Announce export status via aria-live"
   },
-  "RoboFavoritesPanel": {
-    "whenToUse": "Quick-access panel for user-bookmarked items (vessels, reports, routes)",
-    "neverUse": "Global navigation — use RoboSidebar",
-    "accessibilityNote": "List items need descriptive aria-labels for remove/reorder actions"
-  },
   "RoboForceGraph": {
     "whenToUse": "Network/relationship visualization (entity connections, ownership graphs)",
     "neverUse": "Hierarchical data — use a tree component. Simple lists — use RoboDataTable",
     "accessibilityNote": "Provide a data table alternative. Interactive nodes need keyboard focus"
-  },
-  "RoboKrakenLoader": {
-    "whenToUse": "Full-page or large-area branded loading state with kraken animation",
-    "neverUse": "Small inline loading — use RoboSpinner. Content-area — use RoboSkeleton",
-    "accessibilityNote": "Respects prefers-reduced-motion. Include aria-label='Loading'"
-  },
-  "RoboLayerSwitcher": {
-    "whenToUse": "Toggling map layer visibility (satellite, terrain, traffic, custom overlays)",
-    "neverUse": "Outside RoboMapbox context",
-    "accessibilityNote": "Checkbox-like toggles with aria-checked state"
-  },
-  "RoboLiveTrackingToggle": {
-    "whenToUse": "Enabling/disabling real-time position updates on the map",
-    "neverUse": "Outside live-data map views",
-    "accessibilityNote": "Use aria-pressed to indicate toggle state"
-  },
-  "RoboMapControls": {
-    "whenToUse": "Container for grouping map control buttons (zoom, compass, layers)",
-    "neverUse": "Non-map UI — use RoboStack or a toolbar pattern",
-    "accessibilityNote": "Uses role=toolbar with aria-label='Map controls'"
-  },
-  "RoboMapLegend": {
-    "whenToUse": "Explaining map symbology (colors, icons, zone types) to users",
-    "neverUse": "Outside map context — use a regular list or key",
-    "accessibilityNote": "All color meanings must also be conveyed via text/shape"
   },
   "RoboPieChart": {
     "whenToUse": "Part-to-whole composition for 2-6 categories (status breakdowns, allocations)",
@@ -349,30 +269,15 @@
     "neverUse": "Many options — use RoboSelect. Boolean — use RoboCheckbox or RoboSwitch",
     "accessibilityNote": "Uses role=radiogroup with arrow key navigation between options"
   },
-  "RoboScaleBar": {
-    "whenToUse": "Showing map distance scale (km/mi) for spatial reference",
-    "neverUse": "Outside RoboMapbox context",
-    "accessibilityNote": "Include aria-label with current scale value"
-  },
   "RoboSeparator": {
     "whenToUse": "Thin horizontal or vertical line between content sections",
     "neverUse": "Decorative spacing — use margin/padding",
     "accessibilityNote": "Uses role=separator"
   },
-  "RoboShipWavesLoader": {
-    "whenToUse": "Default branded loading animation for maritime-themed applications",
-    "neverUse": "Non-maritime apps — use RoboKrakenLoader or RoboSpinner",
-    "accessibilityNote": "Respects prefers-reduced-motion. Include aria-label='Loading'"
-  },
   "RoboSlider": {
     "whenToUse": "Numeric range selection (time ranges, zoom levels, volume, filter thresholds)",
     "neverUse": "Precise numeric input — use RoboInput type=number. Binary choices — use RoboSwitch",
     "accessibilityNote": "Uses role=slider with aria-valuemin/max/now and keyboard arrows"
-  },
-  "RoboSosStrobe": {
-    "whenToUse": "Visual distress signal indicator on the map (MAYDAY/SOS events)",
-    "neverUse": "Non-emergency status — use RoboBadge or RoboEmergencyPulseLayer",
-    "accessibilityNote": "Respects prefers-reduced-motion. Announce via aria-live='assertive'"
   },
   "RoboSwitch": {
     "whenToUse": "On/off toggles for settings, feature flags, real-time mode switches",
@@ -390,29 +295,9 @@
     "accessibilityNote": "Ensures color contrast meets WCAG AA in all theme/mode combinations"
   },
   "RoboTimeline": {
-    "whenToUse": "Chronological event sequences (audit logs, voyage history, activity feeds)",
-    "neverUse": "Static lists — use RoboStack. Interactive timelines — consider RoboTimelineControl",
+    "whenToUse": "Chronological event sequences (audit logs, observation history, activity feeds)",
+    "neverUse": "Static lists — use RoboStack",
     "accessibilityNote": "Use ordered list semantics. Each event needs a timestamp announced"
-  },
-  "RoboTimelineControl": {
-    "whenToUse": "Playback scrubber for historical position replay on the map",
-    "neverUse": "Outside map context — use RoboSlider for generic time ranges",
-    "accessibilityNote": "Uses role=slider with time-based labels for aria-valuenow"
-  },
-  "RoboTreasureMap": {
-    "whenToUse": "Branded empty state illustration when no data matches filters or first-use",
-    "neverUse": "Error states — use RoboAlert. Loading — use RoboSkeleton",
-    "accessibilityNote": "Decorative — mark with aria-hidden='true'. Convey empty state via visible text"
-  },
-  "RoboZoneAlertLayer": {
-    "whenToUse": "Highlighting geographic zones with alert states (restricted areas, risk zones)",
-    "neverUse": "Static zone display — use standard GeoJSON polygons",
-    "accessibilityNote": "Zone alerts should be announced via aria-live for screen reader users"
-  },
-  "RoboZoomControl": {
-    "whenToUse": "Zoom in/out buttons on the map",
-    "neverUse": "Outside RoboMapbox context",
-    "accessibilityNote": "Buttons need aria-label='Zoom in' and 'Zoom out'"
   },
   "RoboInView": {
     "description": "Viewport-triggered entrance animation wrapper using IntersectionObserver",
@@ -596,101 +481,6 @@
     "pairsWith": [
       "RoboEntityDossier",
       "RoboDescriptionList"
-    ]
-  },
-  "RoboAnimatedVessel": {
-    "category": "maps",
-    "keywords": [
-      "vessel",
-      "animation",
-      "timeline",
-      "track",
-      "playback",
-      "marker",
-      "interpolation"
-    ],
-    "description": "Animated vessel marker that interpolates position along a track during timeline playback",
-    "whenToUse": "Animating vessel movement on the map while the timeline scrubber plays",
-    "pairsWith": [
-      "RoboTimelineControl",
-      "RoboTimelineTrackLayer",
-      "RoboMapbox"
-    ]
-  },
-  "RoboTimelineTrackLayer": {
-    "category": "maps",
-    "keywords": [
-      "track",
-      "timeline",
-      "history",
-      "trail",
-      "route",
-      "layer",
-      "playback"
-    ],
-    "description": "Map layer rendering historical track lines synchronized with the timeline window",
-    "whenToUse": "Showing vessel or asset track history that follows the timeline selection",
-    "pairsWith": [
-      "RoboTimelineControl",
-      "RoboAnimatedVessel",
-      "RoboMapbox"
-    ]
-  },
-  "RoboTimelineVesselMarker": {
-    "category": "maps",
-    "keywords": [
-      "vessel",
-      "marker",
-      "timeline",
-      "position",
-      "playback",
-      "icon"
-    ],
-    "description": "Vessel marker positioned at the timeline playhead along a track",
-    "whenToUse": "Marking the current playback position of a vessel during timeline scrubbing",
-    "pairsWith": [
-      "RoboTimelineControl",
-      "RoboTimelineTrackLayer",
-      "RoboMapbox"
-    ]
-  },
-  "RoboDrawLayer": {
-    "category": "maps",
-    "keywords": [
-      "draw",
-      "drawing",
-      "layer",
-      "shapes",
-      "polygon",
-      "zone",
-      "annotation"
-    ],
-    "description": "Map layer that renders shapes created by the drawing tools",
-    "whenToUse": "Displaying user-drawn zones and annotations managed by RoboDrawProvider",
-    "pairsWith": [
-      "RoboDrawProvider",
-      "RoboDrawToolbar",
-      "RoboMapbox"
-    ]
-  },
-  "RoboDrawToolbar": {
-    "category": "maps",
-    "keywords": [
-      "draw",
-      "toolbar",
-      "tools",
-      "polygon",
-      "line",
-      "point",
-      "measure",
-      "zone"
-    ],
-    "description": "Tool palette for the map drawing system (point, line, polygon, measure modes)",
-    "whenToUse": "Giving users drawing mode controls on a map wrapped in RoboDrawProvider",
-    "pairsWith": [
-      "RoboDrawProvider",
-      "RoboDrawLayer",
-      "RoboMapbox"
     ]
   }
 }

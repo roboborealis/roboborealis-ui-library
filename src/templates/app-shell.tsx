@@ -34,7 +34,7 @@
 // "Product tour" card RoboTourSettingsCard adds to SettingsView.
 //
 // Glass mode: wrapping the app in RoboGlassModeProvider (below) is what makes
-// every RoboFloatingPanel/RoboSheet/RoboHoverSheet/RoboInfoIsland in the app
+// every RoboSheet/RoboHoverSheet/RoboInfoIsland in the app
 // default to a translucent glass surface instead of a solid one — this is
 // the "bake it into every app from here on" hook for that setting.
 //
