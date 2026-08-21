@@ -147,8 +147,8 @@ function RoboBreadcrumbs({ className, variant, items, maxItems = 4, animate = fa
                       'shadow-md p-1'
                     )}
                   >
-                    {collapsedItems.map((item, idx) => (
-                      <DropdownMenu.Item key={idx} asChild>
+                    {collapsedItems.map((item) => (
+                      <DropdownMenu.Item key={item.href ?? item.label} asChild>
                         {item.href ? (
                           <RouterLink
                             to={item.href}
@@ -183,7 +183,7 @@ function RoboBreadcrumbs({ className, variant, items, maxItems = 4, animate = fa
         {/* Middle items — visible (when not collapsed) */}
         {!needsCollapse &&
           visibleItems.map((item, idx) => (
-            <React.Fragment key={idx}>
+            <React.Fragment key={item.href ?? item.label}>
               <li aria-hidden='true'>
                 <BreadcrumbSeparator />
               </li>
