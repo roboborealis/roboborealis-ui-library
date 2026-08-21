@@ -1,70 +1,46 @@
 name: Version bump
 
-# Gate AND automation in one job: every PR to main must ship a version bump.
-# If the PR hasn't bumped package.json, this bumps it (patch by default; minor/major
-# via the release:minor / release:major labels), commits, and pushes it back to the
-# PR branch. The final check then always passes because the bump exists.
+# Gate: every PR to main must bump the version in package.json. This is a pure check —
+# it never writes to the branch (writing from CI spawns action_required re-runs and
+# fights branch protection). Bump locally with `npm run bump` before pushing.
 on:
   pull_request:
     branches: [main]
-    types: [opened, synchronize, reopened, labeled]
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   version-bump:
     name: version-bump
     runs-on: ubuntu-latest
-    # Fork PRs can't be pushed to; only run on same-repo branches.
-    if: github.event.pull_request.head.repo.full_name == github.repository
-    env:
-      # Resolves to exactly one of: major | minor | patch (a controlled string).
-      LEVEL: ${{ contains(github.event.pull_request.labels.*.name, 'release:major') && 'major' || contains(github.event.pull_request.labels.*.name, 'release:minor') && 'minor' || 'patch' }}
     steps:
       - uses: actions/checkout@v7
         with:
-          ref: ${{ github.head_ref }}
           fetch-depth: 0
-          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: actions/setup-node@v7
-        with:
-          node-version: '22'
-
-      - name: Bump version if the PR didn't
-        env:
-          HEAD_REF: ${{ github.head_ref }}
+      - name: Require a version bump
         run: |
-          git fetch origin main --depth=1
-          MAIN_VERSION=$(git show origin/main:package.json | node -p "JSON.parse(require('fs').readFileSync(0,'utf8')).version")
-          PR_VERSION=$(node -p "require('./package.json').version")
-          echo "main: $MAIN_VERSION | PR: $PR_VERSION | level: $LEVEL"
-
-          if [ "$PR_VERSION" = "$MAIN_VERSION" ]; then
-            echo "No bump found — applying $LEVEL bump."
-            npm version --no-git-tag-version "$LEVEL"
-            NEW_VERSION=$(node -p "require('./package.json').version")
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add package.json package-lock.json
-            git commit -m "chore: bump version to $NEW_VERSION"
-            git push origin "HEAD:$HEAD_REF"
-            echo "Bumped $MAIN_VERSION -> $NEW_VERSION"
-          else
-            echo "Version already bumped ($MAIN_VERSION -> $PR_VERSION). OK."
+          if [ "$GITHUB_ACTOR" = "dependabot[bot]" ]; then
+            echo "Dependabot PR — version bump not required. Deps ride into the next release."
+            exit 0
           fi
-
-      - name: Verify a bump is present
-        run: |
           git fetch origin main --depth=1
           MAIN_VERSION=$(git show origin/main:package.json | node -p "JSON.parse(require('fs').readFileSync(0,'utf8')).version")
           PR_VERSION=$(node -p "require('./package.json').version")
           LOCK_VERSION=$(node -p "require('./package-lock.json').version")
+
           if [ "$PR_VERSION" = "$MAIN_VERSION" ]; then
-            echo "ERROR: version still not bumped ($MAIN_VERSION)."; exit 1
+            echo "ERROR: package.json version must be bumped before merging to main."
+            echo "  main: $MAIN_VERSION | PR: $PR_VERSION"
+            echo "Run: npm run bump         (patch)"
+            echo "     npm run bump:minor   or   npm run bump:major"
+            echo "Then commit package.json + package-lock.json and push."
+            exit 1
           fi
           if [ "$LOCK_VERSION" != "$PR_VERSION" ]; then
-            echo "ERROR: lock version ($LOCK_VERSION) != package.json ($PR_VERSION)."; exit 1
+            echo "ERROR: package-lock.json version ($LOCK_VERSION) != package.json ($PR_VERSION)."
+            echo "Run 'npm run bump' (it updates both) and commit the result."
+            exit 1
           fi
           echo "Version OK: $MAIN_VERSION -> $PR_VERSION (lock matches)."
