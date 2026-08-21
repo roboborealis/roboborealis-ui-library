@@ -21,17 +21,17 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Tag and release if version is new
+      - name: Release if version is new
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION=$(node -p "require('./package.json').version")
           TAG="v$VERSION"
-          if git rev-parse "$TAG" >/dev/null 2>&1 || gh release view "$TAG" >/dev/null 2>&1; then
+          if gh release view "$TAG" >/dev/null 2>&1; then
             echo "Release $TAG already exists — nothing to do."
             exit 0
           fi
-          git tag -a "$TAG" -m "$TAG"
-          git push origin "$TAG"
-          gh release create "$TAG" --title "$TAG" --generate-notes
+          # gh creates the tag at the target commit and the release together,
+          # so no git identity or manual tag push is needed on the runner.
+          gh release create "$TAG" --title "$TAG" --generate-notes --target "$GITHUB_SHA"
           echo "Created release $TAG"
