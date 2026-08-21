@@ -1,10 +1,34 @@
 import js from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import reactHooksPlugin from 'eslint-plugin-react-hooks';
+import eslintReact from '@eslint-react/eslint-plugin';
+
+// React rules — @eslint-react (flat-config native, eslint 10 compatible),
+// replacing the retired eslint-plugin-react. Introduced non-breaking on this
+// established 200+ component codebase: its recommended rules run at WARN, not
+// CI-blocking error, so issues surface without a big-bang cleanup. Promote
+// individual rules to 'error' over time. Hook rules stay owned by
+// eslint-plugin-react-hooks, so @eslint-react's overlapping ones are disabled.
+const reactRecommended = eslintReact.configs['recommended-typescript'];
+const HOOK_OVERLAP = new Set([
+  '@eslint-react/rules-of-hooks',
+  '@eslint-react/exhaustive-deps',
+]);
+const reactRulesAsWarn = Object.fromEntries(
+  Object.keys(reactRecommended.rules ?? {}).map((rule) => [
+    rule,
+    HOOK_OVERLAP.has(rule) ? 'off' : 'warn',
+  ]),
+);
 
 export default [
   js.configs.recommended,
   ...tseslint.configs.recommended,
+  {
+    files: ['src/**/*.{ts,tsx}'],
+    ...reactRecommended,
+    rules: reactRulesAsWarn,
+  },
   {
     files: ['src/**/*.{ts,tsx}'],
     plugins: {
