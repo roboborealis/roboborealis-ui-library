@@ -85,6 +85,11 @@ import { RoboThemeProvider, useTheme } from '@/core/providers/robo-theme-provide
 import { RoboDensityProvider, useDensity } from '@/core/providers/robo-density-provider';
 import { RoboDateFormatProvider, useDateFormat } from '@/core/providers/robo-date-format-provider';
 import { RoboGlassModeProvider, useGlassMode } from '@/core/providers/robo-glass-mode-provider';
+import {
+  RoboSurfaceStyleProvider,
+  useSurfaceStyle,
+} from '@/core/providers/robo-surface-style-provider';
+import type { SurfaceStyle } from '@/core/providers/robo-surface-style-provider';
 import { RoboFontFamilyProvider, useFontFamily } from '@/core/providers/robo-font-family-provider';
 import { RoboSelect } from '@/forms/select/robo-select';
 import { DATE_FORMAT_OPTIONS } from '@/core/formatting/format-date';
@@ -147,9 +152,10 @@ const DENSITY_OPTIONS: { value: Density; label: string; description: string }[] 
   { value: 'spacious',    label: 'Spacious',    description: 'Looser spacing, larger controls' },
 ];
 
-const GLASS_MODE_OPTIONS: { value: 'on' | 'off'; label: string; description: string }[] = [
-  { value: 'off', label: 'Solid', description: 'Floating panels (e.g. the Quick Panel) use an opaque card background' },
-  { value: 'on',  label: 'Glass', description: 'Floating panels use a translucent, blurred glass surface instead' },
+const SURFACE_STYLE_OPTIONS: { value: SurfaceStyle; label: string; description: string }[] = [
+  { value: 'flat',        label: 'Flat',        description: 'Standard flat design — no shadows, thin borders kept' },
+  { value: 'glass',       label: 'Glass',       description: 'Floating panels use a translucent, blurred surface' },
+  { value: 'neumorphism', label: 'Neumorphism', description: 'Soft extruded / pressed shadows in the theme’s own colours' },
 ];
 
 const FONT_FAMILY_OPTIONS: { value: FontFamily; label: string; description: string }[] = [
@@ -284,10 +290,16 @@ function SettingsView() {
   const { theme, setTheme, mode, setMode } = useTheme();
   const { density, setDensity } = useDensity();
   const { dateFormat, setDateFormat } = useDateFormat();
-  const { glassMode, setGlassMode } = useGlassMode();
+  const { setGlassMode } = useGlassMode();
+  const { surfaceStyle, setSurfaceStyle } = useSurfaceStyle();
   const { fontFamily, setFontFamily } = useFontFamily();
   const { list, setCombo, resetCombo } = useKeybindRegistry();
   const keybinds = list();
+
+  const applySurfaceStyle = (value: SurfaceStyle) => {
+    setSurfaceStyle(value);
+    setGlassMode(value === 'glass');
+  };
 
   return (
     <div style={settingsPageStyle}>
@@ -325,6 +337,13 @@ function SettingsView() {
             <RoboRadioGroup options={FONT_FAMILY_OPTIONS} value={fontFamily} onValueChange={(v) => setFontFamily(v as FontFamily)} />
           </RoboCardBody>
         </RoboCard>
+
+        <RoboCard>
+          <RoboCardHeader>Surface style</RoboCardHeader>
+          <RoboCardBody>
+            <RoboRadioGroup options={SURFACE_STYLE_OPTIONS} value={surfaceStyle} onValueChange={(v) => applySurfaceStyle(v as SurfaceStyle)} />
+          </RoboCardBody>
+        </RoboCard>
       </div>
 
       <div style={settingsGroupStyle}>
@@ -341,16 +360,6 @@ function SettingsView() {
           </RoboCardBody>
         </RoboCard>
 
-        <RoboCard>
-          <RoboCardHeader>Glass mode</RoboCardHeader>
-          <RoboCardBody>
-            <RoboRadioGroup
-              options={GLASS_MODE_OPTIONS}
-              value={glassMode ? 'on' : 'off'}
-              onValueChange={(v) => setGlassMode(v === 'on')}
-            />
-          </RoboCardBody>
-        </RoboCard>
       </div>
 
       <div style={settingsGroupStyle}>
@@ -467,11 +476,13 @@ export function DashboardStarterTemplate() {
         <RoboDensityProvider>
           <RoboDateFormatProvider>
             <RoboGlassModeProvider>
-              <RoboFontFamilyProvider>
-                <RoboTourProvider>
-                  <DashboardStarterContent />
-                </RoboTourProvider>
-              </RoboFontFamilyProvider>
+              <RoboSurfaceStyleProvider>
+                <RoboFontFamilyProvider>
+                  <RoboTourProvider>
+                    <DashboardStarterContent />
+                  </RoboTourProvider>
+                </RoboFontFamilyProvider>
+              </RoboSurfaceStyleProvider>
             </RoboGlassModeProvider>
           </RoboDateFormatProvider>
         </RoboDensityProvider>

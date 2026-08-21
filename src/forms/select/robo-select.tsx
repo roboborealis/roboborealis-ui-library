@@ -53,6 +53,7 @@ function RoboSelectTrigger({ className, children, error, ref, ...props }: RoboSe
   return (
   <Select.Trigger
     ref={ref}
+    data-glow
     className={cn(triggerVariants({ state: error ? 'error' : 'default' }), className)}
     {...props}
   >
@@ -76,13 +77,21 @@ function RoboSelectContent({
   className,
   children,
   position = 'popper',
+  container,
   ref,
   ...props
 }: React.ComponentPropsWithoutRef<typeof Select.Content> & {
   ref?: React.Ref<React.ComponentRef<typeof Select.Content>>;
+  /**
+   * Portal container for the dropdown. Defaults to `document.body`. Pass a node
+   * inside your themed subtree (an element carrying `data-theme`/`data-mode`) when
+   * the theme is scoped to part of the page rather than `<html>`, so the dropdown
+   * inherits the same theme instead of the document default.
+   */
+  container?: HTMLElement | null;
 }) {
   return (
-  <Select.Portal>
+  <Select.Portal container={container ?? undefined}>
     <Select.Content
       ref={ref}
       position={position}
@@ -189,6 +198,12 @@ export interface RoboSelectProps {
   required?: boolean;
   /** Accessible name when no visible label is rendered (e.g. filter toolbars) */
   'aria-label'?: string;
+  /**
+   * Portal container for the dropdown. Defaults to `document.body`. Pass a node
+   * inside your themed subtree when the theme is scoped to part of the page rather
+   * than `<html>`, so the dropdown inherits the same `data-theme`/`data-mode`.
+   */
+  container?: HTMLElement | null;
   ref?: React.Ref<HTMLButtonElement>;
 }
 
@@ -223,6 +238,7 @@ function RoboSelect({
   name,
   required,
   'aria-label': ariaLabel,
+  container,
   ref,
 }: RoboSelectProps) {
     const generatedId = React.useId();
@@ -273,7 +289,7 @@ function RoboSelect({
             <Select.Value placeholder={placeholder ?? 'Select…'} />
           </RoboSelectTrigger>
 
-          <RoboSelectContent>
+          <RoboSelectContent container={container}>
             {options?.map((opt) => (
               <RoboSelectItem key={opt.value} value={opt.value} disabled={opt.disabled}>
                 {opt.label}

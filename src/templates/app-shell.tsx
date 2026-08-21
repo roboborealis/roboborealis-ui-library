@@ -112,6 +112,11 @@ import { RoboThemeProvider, useTheme } from '@/core/providers/robo-theme-provide
 import { RoboDensityProvider, useDensity } from '@/core/providers/robo-density-provider';
 import { RoboDateFormatProvider, useDateFormat } from '@/core/providers/robo-date-format-provider';
 import { RoboGlassModeProvider, useGlassMode } from '@/core/providers/robo-glass-mode-provider';
+import {
+  RoboSurfaceStyleProvider,
+  useSurfaceStyle,
+} from '@/core/providers/robo-surface-style-provider';
+import type { SurfaceStyle } from '@/core/providers/robo-surface-style-provider';
 import { RoboFontFamilyProvider, useFontFamily } from '@/core/providers/robo-font-family-provider';
 import { RoboKeybindProvider, useKeybind, useKeybindRegistry } from '@/core/keybinds/robo-keybind-provider';
 import { RoboKeybindRecorder } from '@/core/keybind-recorder/robo-keybind-recorder';
@@ -301,9 +306,10 @@ const DENSITY_OPTIONS: { value: Density; label: string; description: string }[] 
   { value: 'spacious',    label: 'Spacious',    description: 'Looser spacing, larger controls' },
 ];
 
-const GLASS_MODE_OPTIONS: { value: 'on' | 'off'; label: string; description: string }[] = [
-  { value: 'off', label: 'Solid',  description: 'Map-overlay panels (floating panels, sheets, info island) use an opaque card background' },
-  { value: 'on',  label: 'Glass',  description: 'Map-overlay panels use a translucent, blurred glass surface instead' },
+const SURFACE_STYLE_OPTIONS: { value: SurfaceStyle; label: string; description: string }[] = [
+  { value: 'flat',        label: 'Flat',        description: 'Standard flat design — no shadows, thin borders kept' },
+  { value: 'glass',       label: 'Glass',       description: 'Map-overlay panels (floating panels, sheets, info island) use a translucent, blurred surface' },
+  { value: 'neumorphism', label: 'Neumorphism', description: 'Soft extruded / pressed shadows in the theme’s own colours' },
 ];
 
 const FONT_FAMILY_OPTIONS: { value: FontFamily; label: string; description: string }[] = [
@@ -320,9 +326,17 @@ function SettingsView() {
   const { theme, setTheme, mode, setMode } = useTheme();
   const { density, setDensity } = useDensity();
   const { dateFormat, setDateFormat } = useDateFormat();
-  const { glassMode, setGlassMode } = useGlassMode();
+  const { setGlassMode } = useGlassMode();
+  const { surfaceStyle, setSurfaceStyle } = useSurfaceStyle();
   const { fontFamily, setFontFamily } = useFontFamily();
   const { list, setCombo, resetCombo } = useKeybindRegistry();
+
+  // Surface style folds glass in: overlay panels read useGlassMode(), so keep the
+  // two in sync — glass on only when the surface style is 'glass'.
+  const applySurfaceStyle = (value: SurfaceStyle) => {
+    setSurfaceStyle(value);
+    setGlassMode(value === 'glass');
+  };
   const keybinds = list();
 
   return (
@@ -387,6 +401,17 @@ function SettingsView() {
             />
           </RoboCardBody>
         </RoboCard>
+
+        <RoboCard>
+          <RoboCardHeader>Surface style</RoboCardHeader>
+          <RoboCardBody>
+            <RoboRadioGroup
+              options={SURFACE_STYLE_OPTIONS}
+              value={surfaceStyle}
+              onValueChange={(v) => applySurfaceStyle(v as SurfaceStyle)}
+            />
+          </RoboCardBody>
+        </RoboCard>
       </div>
 
       {/* Global — cross-cutting behavior that applies app-wide regardless of
@@ -405,16 +430,6 @@ function SettingsView() {
           </RoboCardBody>
         </RoboCard>
 
-        <RoboCard>
-          <RoboCardHeader>Glass mode</RoboCardHeader>
-          <RoboCardBody>
-            <RoboRadioGroup
-              options={GLASS_MODE_OPTIONS}
-              value={glassMode ? 'on' : 'off'}
-              onValueChange={(v) => setGlassMode(v === 'on')}
-            />
-          </RoboCardBody>
-        </RoboCard>
       </div>
 
       {/* Keybinds — reassignable global shortcuts, registered via
@@ -698,8 +713,13 @@ const RECENT_GROUPS = [
 
 function QuickPanelDemoTabs() {
   const { mode, setMode } = useTheme();
-  const { glassMode, setGlassMode } = useGlassMode();
+  const { setGlassMode } = useGlassMode();
+  const { surfaceStyle, setSurfaceStyle } = useSurfaceStyle();
   const { activeTab, setActiveTab } = useRoboQuickPanel();
+  const applySurfaceStyle = (value: SurfaceStyle) => {
+    setSurfaceStyle(value);
+    setGlassMode(value === 'glass');
+  };
 
   return (
     <RoboTabs value={activeTab} onValueChange={setActiveTab}>
@@ -768,9 +788,9 @@ function QuickPanelDemoTabs() {
             </div>
           </div>
           <div>
-            <span className={SECTION_HEADER_CLASS}>Glass mode</span>
+            <span className={SECTION_HEADER_CLASS}>Surface style</span>
             <div style={{ marginTop: 8 }}>
-              <RoboRadioGroup options={GLASS_MODE_OPTIONS} value={glassMode ? 'on' : 'off'} onValueChange={(v) => setGlassMode(v === 'on')} />
+              <RoboRadioGroup options={SURFACE_STYLE_OPTIONS} value={surfaceStyle} onValueChange={(v) => applySurfaceStyle(v as SurfaceStyle)} />
             </div>
           </div>
         </div>
@@ -1010,9 +1030,11 @@ export function AppShellTemplate() {
           <RoboDensityProvider>
             <RoboDateFormatProvider>
               <RoboGlassModeProvider>
-                <RoboFontFamilyProvider>
-                  <AppShellContent />
-                </RoboFontFamilyProvider>
+                <RoboSurfaceStyleProvider>
+                  <RoboFontFamilyProvider>
+                    <AppShellContent />
+                  </RoboFontFamilyProvider>
+                </RoboSurfaceStyleProvider>
               </RoboGlassModeProvider>
             </RoboDateFormatProvider>
           </RoboDensityProvider>

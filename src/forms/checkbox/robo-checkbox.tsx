@@ -79,6 +79,7 @@ function RoboCheckbox({
             checked={resolvedChecked}
             onCheckedChange={onCheckedChange}
             disabled={disabled}
+            data-glow
             aria-invalid={error ? true : undefined}
             aria-labelledby={label ? labelId : undefined}
             aria-describedby={describedByIds.length > 0 ? describedByIds.join(' ') : undefined}

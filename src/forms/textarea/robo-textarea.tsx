@@ -114,7 +114,7 @@ function RoboTextarea({
           </label>
         )}
 
-        <div className='relative'>
+        <div data-glow className='relative rounded-[var(--radius)]'>
           <textarea
             ref={ref}
             id={id}

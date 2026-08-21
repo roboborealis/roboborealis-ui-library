@@ -70,7 +70,7 @@ describe('DashboardStarterTemplate', () => {
     // Not asserting the "Global" settings group heading itself — keeping this
     // assertion block focused on the controls rather than the group labels.
     expect(screen.getByText('Date format')).toBeInTheDocument();
-    expect(screen.getByText('Glass mode')).toBeInTheDocument();
+    expect(screen.getByText('Surface style')).toBeInTheDocument();
   });
 
   it('Settings shows a Keybinds group listing the Quick Panel shortcut', () => {
