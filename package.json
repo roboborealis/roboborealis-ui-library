@@ -1,6 +1,6 @@
 {
   "name": "@roboborealis/components",
-  "version": "0.35.2",
+  "version": "0.35.3",
   "private": true,
   "workspaces": [
     "capture",
@@ -174,7 +174,7 @@
     }
   },
   "devDependencies": {
-    "@eslint/js": "^9",
+    "@eslint/js": "^10.0.1",
     "@storybook/addon-a11y": "^10.5.9",
     "@storybook/react": "^10.5.9",
     "@storybook/react-vite": "^10.5.9",
@@ -194,8 +194,7 @@
     "clsx": "^2.1.1",
     "culori": "^4.0.2",
     "echarts-stat": "^1.2.0",
-    "eslint": "^9",
-    "eslint-plugin-react": "^7.37.5",
+    "eslint": "^10.9.0",
     "eslint-plugin-react-hooks": "^7.1.1",
     "husky": "^9.1.7",
     "lucide-react": "^1.32.0",
