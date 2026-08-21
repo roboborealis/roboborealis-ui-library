@@ -33,7 +33,6 @@ export const TOKEN_MAP = {
     appBg: '#120226',            // = --sidebar-background (deep purple)
     appContentBg: '#0d011e',     // = --background
     appPreviewBg: '#0d011e',
-    contentTextColor: '#eae7f0', // = --foreground (near-white); panel/docs text on content bg
     appBorderColor: '#2a2e52',
     barBg: '#120226',
     barSelectedColor: '#a376e9', // = --sidebar-primary (purple)
@@ -54,7 +53,6 @@ export const TOKEN_MAP = {
     appBg: '#120226',            // = --sidebar-background (deep purple)
     appContentBg: '#ebe4fa',     // = --background (soft lavender pastel)
     appPreviewBg: '#ebe4fa',
-    contentTextColor: '#1c1330', // = --foreground (dark indigo ink); panel/docs text on light content bg
     appBorderColor: '#dcdff0',
     barBg: '#120226',            // toolbar matches sidebar
     barSelectedColor: '#a376e9', // = --sidebar-primary
@@ -75,7 +73,6 @@ export const TOKEN_MAP = {
     appBg: '#3e1759',            // = --sidebar-background, the brand deep purple
     appContentBg: '#d3efeb',     // = --background (pale mint)
     appPreviewBg: '#d3efeb',
-    contentTextColor: '#2e2348', // = --foreground (deep purple ink); panel/docs text on light content bg
     appBorderColor: '#51316b',
     barBg: '#3e1759',            // toolbar matches sidebar
     barSelectedColor: '#bca1ed', // = --sidebar-primary, Aurora's lavender
@@ -96,7 +93,6 @@ export const TOKEN_MAP = {
     appBg: '#3e1759',
     appContentBg: '#00131d',
     appPreviewBg: '#00131d',
-    contentTextColor: '#e8f1ef', // = --foreground (near-white)
     appBorderColor: '#51316b',
     barBg: '#3e1759',
     barSelectedColor: '#bca1ed',
@@ -117,7 +113,6 @@ export const TOKEN_MAP = {
     appBg: '#211208',            // = --sidebar-background
     appContentBg: '#180c05',     // = --background
     appPreviewBg: '#180c05',
-    contentTextColor: '#efe7da', // = --foreground (warm near-white)
     appBorderColor: '#3A3C3E',
     barBg: '#211208',
     barSelectedColor: '#e1a01d', // = --sidebar-primary, the theme primary lightened for the sidebar
@@ -138,7 +133,6 @@ export const TOKEN_MAP = {
     appBg: '#211208',            // = --sidebar-background, same in both modes
     appContentBg: '#f5e9d9',     // = --background (soft warm-cream pastel)
     appPreviewBg: '#f5e9d9',
-    contentTextColor: '#2b1d10', // = --foreground (deep warm-brown ink); panel/docs text on light content bg
     appBorderColor: '#D8D4CE',
     barBg: '#211208',
     barSelectedColor: '#e1a01d', // = --sidebar-primary; the bar is dark in light mode too

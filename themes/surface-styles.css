@@ -94,15 +94,29 @@
   transform: translateY(1px);
 }
 
-/* Inputs & switch track — gently carved in (soft inset), not deep. */
-[data-theme][data-surface-style='neumorphism'] [data-slot='input'],
-[data-theme][data-surface-style='neumorphism'] [data-slot='switch-track'] {
+/* Inputs — gently carved in (soft inset), not deep. */
+[data-theme][data-surface-style='neumorphism'] [data-slot='input'] {
   border-color: transparent;
   box-shadow: var(--shadow-neu-inset-soft);
 }
 
-/* Switch thumb — a raised same-colour knob, not a hard white disc. */
+/* Switch — a raised physical knob is the whole read. The track stays flat (an
+   inset on the bright ON colour just looks muddy); the knob does the work. */
+[data-theme][data-surface-style='neumorphism'] [data-slot='switch-track'] {
+  border-color: transparent;
+  box-shadow: none;
+}
 [data-theme][data-surface-style='neumorphism'] [data-slot='switch-thumb'] {
+  background: var(--card);
+  box-shadow: var(--shadow-neu-raised-sm);
+  border: 1px solid color-mix(in oklch, var(--border) 45%, transparent);
+}
+
+/* Slider — carve the track, raise the knob, so it matches neumorphic surfaces. */
+[data-theme][data-surface-style='neumorphism'] [data-slot='slider-track'] {
+  box-shadow: var(--shadow-neu-inset-soft);
+}
+[data-theme][data-surface-style='neumorphism'] [data-slot='slider-thumb'] {
   background: var(--card);
   box-shadow: var(--shadow-neu-raised-sm);
 }

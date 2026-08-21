@@ -142,7 +142,7 @@ function RoboSlider({
           {...props}
         >
           {/* Track */}
-          <Slider.Track className='relative h-2 w-full grow overflow-hidden rounded-full bg-[var(--muted)]'>
+          <Slider.Track data-slot='slider-track' className='relative h-2 w-full grow overflow-hidden rounded-full bg-[var(--muted)]'>
             {/* Range fill — a subtle leading highlight makes the filled side read
                 clearly against the muted empty track. */}
             <Slider.Range className='absolute h-full bg-[linear-gradient(90deg,var(--primary),color-mix(in_oklch,var(--primary)_82%,white))]' />
@@ -153,6 +153,7 @@ function RoboSlider({
             <Slider.Thumb
               key={i}
               data-glow
+              data-slot='slider-thumb'
               className={cn(
                 'relative block h-5 w-5 rounded-full',
                 'border-2 border-[var(--primary)] bg-[var(--background)]',
