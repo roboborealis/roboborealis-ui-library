@@ -10,14 +10,26 @@ import eslintReact from '@eslint-react/eslint-plugin';
 // individual rules to 'error' over time. Hook rules stay owned by
 // eslint-plugin-react-hooks, so @eslint-react's overlapping ones are disabled.
 const reactRecommended = eslintReact.configs['recommended-typescript'];
+// Hook rules stay owned by eslint-plugin-react-hooks.
 const HOOK_OVERLAP = new Set([
   '@eslint-react/rules-of-hooks',
   '@eslint-react/exhaustive-deps',
 ]);
+// Disabled: these fire only false positives against this library's established
+// patterns. `static-components` flags every component pulled from a hook or
+// registry at render time (the RoboRouterAdapter `Link`, dynamic icon
+// components) as if it were an inline literal that resets state — it isn't.
+// `purity` flags `document.querySelector` inside lazily-returned getter
+// closures (product-tour target resolvers) as render-time side effects — they
+// run later, in the tour, not during render.
+const DISABLED = new Set([
+  '@eslint-react/static-components',
+  '@eslint-react/purity',
+]);
 const reactRulesAsWarn = Object.fromEntries(
   Object.keys(reactRecommended.rules ?? {}).map((rule) => [
     rule,
-    HOOK_OVERLAP.has(rule) ? 'off' : 'warn',
+    HOOK_OVERLAP.has(rule) || DISABLED.has(rule) ? 'off' : 'warn',
   ]),
 );
 
