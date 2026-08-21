@@ -1,0 +1,42 @@
+{
+  "extends": "./tsconfig.base.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "module": "ESNext",
+    "declaration": true,
+    "declarationMap": true,
+    "outDir": "dist",
+    "rootDir": "src",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@roboborealis/components/core": ["./src/core/index.ts"],
+      "@roboborealis/components/forms": ["./src/forms/index.ts"],
+      "@roboborealis/components/tables": ["./src/tables/index.ts"],
+      "@roboborealis/components/feedback": ["./src/feedback/index.ts"],
+      "@roboborealis/components/navigation": ["./src/navigation/index.ts"],
+      "@roboborealis/components/layout": ["./src/layout/index.ts"],
+      "@roboborealis/components/charts": ["./src/charts/index.ts"],
+      "@roboborealis/components/visualizations": ["./src/visualizations/index.ts"],
+      "@roboborealis/components/maps": ["./src/maps/index.ts"],
+      "@roboborealis/components/icons": ["./src/icons/index.ts"],
+      "@roboborealis/components/templates": ["./src/templates/index.ts"],
+      "@roboborealis/components/flags": ["./src/flags/index.ts"],
+      "@roboborealis/components/brand": ["./src/brand/index.ts"],
+      "@roboborealis/components/editor": ["./src/editor/index.ts"],
+      "@roboborealis/components/tokens": ["./src/tokens/index.ts"],
+      "@roboborealis/components/agent-context": ["./src/agent/index.ts"]
+    },
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "src/**/*.test.ts",
+    "src/**/*.test.tsx",
+    "src/**/*.stories.ts",
+    "src/**/*.stories.tsx",
+    "src/**/test-utils/**"
+  ]
+}

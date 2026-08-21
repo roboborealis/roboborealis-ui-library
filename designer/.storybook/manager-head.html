@@ -1,0 +1,49 @@
+<style>
+  :root {
+    /* Defense dark defaults — overridden at runtime by manager.ts applyTokensToDOM() */
+    --robo-mgr-sidebar:      #1B2022;
+    --robo-mgr-content:      #292B2D;
+    --robo-mgr-bar:          #1B2022;
+    --robo-mgr-border:       #3A3C3E;
+    --robo-mgr-selected:     #F88E63;
+    --robo-mgr-text:         #E4E8EC;
+    --robo-mgr-text-muted:   #8D9399;
+    --robo-mgr-primary:      #F88E63;
+    --robo-mgr-input-bg:     #292B2D;
+    --robo-mgr-input-border: #3A3C3E;
+  }
+
+  /* Left sidebar / navigator */
+  #storybook-explorer-tree,
+  #storybook-explorer-menu,
+  [data-side="left"],
+  aside {
+    background-color: var(--robo-mgr-sidebar) !important;
+    border-color: var(--robo-mgr-border) !important;
+    color: var(--robo-mgr-text) !important;
+  }
+
+  /* Top toolbar */
+  nav,
+  [role="toolbar"] {
+    background-color: var(--robo-mgr-bar) !important;
+  }
+
+  /* Scrollbar tracks inside sidebar */
+  #storybook-explorer-tree .os-scrollbar-track,
+  #storybook-explorer-menu .os-scrollbar-track {
+    background-color: var(--robo-mgr-sidebar) !important;
+  }
+
+  /* Selected / active story item */
+  #storybook-explorer-tree a[data-selected="true"],
+  #storybook-explorer-menu a[data-selected="true"] {
+    color: var(--robo-mgr-selected) !important;
+  }
+
+  /* Muted sidebar text */
+  #storybook-explorer-tree a,
+  #storybook-explorer-menu a {
+    color: var(--robo-mgr-text-muted);
+  }
+</style>

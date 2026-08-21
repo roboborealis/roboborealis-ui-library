@@ -1,0 +1,17 @@
+# Keep src/agent/manifest.json and src/agent/stories-catalog.json in sync
+# whenever a commit touches something they are generated FROM, so the CI
+# agent-context freshness check never has to catch it after the fact.
+#
+# `package.json` is in this list deliberately. manifest.json embeds the package
+# version, so `npm version <patch|minor|major>` invalidates it — and that command
+# touches only package.json, package-lock.json and CHANGELOG.md. Without it here,
+# a release-bump commit sails through and CI fails on a stale manifest.
+staged=$(git diff --cached --name-only --diff-filter=ACMR -- \
+  'src/**/*.ts' 'src/**/*.tsx' 'package.json' \
+  ':!src/agent/manifest.json' ':!src/agent/stories-catalog.json')
+
+if [ -n "$staged" ]; then
+  echo "agent-context: generated-from source changed, regenerating manifest + stories catalog..."
+  npm run generate-agent-context
+  git add src/agent/manifest.json src/agent/stories-catalog.json
+fi

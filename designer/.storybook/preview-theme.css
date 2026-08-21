@@ -1,0 +1,33 @@
+/*
+ * preview-theme.css
+ * Ensures the entire Storybook canvas reflects the active theme.
+ *
+ * The theme decorator sets data-theme / data-mode on <html>.
+ * This file wires those CSS variables into the Storybook shell.
+ */
+
+html,
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+}
+
+/* Storybook story canvas container */
+#storybook-root {
+  background-color: var(--background);
+  color: var(--foreground);
+  min-height: 100vh;
+}
+
+/* Storybook docs page */
+.sb-main-padded,
+.sb-show-main {
+  background-color: var(--background) !important;
+  color: var(--foreground) !important;
+}
+
+/* Remove Storybook's own gray bg on the preview area */
+.sb-preview-inner {
+  background: transparent !important;
+}

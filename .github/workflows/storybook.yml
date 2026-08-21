@@ -1,0 +1,42 @@
+name: Deploy Storybook to GitHub Pages
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - run: rm package-lock.json && npm i
+
+      - run: npm run build-storybook
+        env:
+          STORYBOOK_MAPBOX_TOKEN: ${{ secrets.STORYBOOK_MAPBOX_TOKEN }}
+          STORYBOOK_GOOGLE_MAPS_API_KEY: ${{ secrets.STORYBOOK_GOOGLE_MAPS_API_KEY }}
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: storybook-static
+
+
+  deploy:
+    needs: build
+    permissions:
+      pages: write      # to deploy to Pages
+      id-token: write   # to verify the deployment originates from an appropriate source
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

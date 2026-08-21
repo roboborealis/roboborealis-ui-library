@@ -1,0 +1,19 @@
+{
+  "name": "@roboborealis/space-faker",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Space & astronomy fake-data generators for @roboborealis/components Storybook",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.0.0",
+    "react": ">=18"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "typescript": "^6.0.0"
+  }
+}

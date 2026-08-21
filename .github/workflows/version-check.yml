@@ -1,0 +1,43 @@
+name: Version bump check
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/checkout@v5
+        with:
+          ref: main
+          path: main-branch
+
+      - name: Verify version was bumped
+        run: |
+          PR_VERSION=$(node -p "require('./package.json').version")
+          MAIN_VERSION=$(node -p "require('./main-branch/package.json').version")
+          LOCK_VERSION=$(node -p "require('./package-lock.json').version")
+
+          if [ "$PR_VERSION" = "$MAIN_VERSION" ]; then
+            echo "ERROR: package.json version must be bumped before merging to main."
+            echo "  main:   $MAIN_VERSION"
+            echo "  PR:     $PR_VERSION"
+            echo ""
+            echo "Run: npm version --no-git-tag-version patch|minor|major"
+            echo "Then commit the updated package.json and package-lock.json."
+            exit 1
+          fi
+
+          if [ "$LOCK_VERSION" != "$PR_VERSION" ]; then
+            echo "ERROR: package-lock.json version ($LOCK_VERSION) does not match package.json ($PR_VERSION)."
+            echo "Run: npm version --no-git-tag-version patch|minor|major"
+            echo "That command updates both files atomically."
+            exit 1
+          fi
+
+          echo "Version bumped: $MAIN_VERSION -> $PR_VERSION (lock file matches)"

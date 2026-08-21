@@ -1,0 +1,48 @@
+name: Story smoke tests
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  story-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - run: rm package-lock.json && npm i
+
+      - name: Install Playwright (Chromium only)
+        run: npx playwright install --with-deps chromium
+
+      - name: Build Storybook
+        run: npm run build-storybook
+        env:
+          STORYBOOK_MAPBOX_TOKEN: ${{ secrets.STORYBOOK_MAPBOX_TOKEN }}
+          STORYBOOK_GOOGLE_MAPS_API_KEY: ${{ secrets.STORYBOOK_GOOGLE_MAPS_API_KEY }}
+
+      - name: Serve Storybook and run smoke tests
+        run: |
+          npx http-server storybook-static --port 6006 --silent &
+          npx wait-on http://127.0.0.1:6006
+          npm run test:stories
+        env:
+          STORYBOOK_MAPBOX_TOKEN: ${{ secrets.STORYBOOK_MAPBOX_TOKEN }}
+          STORYBOOK_GOOGLE_MAPS_API_KEY: ${{ secrets.STORYBOOK_GOOGLE_MAPS_API_KEY }}
+          # 4096 was reached exactly: the run died at heap 4128 MB against a 4096 MB
+          # ceiling with "Ineffective mark-compacts near heap limit", ~11 minutes and
+          # several hundred passing stories in. The suite is now 1,148 stories across
+          # 236 files, so this is volume, not one leaking story. The ceiling is
+          # per-process and the runner holds each story's module graph for the run's
+          # duration, so it grows with the catalog and will need revisiting again.
+          # ubuntu-latest has 16 GB, so 8 GB leaves headroom for Chromium alongside.
+          NODE_OPTIONS: --max_old_space_size=8192
