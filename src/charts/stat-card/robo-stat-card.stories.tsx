@@ -1,6 +1,6 @@
 import * as React from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Craft, FileText, AlertTriangle, MapPin, Clock } from 'lucide-react';
+import { Satellite, FileText, AlertTriangle, MapPin, Clock } from 'lucide-react';
 
 import { RoboStatCard } from './robo-stat-card';
 import { RoboLoading } from '../../feedback/loading/robo-loading';
@@ -48,7 +48,7 @@ export const AllVariants: Story = {
     if (!ready) return <RoboLoading />;
     return (
       <div className='grid grid-cols-2 gap-6'>
-        <RoboStatCard label='Active satellites' value={182} icon={<Craft className='h-5 w-5' />} />
+        <RoboStatCard label='Active satellites' value={182} icon={<Satellite className='h-5 w-5' />} />
         <RoboStatCard label='Reports filed (MTD)' value='1,036' change={8.3} changeLabel='vs last month' icon={<FileText className='h-5 w-5' />} />
         <RoboStatCard label='Overdue reports' value={12} change={-3.8} changeLabel='vs last month' icon={<AlertTriangle className='h-5 w-5' />} />
         <RoboStatCard label='Total missions' value={1_204} change={0} changeLabel='vs last week' icon={<MapPin className='h-5 w-5' />} />
@@ -100,7 +100,7 @@ export const WithIcon: Story = {
     value: '2,847',
     change: 4.1,
     changeLabel: 'vs last quarter',
-    icon: <Craft className='h-5 w-5' />,
+    icon: <Satellite className='h-5 w-5' />,
   },
 };
 
@@ -126,7 +126,7 @@ export const DashboardKPIs: Story = {
         value={182}
         change={12.5}
         changeLabel='vs last month'
-        icon={<Craft className='h-5 w-5' />}
+        icon={<Satellite className='h-5 w-5' />}
       />
       <RoboStatCard
         label='Reports filed (MTD)'
