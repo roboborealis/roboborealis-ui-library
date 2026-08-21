@@ -13,13 +13,14 @@ jobs:
     timeout-minutes: 20
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v7
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v7
         with:
           node-version: '22'
+          cache: 'npm'
 
-      - run: rm package-lock.json && npm i
+      - run: npm ci
 
       - name: Install Playwright (Chromium only)
         run: npx playwright install --with-deps chromium

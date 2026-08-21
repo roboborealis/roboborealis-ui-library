@@ -14,6 +14,27 @@ Stack: React 19, TypeScript, Tailwind v4, shadcn/ui + Radix, tsup, Storybook 10,
 - **Check `src/agent/manifest.json` before creating any new component** - verify one doesn't already exist.
 - Themes: `midnight` (dark-first), `aurora` (light-first), `sol` (neutral). Import one theme CSS, set `data-theme` + `data-mode` on `<html>`.
 
+## Agent skills
+
+This repo uses Matt Pocock's engineering flow by default when building features.
+
+**Build flow:** `grill-with-docs` (align on the plan, write CONTEXT + ADRs) -> `to-spec`
+-> `to-tickets` -> `implement` -> `code-review`. Use `wayfinder` for efforts too big for
+one session, and `codebase-design` / `domain-modeling` as the vocabulary references.
+
+### Issue tracker
+
+Issues live in GitHub Issues (via the `gh` CLI). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Default five-role vocabulary. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: `CONTEXT.md` + `docs/adr/` at the repo root (created lazily by the
+skills). See `docs/agents/domain.md`.
+
 ## Deep Context
 
 | Load when... | File |
