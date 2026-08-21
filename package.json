@@ -192,7 +192,7 @@
     "echarts-stat": "^1.2.0",
     "eslint": "^9",
     "eslint-plugin-react": "^7.37.5",
-    "eslint-plugin-react-hooks": "^5",
+    "eslint-plugin-react-hooks": "^7",
     "husky": "^9.1.7",
     "lucide-react": "^1.14.0",
     "motion": "^11.18.2",
