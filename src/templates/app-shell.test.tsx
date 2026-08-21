@@ -107,7 +107,7 @@ describe('AppShellTemplate', () => {
     ).toBeInTheDocument();
   });
 
-  it('switches to the settings view with theme, mode, density, date format, glass mode, and font family controls', async () => {
+  it('switches to the settings view with theme, mode, density, date format, surface style, and font family controls', async () => {
     const user = setup();
     render(<AppShellTemplate />);
     flushBootstrap();
@@ -121,13 +121,14 @@ describe('AppShellTemplate', () => {
     expect(screen.getByText('Mode')).toBeInTheDocument();
     expect(screen.getByText('Density')).toBeInTheDocument();
     expect(screen.getByText('Date format')).toBeInTheDocument();
-    expect(screen.getByText('Glass mode')).toBeInTheDocument();
+    expect(screen.getByText('Surface style')).toBeInTheDocument();
     expect(screen.getByText('Font family')).toBeInTheDocument();
     // A theme option from the radio group
     expect(screen.getByText('Midnight')).toBeInTheDocument();
-    // The glass mode radio options
-    expect(screen.getByText('Solid')).toBeInTheDocument();
+    // The surface-style radio options
+    expect(screen.getByText('Flat')).toBeInTheDocument();
     expect(screen.getByText('Glass')).toBeInTheDocument();
+    expect(screen.getByText('Neumorphism')).toBeInTheDocument();
     // A font family option from the radio group
     expect(screen.getByText('DM Sans')).toBeInTheDocument();
   });

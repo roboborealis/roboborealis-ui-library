@@ -1,8 +1,8 @@
 {
-  "generated": "2026-08-21T18:58:24.774Z",
+  "generated": "2026-08-21T21:24:45.317Z",
   "version": "1.0.0",
   "description": "NLP-searchable story catalog for @roboborealis/components Storybook. Auto-generated — do not edit manually.",
-  "storyCount": 814,
+  "storyCount": 818,
   "stories": [
     {
       "id": "components-animated-layout--divider-entrance",
@@ -11784,6 +11784,63 @@
         "providers",
         "settings",
         "tour"
+      ]
+    },
+    {
+      "id": "foundation-surface-style--all-styles",
+      "title": "Foundation/Surface Style/AllStyles",
+      "storyName": "AllStyles",
+      "urlPattern": "?path=/story/foundation-surface-style--all-styles",
+      "component": "Surface Style",
+      "export": "@roboborealis/components",
+      "keywords": [
+        "all",
+        "foundation",
+        "style",
+        "styles",
+        "surface"
+      ]
+    },
+    {
+      "id": "foundation-surface-style--flat",
+      "title": "Foundation/Surface Style/Flat",
+      "storyName": "Flat",
+      "urlPattern": "?path=/story/foundation-surface-style--flat",
+      "component": "Surface Style",
+      "export": "@roboborealis/components",
+      "keywords": [
+        "flat",
+        "foundation",
+        "style",
+        "surface"
+      ]
+    },
+    {
+      "id": "foundation-surface-style--glass",
+      "title": "Foundation/Surface Style/Glass",
+      "storyName": "Glass",
+      "urlPattern": "?path=/story/foundation-surface-style--glass",
+      "component": "Surface Style",
+      "export": "@roboborealis/components",
+      "keywords": [
+        "foundation",
+        "glass",
+        "style",
+        "surface"
+      ]
+    },
+    {
+      "id": "foundation-surface-style--neumorphism",
+      "title": "Foundation/Surface Style/Neumorphism",
+      "storyName": "Neumorphism",
+      "urlPattern": "?path=/story/foundation-surface-style--neumorphism",
+      "component": "Surface Style",
+      "export": "@roboborealis/components",
+      "keywords": [
+        "foundation",
+        "neumorphism",
+        "style",
+        "surface"
       ]
     },
     {
