@@ -1,8 +1,11 @@
 name: Publish Package
+
+# Does NOT run on every push. Publishing is intentional: cut a GitHub Release
+# (or trigger manually) once the npm scope exists and NPM_TOKEN is configured.
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
+  workflow_dispatch:
 
 jobs:
   publish:
@@ -17,8 +20,10 @@ jobs:
         with:
           node-version: '24'
           registry-url: 'https://registry.npmjs.org'
+
       - run: npm ci
-        
+
       - run: npm publish
         env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NODE_OPTIONS: --max_old_space_size=4096
