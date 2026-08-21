@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react';
-import { Settings, X, Filter, Download, Search, Plus, Edit, Trash2 } from 'lucide-react';
+import { Settings, Filter, Search, Plus, Edit, Trash2 } from 'lucide-react';
 import { RoboButton, RoboCopyButton, RoboExportButton, RoboIconButton, RoboPrintButton, type RoboExportColumn } from '@roboborealis/components/core';
 
 
@@ -9,17 +9,17 @@ import { RoboButton, RoboCopyButton, RoboExportButton, RoboIconButton, RoboPrint
 // Sample data for export
 // ---------------------------------------------------------------------------
 
-const sampleSatellites = [
-  { name: 'Sentinel Relay', noradId: '338234511', flag: 'NASA', status: 'In Orbit' },
-  { name: 'Aurora Telescope', noradId: '987654321', flag: 'ESA', status: 'Docked' },
-  { name: 'Vega Probe', noradId: '112233445', flag: 'JAXA', status: 'Signal Loss' },
+const sampleObjects = [
+  { name: 'Andromeda Galaxy', designation: 'M31', constellation: 'Andromeda', magnitude: '3.4' },
+  { name: 'Orion Nebula', designation: 'M42', constellation: 'Orion', magnitude: '4.0' },
+  { name: 'Ring Nebula', designation: 'M57', constellation: 'Lyra', magnitude: '8.8' },
 ];
 
-const satelliteColumns: RoboExportColumn[] = [
-  { key: 'name', label: 'Satellite Name' },
-  { key: 'noradId', label: 'NORAD ID' },
-  { key: 'flag', label: 'Operator' },
-  { key: 'status', label: 'Status' },
+const objectColumns: RoboExportColumn[] = [
+  { key: 'name', label: 'Common Name' },
+  { key: 'designation', label: 'Designation' },
+  { key: 'constellation', label: 'Constellation' },
+  { key: 'magnitude', label: 'Magnitude' },
 ];
 
 // ---------------------------------------------------------------------------
@@ -148,9 +148,9 @@ const ICON_DEFS = [
 ] as const;
 
 const COPY_TARGETS = [
-  { label: 'NORAD ID', value: '338234511' },
-  { label: 'COSPAR', value: '1998-067A' },
-  { label: 'Call Sign', value: 'NAB-001' },
+  { label: 'Designation', value: 'M31' },
+  { label: 'Right Asc.', value: '00h 42m' },
+  { label: 'Declination', value: '+41° 16\'' },
 ];
 
 // ---------------------------------------------------------------------------
@@ -260,15 +260,15 @@ function ButtonActionsDemo() {
         <p style={sectionHeadingStyle}>RoboExportButton + RoboPrintButton</p>
         <div style={utilityRowStyle}>
           <RoboExportButton
-            data={sampleSatellites}
-            columns={satelliteColumns}
-            filename='satellites'
+            data={sampleObjects}
+            columns={objectColumns}
+            filename='catalog'
             format='csv'
           />
           <RoboExportButton
-            data={sampleSatellites}
-            columns={satelliteColumns}
-            filename='satellites'
+            data={sampleObjects}
+            columns={objectColumns}
+            filename='catalog'
             format='xlsx'
           />
           <RoboPrintButton label='Print Report' />
@@ -286,7 +286,7 @@ export const patternMeta = {
   demonstrates: 'A gallery of the button and action-button family in one place: standard buttons plus copy, export, print, and icon-only action buttons against sample export data.',
   whenToUse: 'Use as the reference when a feature needs a toolbar or action row combining several of these specialized buttons, or to see them all side by side before picking which to use.',
   keywords: ['button gallery', 'copy button', 'export button', 'print button', 'icon button', 'action row', 'toolbar buttons'],
-  agentPriority: 'Prioritize this pattern for reference on button variety and placement conventions. It is not a page-level pattern, so do not use it as an archetype substitute; pair it with a list or dashboard pattern such as Constellation Manifest that needs an action toolbar.',
+  agentPriority: 'Prioritize this pattern for reference on button variety and placement conventions. It is not a page-level pattern, so do not use it as an archetype substitute; pair it with a list or dashboard pattern such as Object Catalog that needs an action toolbar.',
 };
 
 const meta: Meta = {

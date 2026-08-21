@@ -9,7 +9,7 @@ export const componentMeta = {
   keywords: ['field list', 'readout', 'key value', 'label value', 'striped', 'record', 'detail', 'panel', 'anomaly'],
   whenToUse: 'Dense readout of one record\'s fields in a panel or card — anomaly summaries, inspector details, status readouts',
   whenNotToUse: 'Plain (unstriped) key-value pairs (use RoboDescriptionList); multi-row tabular data (use RoboTable/RoboDataTable); editable fields (use RoboFormField)',
-  pairsWith: ['RoboFloatingPanel', 'RoboCard', 'RoboIncidentPanel', 'RoboBadge'],
+  pairsWith: ['RoboCard', 'RoboBadge'],
   a11y: 'Real dl/dt/dd semantics — screen readers announce each label/value pair as a term/detail',
 };
 

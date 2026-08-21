@@ -18,8 +18,8 @@ export const componentMeta = {
   category: 'display' as const,
   keywords: ['course', 'heading', 'compass', 'bearing', 'direction', 'satellite', 'navigation', 'orbital'],
   whenToUse: 'For displaying orbital inclination, RAAN, or heading in orbital contexts',
-  whenNotToUse: 'For general directional arrows use an icon; for detailed navigation use map layers',
-  pairsWith: ['RoboDataTable', 'RoboCard', 'RoboMapbox', 'RoboAssetTooltip'],
+  whenNotToUse: 'For general directional arrows use an icon',
+  pairsWith: ['RoboDataTable', 'RoboCard'],
   a11y: 'Include aria-label with human-readable course value (e.g., "Course: 045 degrees")',
 };
 const meta: Meta<typeof RoboCourseIndicator> = {

@@ -1,8 +1,8 @@
 {
-  "generated": "2026-08-21T19:25:28.999Z",
+  "generated": "2026-08-21T22:22:34.541Z",
   "version": "1.0.0",
   "description": "NLP-searchable story catalog for @roboborealis/components Storybook. Auto-generated — do not edit manually.",
-  "storyCount": 814,
+  "storyCount": 811,
   "stories": [
     {
       "id": "components-animated-layout--divider-entrance",
@@ -3746,23 +3746,6 @@
         "components",
         "navigation",
         "sidebar"
-      ]
-    },
-    {
-      "id": "components-navigation-robosidebar--collapsed-with-map-background",
-      "title": "Components/Navigation/RoboSidebar/CollapsedWithMapBackground",
-      "storyName": "CollapsedWithMapBackground",
-      "urlPattern": "?path=/story/components-navigation-robosidebar--collapsed-with-map-background",
-      "component": "RoboSidebar",
-      "export": "@roboborealis/components/navigation",
-      "keywords": [
-        "background",
-        "collapsed",
-        "components",
-        "map",
-        "navigation",
-        "sidebar",
-        "with"
       ]
     },
     {
@@ -11904,70 +11887,72 @@
       ]
     },
     {
-      "id": "showcase-patterns-dashboards-ops-center--ops-dashboard-pattern",
-      "title": "Showcase/Patterns/Dashboards/Ops Center/OpsDashboardPattern",
-      "storyName": "OpsDashboardPattern",
-      "urlPattern": "?path=/story/showcase-patterns-dashboards-ops-center--ops-dashboard-pattern",
-      "component": "Ops Center",
+      "id": "showcase-patterns-dashboards-observatory-night--observatory-dashboard-pattern",
+      "title": "Showcase/Patterns/Dashboards/Observatory Night/ObservatoryDashboardPattern",
+      "storyName": "ObservatoryDashboardPattern",
+      "urlPattern": "?path=/story/showcase-patterns-dashboards-observatory-night--observatory-dashboard-pattern",
+      "component": "Observatory Night",
       "export": "@roboborealis/components",
       "keywords": [
-        "center",
         "dashboard",
         "dashboards",
-        "ops",
+        "night",
+        "observatory",
         "pattern",
         "patterns",
         "showcase"
       ]
     },
     {
-      "id": "showcase-patterns-dashboards-ops-center--pattern-meta",
-      "title": "Showcase/Patterns/Dashboards/Ops Center/patternMeta",
+      "id": "showcase-patterns-dashboards-observatory-night--pattern-meta",
+      "title": "Showcase/Patterns/Dashboards/Observatory Night/patternMeta",
       "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-dashboards-ops-center--pattern-meta",
-      "component": "Ops Center",
+      "urlPattern": "?path=/story/showcase-patterns-dashboards-observatory-night--pattern-meta",
+      "component": "Observatory Night",
       "export": "@roboborealis/components",
       "keywords": [
-        "center",
         "dashboards",
         "meta",
-        "ops",
+        "night",
+        "observatory",
         "pattern",
         "patterns",
         "showcase"
       ]
     },
     {
-      "id": "showcase-patterns-flows-constellation-editor--constellation-editor-pattern",
-      "title": "Showcase/Patterns/Flows/Constellation Editor/ConstellationEditorPattern",
-      "storyName": "ConstellationEditorPattern",
-      "urlPattern": "?path=/story/showcase-patterns-flows-constellation-editor--constellation-editor-pattern",
-      "component": "Constellation Editor",
-      "export": "@roboborealis/components",
-      "keywords": [
-        "constellation",
-        "editor",
-        "flows",
-        "pattern",
-        "patterns",
-        "showcase"
-      ]
-    },
-    {
-      "id": "showcase-patterns-flows-constellation-editor--pattern-meta",
-      "title": "Showcase/Patterns/Flows/Constellation Editor/patternMeta",
+      "id": "showcase-patterns-flows-target-list-editor--pattern-meta",
+      "title": "Showcase/Patterns/Flows/Target List Editor/patternMeta",
       "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-flows-constellation-editor--pattern-meta",
-      "component": "Constellation Editor",
+      "urlPattern": "?path=/story/showcase-patterns-flows-target-list-editor--pattern-meta",
+      "component": "Target List Editor",
       "export": "@roboborealis/components",
       "keywords": [
-        "constellation",
         "editor",
         "flows",
+        "list",
         "meta",
         "pattern",
         "patterns",
-        "showcase"
+        "showcase",
+        "target"
+      ]
+    },
+    {
+      "id": "showcase-patterns-flows-target-list-editor--target-list-editor-pattern",
+      "title": "Showcase/Patterns/Flows/Target List Editor/TargetListEditorPattern",
+      "storyName": "TargetListEditorPattern",
+      "urlPattern": "?path=/story/showcase-patterns-flows-target-list-editor--target-list-editor-pattern",
+      "component": "Target List Editor",
+      "export": "@roboborealis/components",
+      "keywords": [
+        "editor",
+        "flows",
+        "list",
+        "pattern",
+        "patterns",
+        "showcase",
+        "target"
       ]
     },
     {
@@ -12037,76 +12022,43 @@
       ]
     },
     {
-      "id": "showcase-patterns-forms-incident-report--incident-report-pattern",
-      "title": "Showcase/Patterns/Forms/Incident Report/IncidentReportPattern",
-      "storyName": "IncidentReportPattern",
-      "urlPattern": "?path=/story/showcase-patterns-forms-incident-report--incident-report-pattern",
-      "component": "Incident Report",
+      "id": "showcase-patterns-forms-observation-log--observation-log-pattern",
+      "title": "Showcase/Patterns/Forms/Observation Log/ObservationLogPattern",
+      "storyName": "ObservationLogPattern",
+      "urlPattern": "?path=/story/showcase-patterns-forms-observation-log--observation-log-pattern",
+      "component": "Observation Log",
       "export": "@roboborealis/components",
       "keywords": [
         "forms",
-        "incident",
+        "log",
+        "observation",
         "pattern",
         "patterns",
-        "report",
         "showcase"
       ]
     },
     {
-      "id": "showcase-patterns-forms-incident-report--pattern-meta",
-      "title": "Showcase/Patterns/Forms/Incident Report/patternMeta",
+      "id": "showcase-patterns-forms-observation-log--pattern-meta",
+      "title": "Showcase/Patterns/Forms/Observation Log/patternMeta",
       "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-forms-incident-report--pattern-meta",
-      "component": "Incident Report",
+      "urlPattern": "?path=/story/showcase-patterns-forms-observation-log--pattern-meta",
+      "component": "Observation Log",
       "export": "@roboborealis/components",
       "keywords": [
         "forms",
-        "incident",
+        "log",
         "meta",
-        "pattern",
-        "patterns",
-        "report",
-        "showcase"
-      ]
-    },
-    {
-      "id": "showcase-patterns-forms-map-builder--map-builder-playground",
-      "title": "Showcase/Patterns/Forms/Map Builder/MapBuilderPlayground",
-      "storyName": "MapBuilderPlayground",
-      "urlPattern": "?path=/story/showcase-patterns-forms-map-builder--map-builder-playground",
-      "component": "Map Builder",
-      "export": "@roboborealis/components",
-      "keywords": [
-        "builder",
-        "forms",
-        "map",
-        "patterns",
-        "playground",
-        "showcase"
-      ]
-    },
-    {
-      "id": "showcase-patterns-forms-map-builder--pattern-meta",
-      "title": "Showcase/Patterns/Forms/Map Builder/patternMeta",
-      "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-forms-map-builder--pattern-meta",
-      "component": "Map Builder",
-      "export": "@roboborealis/components",
-      "keywords": [
-        "builder",
-        "forms",
-        "map",
-        "meta",
+        "observation",
         "pattern",
         "patterns",
         "showcase"
       ]
     },
     {
-      "id": "showcase-patterns-information-displays-entity-dossier--custom-date-format",
-      "title": "Showcase/Patterns/Information Displays/Entity Dossier/CustomDateFormat",
+      "id": "showcase-patterns-information-displays-object-dossier--custom-date-format",
+      "title": "Showcase/Patterns/Information Displays/Object Dossier/CustomDateFormat",
       "storyName": "CustomDateFormat",
-      "urlPattern": "?path=/story/showcase-patterns-information-displays-entity-dossier--custom-date-format",
+      "urlPattern": "?path=/story/showcase-patterns-information-displays-object-dossier--custom-date-format",
       "component": "RoboEntityDossier",
       "export": "@roboborealis/components",
       "keywords": [
@@ -12117,15 +12069,16 @@
         "entity",
         "format",
         "information",
+        "object",
         "patterns",
         "showcase"
       ]
     },
     {
-      "id": "showcase-patterns-information-displays-entity-dossier--default",
-      "title": "Showcase/Patterns/Information Displays/Entity Dossier/Default",
+      "id": "showcase-patterns-information-displays-object-dossier--default",
+      "title": "Showcase/Patterns/Information Displays/Object Dossier/Default",
       "storyName": "Default",
-      "urlPattern": "?path=/story/showcase-patterns-information-displays-entity-dossier--default",
+      "urlPattern": "?path=/story/showcase-patterns-information-displays-object-dossier--default",
       "component": "RoboEntityDossier",
       "export": "@roboborealis/components",
       "keywords": [
@@ -12134,15 +12087,16 @@
         "dossier",
         "entity",
         "information",
+        "object",
         "patterns",
         "showcase"
       ]
     },
     {
-      "id": "showcase-patterns-information-displays-entity-dossier--pattern-meta",
-      "title": "Showcase/Patterns/Information Displays/Entity Dossier/patternMeta",
+      "id": "showcase-patterns-information-displays-object-dossier--pattern-meta",
+      "title": "Showcase/Patterns/Information Displays/Object Dossier/patternMeta",
       "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-information-displays-entity-dossier--pattern-meta",
+      "urlPattern": "?path=/story/showcase-patterns-information-displays-object-dossier--pattern-meta",
       "component": "RoboEntityDossier",
       "export": "@roboborealis/components",
       "keywords": [
@@ -12151,37 +12105,37 @@
         "entity",
         "information",
         "meta",
+        "object",
         "pattern",
         "patterns",
         "showcase"
       ]
     },
     {
-      "id": "showcase-patterns-tables-constellation-manifest--constellation-manifest-pattern",
-      "title": "Showcase/Patterns/Tables/Constellation Manifest/ConstellationManifestPattern",
-      "storyName": "ConstellationManifestPattern",
-      "urlPattern": "?path=/story/showcase-patterns-tables-constellation-manifest--constellation-manifest-pattern",
-      "component": "Constellation Manifest",
+      "id": "showcase-patterns-tables-exoplanet-catalog--exoplanet-catalog",
+      "title": "Showcase/Patterns/Tables/Exoplanet Catalog/ExoplanetCatalog",
+      "storyName": "ExoplanetCatalog",
+      "urlPattern": "?path=/story/showcase-patterns-tables-exoplanet-catalog--exoplanet-catalog",
+      "component": "Exoplanet Catalog",
       "export": "@roboborealis/components",
       "keywords": [
-        "constellation",
-        "manifest",
-        "pattern",
+        "catalog",
+        "exoplanet",
         "patterns",
         "showcase",
         "tables"
       ]
     },
     {
-      "id": "showcase-patterns-tables-constellation-manifest--pattern-meta",
-      "title": "Showcase/Patterns/Tables/Constellation Manifest/patternMeta",
+      "id": "showcase-patterns-tables-exoplanet-catalog--pattern-meta",
+      "title": "Showcase/Patterns/Tables/Exoplanet Catalog/patternMeta",
       "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-tables-constellation-manifest--pattern-meta",
-      "component": "Constellation Manifest",
+      "urlPattern": "?path=/story/showcase-patterns-tables-exoplanet-catalog--pattern-meta",
+      "component": "Exoplanet Catalog",
       "export": "@roboborealis/components",
       "keywords": [
-        "constellation",
-        "manifest",
+        "catalog",
+        "exoplanet",
         "meta",
         "pattern",
         "patterns",
@@ -12190,172 +12144,171 @@
       ]
     },
     {
-      "id": "showcase-patterns-tables-flight-plan-reports--pattern-meta",
-      "title": "Showcase/Patterns/Tables/Flight Plan Reports/patternMeta",
+      "id": "showcase-patterns-tables-object-catalog--object-catalog-pattern",
+      "title": "Showcase/Patterns/Tables/Object Catalog/ObjectCatalogPattern",
+      "storyName": "ObjectCatalogPattern",
+      "urlPattern": "?path=/story/showcase-patterns-tables-object-catalog--object-catalog-pattern",
+      "component": "Object Catalog",
+      "export": "@roboborealis/components",
+      "keywords": [
+        "catalog",
+        "object",
+        "pattern",
+        "patterns",
+        "showcase",
+        "tables"
+      ]
+    },
+    {
+      "id": "showcase-patterns-tables-object-catalog--pattern-meta",
+      "title": "Showcase/Patterns/Tables/Object Catalog/patternMeta",
       "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-tables-flight-plan-reports--pattern-meta",
-      "component": "Flight Plan Reports",
+      "urlPattern": "?path=/story/showcase-patterns-tables-object-catalog--pattern-meta",
+      "component": "Object Catalog",
       "export": "@roboborealis/components",
       "keywords": [
-        "flight",
+        "catalog",
         "meta",
+        "object",
         "pattern",
         "patterns",
-        "plan",
-        "reports",
         "showcase",
         "tables"
       ]
     },
     {
-      "id": "showcase-patterns-tables-flight-plan-reports--sailing-plan-reports-pattern",
-      "title": "Showcase/Patterns/Tables/Flight Plan Reports/SailingPlanReportsPattern",
-      "storyName": "SailingPlanReportsPattern",
-      "urlPattern": "?path=/story/showcase-patterns-tables-flight-plan-reports--sailing-plan-reports-pattern",
-      "component": "Flight Plan Reports",
+      "id": "showcase-patterns-tables-object-explorer--object-explorer-pattern",
+      "title": "Showcase/Patterns/Tables/Object Explorer/ObjectExplorerPattern",
+      "storyName": "ObjectExplorerPattern",
+      "urlPattern": "?path=/story/showcase-patterns-tables-object-explorer--object-explorer-pattern",
+      "component": "Object Explorer",
       "export": "@roboborealis/components",
       "keywords": [
-        "flight",
+        "explorer",
+        "object",
         "pattern",
         "patterns",
-        "plan",
-        "reports",
-        "sailing",
         "showcase",
         "tables"
       ]
     },
     {
-      "id": "showcase-patterns-tables-mission-history--mission-history-with-nested-legs",
-      "title": "Showcase/Patterns/Tables/Mission History/MissionHistoryWithNestedLegs",
-      "storyName": "MissionHistoryWithNestedLegs",
-      "urlPattern": "?path=/story/showcase-patterns-tables-mission-history--mission-history-with-nested-legs",
-      "component": "Mission History",
+      "id": "showcase-patterns-tables-object-explorer--pattern-meta",
+      "title": "Showcase/Patterns/Tables/Object Explorer/patternMeta",
+      "storyName": "patternMeta",
+      "urlPattern": "?path=/story/showcase-patterns-tables-object-explorer--pattern-meta",
+      "component": "Object Explorer",
+      "export": "@roboborealis/components",
+      "keywords": [
+        "explorer",
+        "meta",
+        "object",
+        "pattern",
+        "patterns",
+        "showcase",
+        "tables"
+      ]
+    },
+    {
+      "id": "showcase-patterns-tables-observation-review-queue--observation-review-queue",
+      "title": "Showcase/Patterns/Tables/Observation Review Queue/ObservationReviewQueue",
+      "storyName": "ObservationReviewQueue",
+      "urlPattern": "?path=/story/showcase-patterns-tables-observation-review-queue--observation-review-queue",
+      "component": "Observation Review Queue",
+      "export": "@roboborealis/components",
+      "keywords": [
+        "observation",
+        "patterns",
+        "queue",
+        "review",
+        "showcase",
+        "tables"
+      ]
+    },
+    {
+      "id": "showcase-patterns-tables-observation-review-queue--pattern-meta",
+      "title": "Showcase/Patterns/Tables/Observation Review Queue/patternMeta",
+      "storyName": "patternMeta",
+      "urlPattern": "?path=/story/showcase-patterns-tables-observation-review-queue--pattern-meta",
+      "component": "Observation Review Queue",
+      "export": "@roboborealis/components",
+      "keywords": [
+        "meta",
+        "observation",
+        "pattern",
+        "patterns",
+        "queue",
+        "review",
+        "showcase",
+        "tables"
+      ]
+    },
+    {
+      "id": "showcase-patterns-tables-observing-run-history--observing-run-history-with-nested-observations",
+      "title": "Showcase/Patterns/Tables/Observing Run History/ObservingRunHistoryWithNestedObservations",
+      "storyName": "ObservingRunHistoryWithNestedObservations",
+      "urlPattern": "?path=/story/showcase-patterns-tables-observing-run-history--observing-run-history-with-nested-observations",
+      "component": "Observing Run History",
       "export": "@roboborealis/components",
       "keywords": [
         "history",
-        "legs",
-        "mission",
         "nested",
+        "observations",
+        "observing",
         "patterns",
+        "run",
         "showcase",
         "tables",
         "with"
       ]
     },
     {
-      "id": "showcase-patterns-tables-mission-history--pattern-meta",
-      "title": "Showcase/Patterns/Tables/Mission History/patternMeta",
+      "id": "showcase-patterns-tables-observing-run-history--pattern-meta",
+      "title": "Showcase/Patterns/Tables/Observing Run History/patternMeta",
       "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-tables-mission-history--pattern-meta",
-      "component": "Mission History",
+      "urlPattern": "?path=/story/showcase-patterns-tables-observing-run-history--pattern-meta",
+      "component": "Observing Run History",
       "export": "@roboborealis/components",
       "keywords": [
         "history",
         "meta",
-        "mission",
+        "observing",
         "pattern",
         "patterns",
+        "run",
         "showcase",
         "tables"
       ]
     },
     {
-      "id": "showcase-patterns-tables-report-audit-log--pattern-meta",
-      "title": "Showcase/Patterns/Tables/Report Audit Log/patternMeta",
-      "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-tables-report-audit-log--pattern-meta",
-      "component": "Report Audit Log",
+      "id": "showcase-patterns-tables-observing-schedule--observing-schedule-pattern",
+      "title": "Showcase/Patterns/Tables/Observing Schedule/ObservingSchedulePattern",
+      "storyName": "ObservingSchedulePattern",
+      "urlPattern": "?path=/story/showcase-patterns-tables-observing-schedule--observing-schedule-pattern",
+      "component": "Observing Schedule",
       "export": "@roboborealis/components",
       "keywords": [
-        "audit",
-        "log",
-        "meta",
+        "observing",
         "pattern",
         "patterns",
-        "report",
+        "schedule",
         "showcase",
         "tables"
       ]
     },
     {
-      "id": "showcase-patterns-tables-report-audit-log--report-audit-log",
-      "title": "Showcase/Patterns/Tables/Report Audit Log/ReportAuditLog",
-      "storyName": "ReportAuditLog",
-      "urlPattern": "?path=/story/showcase-patterns-tables-report-audit-log--report-audit-log",
-      "component": "Report Audit Log",
-      "export": "@roboborealis/components",
-      "keywords": [
-        "audit",
-        "log",
-        "patterns",
-        "report",
-        "showcase",
-        "tables"
-      ]
-    },
-    {
-      "id": "showcase-patterns-tables-satellite-constellation--pattern-meta",
-      "title": "Showcase/Patterns/Tables/Satellite Constellation/patternMeta",
+      "id": "showcase-patterns-tables-observing-schedule--pattern-meta",
+      "title": "Showcase/Patterns/Tables/Observing Schedule/patternMeta",
       "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-tables-satellite-constellation--pattern-meta",
-      "component": "Satellite Constellation",
-      "export": "@roboborealis/components",
-      "keywords": [
-        "constellation",
-        "meta",
-        "pattern",
-        "patterns",
-        "satellite",
-        "showcase",
-        "tables"
-      ]
-    },
-    {
-      "id": "showcase-patterns-tables-satellite-constellation--satellite-constellation-manager",
-      "title": "Showcase/Patterns/Tables/Satellite Constellation/SatelliteConstellationManager",
-      "storyName": "SatelliteConstellationManager",
-      "urlPattern": "?path=/story/showcase-patterns-tables-satellite-constellation--satellite-constellation-manager",
-      "component": "Satellite Constellation",
-      "export": "@roboborealis/components",
-      "keywords": [
-        "constellation",
-        "manager",
-        "patterns",
-        "satellite",
-        "showcase",
-        "tables"
-      ]
-    },
-    {
-      "id": "showcase-patterns-tables-satellite-search--pattern-meta",
-      "title": "Showcase/Patterns/Tables/Satellite Search/patternMeta",
-      "storyName": "patternMeta",
-      "urlPattern": "?path=/story/showcase-patterns-tables-satellite-search--pattern-meta",
-      "component": "Satellite Search",
+      "urlPattern": "?path=/story/showcase-patterns-tables-observing-schedule--pattern-meta",
+      "component": "Observing Schedule",
       "export": "@roboborealis/components",
       "keywords": [
         "meta",
+        "observing",
         "pattern",
         "patterns",
-        "satellite",
-        "search",
-        "showcase",
-        "tables"
-      ]
-    },
-    {
-      "id": "showcase-patterns-tables-satellite-search--satellite-search-pattern",
-      "title": "Showcase/Patterns/Tables/Satellite Search/SatelliteSearchPattern",
-      "storyName": "SatelliteSearchPattern",
-      "urlPattern": "?path=/story/showcase-patterns-tables-satellite-search--satellite-search-pattern",
-      "component": "Satellite Search",
-      "export": "@roboborealis/components",
-      "keywords": [
-        "pattern",
-        "patterns",
-        "satellite",
-        "search",
+        "schedule",
         "showcase",
         "tables"
       ]

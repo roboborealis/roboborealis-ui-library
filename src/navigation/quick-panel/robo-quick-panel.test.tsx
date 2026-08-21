@@ -491,7 +491,7 @@ describe('RoboQuickPanel', () => {
   // ---- Body background — mirrors robo-peek-sheet.test.tsx ----
 
   describe('body background', () => {
-    it('never applies a bg-[var(--background)] override in solid mode (matches RoboFloatingPanel)', () => {
+    it('never applies a bg-[var(--background)] override in solid mode (matches the glass surface convention)', () => {
       render(
         <RoboQuickPanel>
           <p>Content</p>

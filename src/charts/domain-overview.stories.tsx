@@ -41,11 +41,6 @@ export const Overview: Story = {
             description: 'Force graph, radar, correlation matrix, bubble, timeline, entity dossier, OSINT.',
             links: [{ label: 'All visualizations', id: 'data-visualizations--overview' }],
           },
-          {
-            title: 'Maps',
-            description: 'Mapbox base, layers, panels, controls, alerts, and reference overlays.',
-            links: [{ label: 'All map components', id: 'maps--overview' }],
-          },
         ]}
       />
     </div>

@@ -46,8 +46,6 @@ grep -i "<what you need>" src/agent/manifest.json
 | App topbar | \`RoboTopbar\` | Custom header |
 | Page breadcrumbs | \`RoboBreadcrumbs\` | Custom trail |
 | Charts | \`RoboLineChart\` / \`RoboBarChart\` / \`RoboAreaChart\` / \`RoboPieChart\` / \`RoboStatCard\` | Raw ECharts, Chart.js |
-| A Mapbox map | \`RoboMapbox\` | Raw \`mapboxgl\` |
-| Map floating panel | \`RoboFloatingPanel\` | Custom overlay div |
 | Rich text editor | \`RoboRichTextEditor\` | Custom Slate/Tiptap wiring |
 | Country flag | \`RoboFlag\` / \`RoboFlagSelect\` | Flag emoji, custom SVG |
 | Collapsible section | \`RoboAccordion\` | Custom expand/collapse |
@@ -132,8 +130,6 @@ Never hardcode font families — always use the CSS variables.
 | Loading (content areas) | \`RoboSkeletonLoading\` | Spinners for large areas |
 | Loading (inline/buttons) | \`RoboSpinnerLoading\` | Skeleton for tiny areas |
 | Charts | ECharts-based components in \`@roboborealis/components/charts\` | Third-party chart libs |
-| Maps | \`RoboMapbox\` wrapper | Raw mapbox-gl |
-| Detail panels over map | \`RoboFloatingPanel\` | Modals or side panels |
 | Status indicators | \`RoboBadge\` | Custom colored spans |
 | Dismissible tags | \`RoboChip\` | RoboBadge (non-interactive) |
 | Rich text editing | \`RoboRichTextEditor\` | Custom Slate/Tiptap |
@@ -168,7 +164,7 @@ Always use specific subpath exports — never import from the root:
 // Correct
 import { RoboButton } from '@roboborealis/components/core';
 import { RoboDataTable } from '@roboborealis/components/tables';
-import { RoboMapbox } from '@roboborealis/components/maps';
+import { RoboLineChart } from '@roboborealis/components/charts';
 
 // Wrong — do not use root import
 import { RoboButton } from '@roboborealis/components';
@@ -176,7 +172,7 @@ import { RoboButton } from '@roboborealis/components';
 
 Available subpaths:
 \`@roboborealis/components/core\` | \`/forms\` | \`/navigation\` | \`/tables\` | \`/feedback\` |
-\`/layout\` | \`/charts\` | \`/maps\` | \`/editor\` | \`/icons\` | \`/tokens\` |
+\`/layout\` | \`/charts\` | \`/editor\` | \`/icons\` | \`/tokens\` |
 \`/flags\` | \`/brand\`
 
 ## Accessibility Non-Negotiables (WCAG 2.1 AA)

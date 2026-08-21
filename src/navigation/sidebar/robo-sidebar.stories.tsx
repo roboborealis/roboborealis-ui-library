@@ -12,15 +12,6 @@ import { OverviewStack, OverviewSection } from '../../lib/storybook/overview-lay
 // of sibling content.
 // ---------------------------------------------------------------------------
 
-function MapBackground({ children }: { children?: React.ReactNode }) {
-  return (
-    <div style={{ position: 'relative', height: 520, display: 'flex' }}>
-      <div style={{ flex: 1, background: 'var(--muted)' }} />
-      {children}
-    </div>
-  );
-}
-
 const navItems: RoboSidebarItem[] = [
   { id: 'home', label: 'Home', icon: <Home size={18} />, href: '/home' },
   {
@@ -128,25 +119,6 @@ export const Collapsed: Story = {
     activePath: '/home',
     collapsed: true,
   },
-};
-
-/**
- * Regression check for the sidebar/map stacking-context fix in RoboPageShell
- * (the sidebar column's explicit `z-10`, needed because `sticky` positioning
- * alone loses the stacking-order tie-break against a later-painted WebGL
- * canvas). Verifies the collapsed rail's item tooltips still render on top
- * of a REAL RoboMapbox instance. Requires `STORYBOOK_MAPBOX_TOKEN` in
- * `.env.local` to render a live map — falls back to a placeholder message
- * otherwise, which cannot exercise this check.
- */
-export const CollapsedWithMapBackground: Story = {
-  name: 'Collapsed (real map background)',
-  parameters: { layout: 'padded' },
-  render: () => (
-    <MapBackground>
-      <RoboSidebar items={navItems} activePath='/home' collapsed />
-    </MapBackground>
-  ),
 };
 
 export const WithActiveReports: Story = {

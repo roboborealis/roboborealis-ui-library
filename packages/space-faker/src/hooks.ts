@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { advanceSpacecraftPosition } from './tracks';
-import { makeConstellation } from './vessels';
+import { makeConstellation } from './spacecraft';
 import type { Spacecraft } from './types';
 
 /**

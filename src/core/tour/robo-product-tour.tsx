@@ -32,8 +32,8 @@ export interface RoboProductTourProps extends Omit<JoyrideProps, 'run' | 'steps'
   autoStart?: boolean;
   /**
    * Runs before the tour starts — on auto-start AND on every restart from
-   * `RoboTourSettingsCard`. Use this to force-expand a collapsed
-   * `RoboFloatingPanel`, await a map's `onLoad`, or otherwise get the DOM into
+   * `RoboTourSettingsCard`. Use this to force-expand a collapsed panel,
+   * await async content, or otherwise get the DOM into
    * the state the steps below assume. After it resolves, any step whose
    * `target` still doesn't resolve via `document.querySelector` is skipped
    * rather than left to hang.

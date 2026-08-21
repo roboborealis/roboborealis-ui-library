@@ -9,7 +9,7 @@ export const componentMeta = {
   keywords: ['loading', 'progress', 'top bar', 'nprogress', 'route change', 'indeterminate'],
   whenToUse: 'When one or more async operations (data fetches, route transitions) are in flight and you want a passive, non-blocking global loading cue',
   whenNotToUse: 'For a known completion percentage use RoboProgress; for a scoped/inline loading state use RoboSpinnerLoading or RoboSkeletonLoading',
-  pairsWith: ['RoboFloatingPanel', 'RoboMapbox'],
+  pairsWith: ['RoboToast', 'RoboSpinnerLoading'],
   a11y: 'Uses role="progressbar" with aria-valuetext="Loading" (indeterminate — no aria-valuenow)',
 };
 const meta: Meta<typeof RoboTopLoadingBar> = {

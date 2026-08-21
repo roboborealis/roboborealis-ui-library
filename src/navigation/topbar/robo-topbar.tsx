@@ -18,9 +18,8 @@ import { useRoboRouterAdapter } from '@/navigation/router-adapter';
  * worked around it with three separate inline `style={{ color: 'var(--…)' }}` on
  * individual slot children.
  *
- * This is the library's own established pairing — `src/maps/core/glass-surface.ts`
- * already writes `bg-[var(--card)] … text-[var(--card-foreground)]` together. The
- * topbar was the outlier.
+ * This is the library's own established pairing — surface components write
+ * `bg-[var(--card)] … text-[var(--card-foreground)]` together. The topbar was the outlier.
  */
 const topbarVariants = cva(
   'sticky top-0 z-40 flex items-center h-14 w-full px-4 gap-3 bg-[var(--card)] text-[var(--card-foreground)] border-b border-[var(--border)]',

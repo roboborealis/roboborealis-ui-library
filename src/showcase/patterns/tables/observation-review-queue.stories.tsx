@@ -5,15 +5,16 @@ import { RoboDataTable, createActionsCell, createAvatarCell, createDateCell, cre
 
 
 // ---------------------------------------------------------------------------
-// Report Audit Log — 100 reports, inline edit for review status, bulk approve
+// Observation Review Queue — 100 submitted observations, inline edit for
+// review status, bulk approve/reject.
 // ---------------------------------------------------------------------------
 
-interface AuditReport {
+interface ObservationReport {
   id: string;
-  reportId: string;
-  type: 'FP' | 'PR' | 'DR' | 'FR' | 'CDM';
-  satellite: string;
-  submittedBy: string;
+  obsId: string;
+  category: 'GAL' | 'NEB' | 'CLU' | 'DBL' | 'VAR';
+  target: string;
+  observer: string;
   submittedAt: string;
   reviewStatus: 'pending' | 'approved' | 'rejected' | 'under-review';
   reviewedBy?: string;
@@ -21,53 +22,53 @@ interface AuditReport {
   notes: string;
 }
 
-const reportTypes: AuditReport['type'][] = ['FP', 'PR', 'DR', 'FR', 'CDM'];
-const reviewStatuses: AuditReport['reviewStatus'][] = ['pending', 'approved', 'rejected', 'under-review'];
-const reviewers = ['J. Carter', 'S. Chen', 'M. Torres', 'L. Park', 'D. Okonkwo'];
-const satellites = ['Vega Sentinel', 'Rigel Probe', 'Lyra Pioneer', 'Orion Voyager', 'Andromeda Explorer'];
+const categories: ObservationReport['category'][] = ['GAL', 'NEB', 'CLU', 'DBL', 'VAR'];
+const reviewStatuses: ObservationReport['reviewStatus'][] = ['pending', 'approved', 'rejected', 'under-review'];
+const reviewers = ['V. Rubin', 'C. Chandra', 'N. Okonkwo', 'L. Tanaka', 'P. Anand'];
+const targets = ['M31 — Andromeda', 'M42 — Orion Nebula', 'M13 — Hercules Cluster', 'Albireo', 'Algol'];
 
-function generateReports(count: number): AuditReport[] {
+function generateReports(count: number): ObservationReport[] {
   return Array.from({ length: count }, (_, i) => {
     const status = reviewStatuses[i % 4];
     return {
-      id: `rpt-${i}`,
-      reportId: `RPT-${String(20260000 + i)}`,
-      type: reportTypes[i % 5],
-      satellite: satellites[i % 5],
-      submittedBy: reviewers[i % 5],
+      id: `obs-${i}`,
+      obsId: `OBS-${String(20260000 + i)}`,
+      category: categories[i % 5],
+      target: targets[i % 5],
+      observer: reviewers[i % 5],
       submittedAt: new Date(Date.now() - Math.random() * 86400000 * 60).toISOString(),
       reviewStatus: status,
       reviewedBy: status !== 'pending' ? reviewers[(i + 2) % 5] : undefined,
       reviewedAt: status !== 'pending' ? new Date(Date.now() - Math.random() * 86400000 * 7).toISOString() : undefined,
-      notes: status === 'rejected' ? 'Missing required fields' : '',
+      notes: status === 'rejected' ? 'Missing calibration frames' : '',
     };
   });
 }
 
-const reportHelper = createColumnHelper<AuditReport>();
+const reportHelper = createColumnHelper<ObservationReport>();
 
 const reportColumns = [
-  reportHelper.accessor('reportId', { header: 'Report ID', enableSorting: true }),
-  reportHelper.accessor('type', {
-    header: 'Type',
-    cell: createStatusCell<AuditReport>({
-      colorMap: { FP: 'primary', PR: 'success', DR: 'warning', FR: 'destructive', CDM: 'default' },
+  reportHelper.accessor('obsId', { header: 'Observation ID', enableSorting: true }),
+  reportHelper.accessor('category', {
+    header: 'Category',
+    cell: createStatusCell<ObservationReport>({
+      colorMap: { GAL: 'primary', NEB: 'success', CLU: 'warning', DBL: 'destructive', VAR: 'default' },
     }),
-    meta: { filterType: 'select' as const, filterOptions: reportTypes.map((t) => ({ label: t, value: t })) },
+    meta: { filterType: 'select' as const, filterOptions: categories.map((t) => ({ label: t, value: t })) },
   }),
-  reportHelper.accessor('satellite', { header: 'Satellite', enableSorting: true }),
-  reportHelper.accessor('submittedBy', {
-    header: 'Submitted By',
-    cell: createAvatarCell<AuditReport>({ nameAccessor: 'submittedBy', size: 'xs' }),
+  reportHelper.accessor('target', { header: 'Target', enableSorting: true }),
+  reportHelper.accessor('observer', {
+    header: 'Observer',
+    cell: createAvatarCell<ObservationReport>({ nameAccessor: 'observer', size: 'xs' }),
   }),
   reportHelper.accessor('submittedAt', {
     header: 'Submitted',
-    cell: createDateCell<AuditReport>({ showRelative: true }),
+    cell: createDateCell<ObservationReport>({ showRelative: true }),
     enableSorting: true,
   }),
   reportHelper.accessor('reviewStatus', {
     header: 'Review Status',
-    cell: createStatusCell<AuditReport>({
+    cell: createStatusCell<ObservationReport>({
       colorMap: { pending: 'warning', approved: 'success', rejected: 'destructive', 'under-review': 'primary' },
       labelMap: { pending: 'Pending', approved: 'Approved', rejected: 'Rejected', 'under-review': 'Under Review' },
     }),
@@ -80,25 +81,25 @@ const reportColumns = [
   reportHelper.display({
     id: 'actions',
     header: '',
-    cell: createActionsCell<AuditReport>({
+    cell: createActionsCell<ObservationReport>({
       actions: [
-        { id: 'view', label: 'View Report', onAction: (r) => alert(`View: ${r.reportId}`) },
-        { id: 'approve', label: 'Approve', onAction: (r) => alert(`Approve: ${r.reportId}`) },
-        { id: 'reject', label: 'Reject', variant: 'destructive', onAction: (r) => alert(`Reject: ${r.reportId}`) },
+        { id: 'view', label: 'View Observation', onAction: (r) => alert(`View: ${r.obsId}`) },
+        { id: 'approve', label: 'Approve', onAction: (r) => alert(`Approve: ${r.obsId}`) },
+        { id: 'reject', label: 'Reject', variant: 'destructive', onAction: (r) => alert(`Reject: ${r.obsId}`) },
       ],
     }),
   }),
 ];
 
 export const patternMeta = {
-  demonstrates: 'A hundred-row audit log with inline editing of review status on each row and a bulk-approve action across selected rows.',
+  demonstrates: 'A hundred-row review queue with inline editing of review status on each row and a bulk-approve action across selected rows.',
   whenToUse: 'Use as the reference whenever a feature needs a review queue where rows can be approved individually or in bulk, with status changed inline in the table.',
-  keywords: ['audit log', 'inline edit', 'bulk approve', 'review status', 'row selection action'],
-  agentPriority: 'Prioritize this pattern over Flight Plan Reports whenever the feature needs inline row editing or bulk actions, not just filtering and browsing.',
+  keywords: ['review queue', 'inline edit', 'bulk approve', 'review status', 'row selection action', 'observation review'],
+  agentPriority: 'Prioritize this pattern over Observing Schedule whenever the feature needs inline row editing or bulk actions, not just filtering and browsing.',
 };
 
 const meta: Meta = {
-  title: 'Showcase/Patterns/Tables/Report Audit Log',
+  title: 'Showcase/Patterns/Tables/Observation Review Queue',
   excludeStories: ['patternMeta'],
   tags: ['autodocs'],
 };
@@ -106,7 +107,7 @@ export default meta;
 
 type Story = StoryObj;
 
-export const ReportAuditLog: Story = {
+export const ObservationReviewQueue: Story = {
   render: () => {
     const [data, setData] = React.useState(() => generateReports(100));
 
@@ -158,7 +159,7 @@ export const ReportAuditLog: Story = {
             },
           },
         ]}
-        aria-label="Report Audit Log — 100 reports"
+        aria-label="Observation Review Queue — 100 observations"
       />
     );
   },

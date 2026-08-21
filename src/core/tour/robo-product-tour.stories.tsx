@@ -14,7 +14,7 @@ export const componentMeta = {
   keywords: ['tour', 'onboarding', 'walkthrough', 'joyride', 'spotlight', 'tooltip', 'first-run'],
   whenToUse: 'Baked into a starter template to walk a first-time user through its main feature, key sections, and Settings',
   whenNotToUse: 'For a single tooltip that isn\'t part of a persisted, restartable tour, use RoboTooltip/RoboPopover directly',
-  pairsWith: ['RoboTourProvider', 'RoboTourSettingsCard', 'RoboFloatingPanel'],
+  pairsWith: ['RoboTourProvider', 'RoboTourSettingsCard', 'RoboSheet'],
   a11y: 'Renders nothing until mounted client-side; respects prefers-reduced-motion by disabling scroll-to-step animation',
 };
 
