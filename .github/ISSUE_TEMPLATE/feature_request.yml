@@ -1,0 +1,23 @@
+name: Feature request
+description: Propose a new component, variant, or capability.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: What do you need
+      description: The problem or use case, not the solution.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed approach
+      description: Optional. How you'd expect it to work.
+  - type: checkboxes
+    id: robo-first
+    attributes:
+      label: Robo-First check
+      options:
+        - label: I checked src/agent/manifest.json and no existing component covers this.
+          required: true

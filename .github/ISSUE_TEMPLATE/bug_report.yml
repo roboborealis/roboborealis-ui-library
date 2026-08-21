@@ -1,0 +1,37 @@
+name: Bug report
+description: Something in a component or the library isn't working.
+labels: [bug]
+body:
+  - type: input
+    id: component
+    attributes:
+      label: Component or area
+      placeholder: e.g. RoboIconButton, theming, build
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you see, and what did you expect instead?
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Render <X> with props ...
+        2. ...
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Library version
+      placeholder: e.g. 0.34.2
+  - type: textarea
+    id: env
+    attributes:
+      label: Environment
+      placeholder: React version, theme, browser, density

@@ -1,10 +1,16 @@
 # @roboborealis/components
 
+[![CI](https://github.com/maylortaylor/roboborealis-ui-library/actions/workflows/ci.yml/badge.svg)](https://github.com/maylortaylor/roboborealis-ui-library/actions/workflows/ci.yml)
+[![Storybook](https://img.shields.io/badge/Storybook-live-ff4785?logo=storybook&logoColor=white)](https://maylortaylor.github.io/roboborealis-ui-library/)
+[![Release](https://img.shields.io/github/v/release/maylortaylor/roboborealis-ui-library?sort=semver)](https://github.com/maylortaylor/roboborealis-ui-library/releases)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A shared React + Tailwind component library. A single source of truth for design language,
 tokens, and accessible UI components.
 
 - **Stack:** React 19, TypeScript, Tailwind v4, shadcn/ui + Radix, tsup, Storybook 10
-- **Registry:** [npmjs.com](https://www.npmjs.com/package/@roboborealis/components)
+- **Docs:** [live Storybook](https://maylortaylor.github.io/roboborealis-ui-library/)
+- **Distribution:** GitHub Releases (not published to npm). The consumer install story is tracked in [the repo issues](https://github.com/maylortaylor/roboborealis-ui-library/issues).
 - **License:** MIT
 
 ---

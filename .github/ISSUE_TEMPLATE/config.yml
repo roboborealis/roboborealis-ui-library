@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Storybook (live docs)
+    url: https://maylortaylor.github.io/roboborealis-ui-library/
+    about: Browse the components and their stories before filing an issue.
