@@ -3,6 +3,7 @@ import { cva, type VariantProps } from 'class-variance-authority';
 import { Slot } from '@radix-ui/react-slot';
 
 import { cn } from '@/lib/utils';
+import { usePointerGlow, mergePointerGlow } from '@/lib/use-pointer-glow';
 
 const buttonVariants = cva(
   'inline-flex items-center justify-center gap-2 rounded-[var(--radius)] font-medium transition-colors duration-[var(--duration-fast)] cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--ring)] focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 disabled:cursor-not-allowed',
@@ -71,17 +72,29 @@ export interface RoboButtonProps
  * <RoboButton asChild><a href="/path">Link</a></RoboButton>
  * ```
  */
-function RoboButton({ className, variant, size, asChild = false, type, ref, ...props }: RoboButtonProps) {
+function RoboButton({
+  className,
+  variant,
+  size,
+  asChild = false,
+  type,
+  ref,
+  onPointerMove,
+  ...props
+}: RoboButtonProps) {
   const Comp = asChild ? Slot : 'button';
+  const { onPointerMove: glowMove } = usePointerGlow<HTMLButtonElement>();
 
   return (
     <Comp
       ref={ref}
       data-slot='button'
+      data-glow
       data-variant={variant}
       data-size={size}
       type={asChild ? type : (type ?? 'button')}
       className={cn(buttonVariants({ variant, size }), className)}
+      onPointerMove={mergePointerGlow(glowMove, onPointerMove)}
       {...props}
     />
   );

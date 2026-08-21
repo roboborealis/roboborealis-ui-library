@@ -30,6 +30,7 @@ function applyTokensToDOM(theme = 'midnight', mode = 'dark') {
   r.setProperty('--robo-mgr-selected',     t.barSelectedColor);
   r.setProperty('--robo-mgr-text',         t.textColor);
   r.setProperty('--robo-mgr-text-muted',   t.barTextColor);
+  r.setProperty('--robo-mgr-content-text', t.contentTextColor);
   r.setProperty('--robo-mgr-primary',      t.colorPrimary);
   r.setProperty('--robo-mgr-input-bg',     t.inputBg);
   r.setProperty('--robo-mgr-input-border', t.inputBorder);

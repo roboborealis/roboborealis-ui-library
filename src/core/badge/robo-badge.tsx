@@ -115,6 +115,7 @@ function RoboBadge({ className, usage = 'label', color, size, count, children, a
     const badge = (
       <span
         ref={ref}
+        data-glow
         className={cn(
           badgeVariants({ usage, badgeColor: resolvedBadgeColor, size }),
           className

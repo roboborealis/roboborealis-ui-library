@@ -97,6 +97,7 @@ function RoboInput({
       <input
         ref={ref}
         id={inputId}
+        data-slot='input'
         aria-describedby={helperId}
         aria-invalid={state === 'error' ? true : undefined}
         aria-required={required}
@@ -111,8 +112,17 @@ function RoboInput({
       />
     );
 
+    // A thin wrapper carries the pointer-glow ring — an <input> is a replaced
+    // element and can't host a ::after, so the ring lives on the wrapper, which
+    // hugs the field (same radius, no padding).
+    const field = (
+      <span data-glow className='relative block w-full rounded-[var(--radius)]'>
+        {input}
+      </span>
+    );
+
     if (!label && !helperText && !leadingIcon && !trailingIcon) {
-      return input;
+      return field;
     }
 
     return (
@@ -141,7 +151,7 @@ function RoboInput({
                 {leadingIcon}
               </span>
             )}
-            {input}
+            {field}
             {trailingIcon && (
               <span
                 aria-hidden='true'
@@ -152,7 +162,7 @@ function RoboInput({
             )}
           </div>
         ) : (
-          input
+          field
         )}
 
         {helperText && (

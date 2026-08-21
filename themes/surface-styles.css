@@ -1,0 +1,231 @@
+/* @roboborealis/ui — surface-styles.css
+ *
+ * App-wide "surface style" — a visual treatment orthogonal to the colour theme
+ * (aurora / midnight / sol) and mode (light / dark). One of:
+ *   flat        — no shadows; standard flat design (borders/dividers kept)
+ *   glass       — translucent blurred overlay panels (handled per-component via
+ *                 getPanelSurfaceClasses + RoboGlassModeProvider, not here)
+ *   neumorphism — soft extruded / pressed shadows derived from the theme's own colours
+ *
+ * Activated by RoboSurfaceStyleProvider writing `data-surface-style="…"` on <html>.
+ * When the attribute is absent the library keeps its historical shadowed default, so
+ * adopting the provider is opt-in and non-breaking.
+ *
+ * Import: import '@roboborealis/ui/surface-styles'  (alongside the theme CSS)
+ * Activate: <html data-theme="aurora" data-surface-style="neumorphism">
+ *
+ * Specificity note: the `[data-theme]` prefix gives these rules two attribute selectors
+ * (0,2,0) so they tie the themes' own `[data-theme][data-mode]` shadow blocks and win on
+ * later source order — this file is imported after the themes.
+ */
+
+/* ── Flat ──────────────────────────────────────────────────────────────────
+   Standard flat design: kill the soft drop shadows, keep borders/dividers so
+   structure stays legible. */
+[data-theme][data-surface-style='flat'] {
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+}
+
+/* ── Neumorphism ────────────────────────────────────────────────────────────
+   Two shadows on a same-colour surface: a dark shadow bottom-right and a light
+   highlight top-left (single light source, top-left). Colours are derived from the
+   active theme's own `--card` via color-mix (no hardcoded hex), so the look tracks
+   every theme+mode. Blur ≈ 2× offset; shadows stay soft and low-contrast. */
+[data-theme][data-surface-style='neumorphism'] {
+  /* Light-mode baseline (retuned per mode below). */
+  --shadow-neu-dark: color-mix(in oklch, var(--card) 62%, black);
+  --shadow-neu-light: color-mix(in oklch, var(--card) 55%, white);
+
+  /* Raised (extruded) — light source top-left. */
+  --shadow-neu-raised:
+    6px 6px 12px var(--shadow-neu-dark),
+    -6px -6px 12px var(--shadow-neu-light);
+  --shadow-neu-raised-sm:
+    3px 3px 6px var(--shadow-neu-dark),
+    -3px -3px 6px var(--shadow-neu-light);
+
+  /* Pressed (carved in). `inset` = deeper (pressed buttons); `inset-soft` = gentle
+     (inputs, switch tracks) so fields don't look over-depressed. */
+  --shadow-neu-inset:
+    inset 4px 4px 8px var(--shadow-neu-dark),
+    inset -4px -4px 8px var(--shadow-neu-light);
+  --shadow-neu-inset-soft:
+    inset 2px 2px 5px var(--shadow-neu-dark),
+    inset -2px -2px 5px var(--shadow-neu-light);
+
+  /* Every surface reading these tokens now reads as softly raised. */
+  --shadow-sm: var(--shadow-neu-raised-sm);
+  --shadow-md: var(--shadow-neu-raised);
+  --shadow-lg: var(--shadow-neu-raised);
+
+  /* Neumorphism has no hard edges — the shadow is the boundary. */
+  --border: transparent;
+
+  /* Dark mode must be RETUNED, not inherited: a near-white highlight on a dark
+     surface reads as a harsh white bloom. Keep the highlight a faint lift (~18%)
+     and the shadow surface-tinted rather than pure black. */
+  &[data-mode='dark'] {
+    --shadow-neu-dark: color-mix(in oklch, var(--card) 68%, black);
+    --shadow-neu-light: color-mix(in oklch, var(--card) 82%, white);
+  }
+}
+
+/* ── Neumorphism component targeting ────────────────────────────────────────
+   Two gaps the token override can't reach: buttons read no shadow token, and
+   inputs/switch want a gentler carved-in look than surfaces. */
+
+/* Buttons — keep the coloured fill (reference images keep coloured accent buttons),
+   only add depth. Ghost / outline / link have no fill, so a floating shadow would
+   look wrong — exclude them. */
+[data-theme][data-surface-style='neumorphism']
+  [data-slot='button']:not([data-variant='ghost']):not([data-variant='outline']):not([data-variant='link']) {
+  box-shadow: var(--shadow-neu-raised);
+  border-color: transparent;
+  transition:
+    box-shadow var(--duration-fast, 150ms) var(--ease-default, ease),
+    transform var(--duration-fast, 150ms) var(--ease-default, ease);
+}
+/* Press: the button sinks in - a real tactile push. */
+[data-theme][data-surface-style='neumorphism']
+  [data-slot='button']:not([data-variant='ghost']):not([data-variant='outline']):not([data-variant='link']):active {
+  box-shadow: var(--shadow-neu-inset);
+  transform: translateY(1px);
+}
+
+/* Inputs & switch track — gently carved in (soft inset), not deep. */
+[data-theme][data-surface-style='neumorphism'] [data-slot='input'],
+[data-theme][data-surface-style='neumorphism'] [data-slot='switch-track'] {
+  border-color: transparent;
+  box-shadow: var(--shadow-neu-inset-soft);
+}
+
+/* Switch thumb — a raised same-colour knob, not a hard white disc. */
+[data-theme][data-surface-style='neumorphism'] [data-slot='switch-thumb'] {
+  background: var(--card);
+  box-shadow: var(--shadow-neu-raised-sm);
+}
+
+/* ── Flat toggle — give the control definition ──────────────────────────────
+   A white thumb on a pale off-track is nearly invisible in flat/light. Show the
+   track border and outline the thumb. */
+[data-theme][data-surface-style='flat'] [data-slot='switch-track'] {
+  border-color: var(--border);
+}
+[data-theme][data-surface-style='flat'] [data-slot='switch-thumb'] {
+  border: 1px solid color-mix(in oklch, var(--border) 70%, transparent);
+}
+
+/* ── Animated gradient border (flat + glass) ────────────────────────────────
+   Cards get a thin themed conic-gradient border, always visible (static). The
+   gradient starts rotating on hover. Neumorphism is intentionally excluded — its
+   border stays transparent so the soft shadow reads. Uses a registered custom
+   property so the angle is animatable. */
+@property --robo-border-angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+[data-theme][data-surface-style='flat'] [data-slot='card'],
+[data-theme][data-surface-style='glass'] [data-slot='card'] {
+  border: 1px solid transparent;
+  background:
+    linear-gradient(var(--card), var(--card)) padding-box,
+    conic-gradient(
+      from var(--robo-border-angle),
+      var(--primary),
+      var(--secondary),
+      var(--accent),
+      var(--primary)
+    ) border-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  [data-theme][data-surface-style='flat'] [data-slot='card']:hover,
+  [data-theme][data-surface-style='glass'] [data-slot='card']:hover {
+    animation: robo-border-spin 6s linear infinite;
+  }
+}
+
+@keyframes robo-border-spin {
+  to {
+    --robo-border-angle: 360deg;
+  }
+}
+
+/* ── Mouse-follow border glow (all surface styles) ──────────────────────────
+   The cursor lights up the BORDER near it — a themed radial highlight confined
+   to a thin ring by the mask-composite trick, so the card/button body stays
+   clean. Tracks `--robo-glow-x/y` (wired into RoboButton / RoboCard via
+   usePointerGlow). The ring inherits the element's border-radius; no `overflow:
+   hidden`, so focus rings stay intact. */
+[data-glow] {
+  position: relative;
+  isolation: isolate;
+}
+
+[data-glow]::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1; /* the ring sits on the border edge, above the fill */
+  border-radius: inherit;
+  padding: 1.5px; /* ring thickness */
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--duration-normal, 250ms) var(--ease-default, ease);
+  background: radial-gradient(
+    circle 110px at var(--robo-glow-x, 50%) var(--robo-glow-y, 50%),
+    color-mix(in oklch, var(--primary) 75%, transparent),
+    transparent 60%
+  );
+  /* Show the gradient only in the 1.5px padding ring, not the body. */
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+[data-glow]:hover::after {
+  opacity: 1;
+}
+
+/* ── Per-style button hover — a distinct flourish per surface style ──────────
+   Layered on top of the shared border glow so each style reads differently.
+   Flat: lifts. Glass: a simple lift/scale movement (interim). Neumorphism: the
+   press is handled above; hover nudges up. */
+
+/* Flat — material-style lift. */
+[data-theme][data-surface-style='flat'] [data-slot='button'] {
+  transition:
+    transform var(--duration-fast, 150ms) var(--ease-default, ease),
+    box-shadow var(--duration-fast, 150ms) var(--ease-default, ease);
+}
+[data-theme][data-surface-style='flat'] [data-slot='button']:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px color-mix(in oklch, var(--primary) 30%, transparent);
+}
+[data-theme][data-surface-style='flat'] [data-slot='button']:active {
+  transform: translateY(0);
+}
+
+/* Glass — a simple movement (interim; the shimmer was removed pending the glass
+   redesign, see the tracked issue). */
+[data-theme][data-surface-style='glass'] [data-slot='button'] {
+  transition: transform var(--duration-fast, 150ms) var(--ease-default, ease);
+}
+[data-theme][data-surface-style='glass'] [data-slot='button']:hover {
+  transform: translateY(-1px) scale(1.02);
+}
+[data-theme][data-surface-style='glass'] [data-slot='button']:active {
+  transform: translateY(0) scale(0.99);
+}
+
+/* Neumorphism — hover nudges the raised button up slightly; active presses in
+   (handled in the neumorphism block above). */
+[data-theme][data-surface-style='neumorphism'] [data-slot='button']:not([data-variant='ghost']):not([data-variant='outline']):not([data-variant='link']):hover {
+  transform: translateY(-1px);
+}

@@ -8,6 +8,7 @@
     --robo-mgr-selected:     #F88E63;
     --robo-mgr-text:         #E4E8EC;
     --robo-mgr-text-muted:   #8D9399;
+    --robo-mgr-content-text: #E4E8EC;
     --robo-mgr-primary:      #F88E63;
     --robo-mgr-input-bg:     #292B2D;
     --robo-mgr-input-border: #3A3C3E;
@@ -45,5 +46,19 @@
   #storybook-explorer-tree a,
   #storybook-explorer-menu a {
     color: var(--robo-mgr-text-muted);
+  }
+
+  /* Addons / Controls panel + docs sit on the light CONTENT bg in light mode, so
+     they must NOT reuse the sidebar's light text (which is tuned for the dark
+     sidebar). Give them a content-appropriate text colour; coloured controls keep
+     their own colour since this only sets the inherited default. */
+  #storybook-panel-root,
+  #storybook-panel-root p,
+  #storybook-panel-root td,
+  #storybook-panel-root th,
+  #storybook-panel-root span,
+  #storybook-panel-root label,
+  .sbdocs {
+    color: var(--robo-mgr-content-text);
   }
 </style>

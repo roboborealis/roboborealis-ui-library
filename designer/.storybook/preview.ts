@@ -5,6 +5,7 @@ import './globals.css';
 import '../../themes/theme-midnight.css';
 import '../../themes/theme-aurora.css';
 import '../../themes/theme-sol.css';
+import '../../themes/surface-styles.css';
 import './preview-theme.css';
 
 // Selectable font families — imported straight from @fontsource/* (resolved

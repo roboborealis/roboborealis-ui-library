@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { axe } from 'vitest-axe';
 
 import { RoboSelect } from './robo-select';
@@ -25,6 +26,24 @@ describe('RoboSelect', () => {
   it('renders the label when provided', () => {
     render(<RoboSelect label='Country' options={options} />);
     expect(screen.getByText('Country')).toBeInTheDocument();
+  });
+
+  it('portals the dropdown into a provided container', async () => {
+    function Harness() {
+      const [el, setEl] = React.useState<HTMLDivElement | null>(null);
+      return (
+        <div>
+          <div data-testid='scope' ref={setEl} />
+          <RoboSelect options={options} container={el} aria-label='Country' />
+        </div>
+      );
+    }
+    render(<Harness />);
+    await userEvent.click(screen.getByRole('combobox'));
+
+    const scope = screen.getByTestId('scope');
+    const option = await screen.findByRole('option', { name: 'United States' });
+    expect(scope).toContainElement(option);
   });
 
   it('renders helper text when provided', () => {
