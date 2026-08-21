@@ -119,6 +119,9 @@
   },
   "scripts": {
     "dev": "npm run build-storybook && npm run storybook",
+    "bump": "npm version --no-git-tag-version patch",
+    "bump:minor": "npm version --no-git-tag-version minor",
+    "bump:major": "npm version --no-git-tag-version major",
     "build:release": "npm run generate-agent-context && npm run check-storypaths && npm run ci:local && npm run copy-fonts && npm run build:lib",
     "build:lib": "TSUP_BATCH=1 tsup && TSUP_BATCH=2 tsup && TSUP_BATCH=3 tsup && TSUP_BATCH=server tsup",
     "copy-fonts": "tsx scripts/copy-fonts.ts",
