@@ -36,13 +36,14 @@ installStaleChunkRecovery();
 /**
  * Synchronises Storybook toolbar globals → HTML root data-* attributes.
  *
- * theme:       midnight | aurora
- * mode:        dark | light
- * density:     compact | comfortable | spacious
- * fontFamily:  inter | dm-sans | varela | open-sans | opendyslexic | sora
+ * theme:        midnight | aurora | sol
+ * mode:         dark | light
+ * density:      compact | comfortable | spacious
+ * fontFamily:   inter | dm-sans | varela | open-sans | opendyslexic | sora
+ * surfaceStyle: flat | glass | neumorphism (applies to every story)
  */
 const themeDecorator: Decorator = (Story, context) => {
-  const { theme, mode, density, fontFamily } = context.globals;
+  const { theme, mode, density, fontFamily, surfaceStyle } = context.globals;
 
   if (typeof document !== 'undefined') {
     const root = document.documentElement;
@@ -50,6 +51,10 @@ const themeDecorator: Decorator = (Story, context) => {
     // ── Theme ─────────────────────────────────────────────
     const activeTheme = theme ?? 'midnight';
     root.setAttribute('data-theme', activeTheme);
+
+    // ── Surface style ─────────────────────────────────────
+    // flat | glass | neumorphism (see themes/surface-styles.css)
+    root.setAttribute('data-surface-style', surfaceStyle || 'flat');
 
     // ── Light / Dark mode ─────────────────────────────────
     // Aurora defaults to light; Midnight + Neutral default to dark
@@ -201,6 +206,21 @@ const preview: Preview = {
           { value: 'open-sans',    title: 'Open Sans' },
           { value: 'opendyslexic', title: 'OpenDyslexic' },
           { value: 'sora',         title: 'Sora' },
+        ],
+        showName: true,
+        dynamicTitle: true,
+      },
+    },
+    surfaceStyle: {
+      name: 'Surface',
+      description: 'Surface style — flat, glass, or neumorphism (applies to all stories)',
+      defaultValue: 'flat',
+      toolbar: {
+        icon: 'component',
+        items: [
+          { value: 'flat',        icon: 'stop',        title: 'Flat' },
+          { value: 'glass',       icon: 'mirror',      title: 'Glass' },
+          { value: 'neumorphism', icon: 'beaker',      title: 'Neumorphism' },
         ],
         showName: true,
         dynamicTitle: true,
