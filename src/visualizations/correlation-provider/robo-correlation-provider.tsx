@@ -225,7 +225,7 @@ RoboCorrelationContext.displayName = 'RoboCorrelationContext';
  * ```
  */
 export function useRoboCorrelation(): RoboCorrelationContextValue {
-  const ctx = React.useContext(RoboCorrelationContext);
+  const ctx = React.use(RoboCorrelationContext);
   if (ctx === null) {
     throw new Error(
       'useRoboCorrelation must be used within a RoboCorrelationProvider',
@@ -440,9 +440,9 @@ function RoboCorrelationProvider({
   );
 
   return (
-    <RoboCorrelationContext.Provider value={contextValue}>
+    <RoboCorrelationContext value={contextValue}>
       {children}
-    </RoboCorrelationContext.Provider>
+    </RoboCorrelationContext>
   );
 }
 RoboCorrelationProvider.displayName = 'RoboCorrelationProvider';

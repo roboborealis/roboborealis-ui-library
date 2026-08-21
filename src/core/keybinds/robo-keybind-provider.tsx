@@ -170,7 +170,7 @@ function RoboKeybindProvider({
     [getCombo, register, unregister, setCombo, resetCombo, subscribe, list]
   );
 
-  return <KeybindContext.Provider value={value}>{children}</KeybindContext.Provider>;
+  return <KeybindContext value={value}>{children}</KeybindContext>;
 }
 RoboKeybindProvider.displayName = 'RoboKeybindProvider';
 
@@ -197,7 +197,7 @@ interface UseRegisterKeybindResult {
  * tests, and apps that haven't adopted the provider yet.
  */
 function useRegisterKeybind(action: KeybindAction): UseRegisterKeybindResult {
-  const ctx = React.useContext(KeybindContext);
+  const ctx = React.use(KeybindContext);
   const [fallbackCombo, setFallbackCombo] = React.useState(action.defaultCombo);
 
   React.useEffect(() => {
@@ -243,7 +243,7 @@ function useRegisterKeybind(action: KeybindAction): UseRegisterKeybindResult {
  * registration or persistence.
  */
 function useKeybind(action: KeybindAction, handler: () => void): UseRegisterKeybindResult {
-  const ctx = React.useContext(KeybindContext);
+  const ctx = React.use(KeybindContext);
   const result = useRegisterKeybind(action);
   const handlerRef = React.useRef(handler);
   handlerRef.current = handler;
@@ -282,7 +282,7 @@ interface UseKeybindRegistryResult {
  * registered actions" without a shared registry to read from.
  */
 function useKeybindRegistry(): UseKeybindRegistryResult {
-  const ctx = React.useContext(KeybindContext);
+  const ctx = React.use(KeybindContext);
   if (!ctx) {
     throw new Error('useKeybindRegistry must be used within a RoboKeybindProvider');
   }

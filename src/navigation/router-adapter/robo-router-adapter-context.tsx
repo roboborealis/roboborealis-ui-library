@@ -33,15 +33,15 @@ export interface RoboRouterAdapterProviderProps {
 
 function RoboRouterAdapterProvider({ adapter, children }: RoboRouterAdapterProviderProps) {
   return (
-    <RoboRouterAdapterContext.Provider value={adapter}>
+    <RoboRouterAdapterContext value={adapter}>
       {children}
-    </RoboRouterAdapterContext.Provider>
+    </RoboRouterAdapterContext>
   );
 }
 RoboRouterAdapterProvider.displayName = 'RoboRouterAdapterProvider';
 
 function useRoboRouterAdapter(): RoboRouterAdapter {
-  return React.useContext(RoboRouterAdapterContext);
+  return React.use(RoboRouterAdapterContext);
 }
 
 export { RoboRouterAdapterProvider, useRoboRouterAdapter };

@@ -107,7 +107,7 @@ function RoboSurfaceStyleProvider({
   );
 
   return (
-    <SurfaceStyleContext.Provider value={value}>{children}</SurfaceStyleContext.Provider>
+    <SurfaceStyleContext value={value}>{children}</SurfaceStyleContext>
   );
 }
 RoboSurfaceStyleProvider.displayName = 'RoboSurfaceStyleProvider';
@@ -118,7 +118,7 @@ RoboSurfaceStyleProvider.displayName = 'RoboSurfaceStyleProvider';
  * `{ surfaceStyle: 'flat', setSurfaceStyle: noop }` rather than throwing.
  */
 function useSurfaceStyle(): SurfaceStyleContextValue {
-  const ctx = React.useContext(SurfaceStyleContext);
+  const ctx = React.use(SurfaceStyleContext);
   return ctx ?? NOOP_SURFACE_STYLE;
 }
 

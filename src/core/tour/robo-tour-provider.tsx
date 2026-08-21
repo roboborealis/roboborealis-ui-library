@@ -129,7 +129,7 @@ function RoboTourProvider({
     [register, unregister, isCompleted, complete, restart, subscribeRestart, list]
   );
 
-  return <TourContext.Provider value={value}>{children}</TourContext.Provider>;
+  return <TourContext value={value}>{children}</TourContext>;
 }
 RoboTourProvider.displayName = 'RoboTourProvider';
 
@@ -165,7 +165,7 @@ interface UseTourResult {
  * Storybook, unit tests, and apps that haven't adopted the provider yet.
  */
 function useTour(action: TourAction): UseTourResult {
-  const ctx = React.useContext(TourContext);
+  const ctx = React.use(TourContext);
   const [fallbackCompleted, setFallbackCompleted] = React.useState(false);
   const fallbackHandlersRef = React.useRef<Set<() => void>>(new Set());
 
@@ -212,7 +212,7 @@ interface UseTourRegistryResult {
  * from (mirrors `useKeybindRegistry`).
  */
 function useTourRegistry(): UseTourRegistryResult {
-  const ctx = React.useContext(TourContext);
+  const ctx = React.use(TourContext);
   if (!ctx) {
     throw new Error('useTourRegistry must be used within a RoboTourProvider');
   }

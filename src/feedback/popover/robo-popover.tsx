@@ -31,11 +31,11 @@ function RoboPopover({ open, defaultOpen, onOpenChange, children, ...props }: Ro
   });
 
   return (
-    <RoboPopoverOpenContext.Provider value={resolvedOpen}>
+    <RoboPopoverOpenContext value={resolvedOpen}>
       <PopoverPrimitive.Root open={resolvedOpen} onOpenChange={handleOpenChange} {...props}>
         {children}
       </PopoverPrimitive.Root>
-    </RoboPopoverOpenContext.Provider>
+    </RoboPopoverOpenContext>
   );
 }
 RoboPopover.displayName = 'RoboPopover';
@@ -80,7 +80,7 @@ function RoboPopoverContent({
 }: React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> & {
   ref?: React.Ref<React.ComponentRef<typeof PopoverPrimitive.Content>>;
 }) {
-  const open = React.useContext(RoboPopoverOpenContext);
+  const open = React.use(RoboPopoverOpenContext);
   const tokens = useAnimationTokens();
   const presets = buildPresets(tokens);
   const reduced = useReducedMotion();
