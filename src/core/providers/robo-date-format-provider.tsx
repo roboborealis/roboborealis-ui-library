@@ -55,12 +55,12 @@ function RoboDateFormatProvider({
     [dateFormat, setDateFormat]
   );
 
-  return <DateFormatContext.Provider value={value}>{children}</DateFormatContext.Provider>;
+  return <DateFormatContext value={value}>{children}</DateFormatContext>;
 }
 RoboDateFormatProvider.displayName = 'RoboDateFormatProvider';
 
 function useDateFormat(): DateFormatContextValue {
-  const ctx = React.useContext(DateFormatContext);
+  const ctx = React.use(DateFormatContext);
   if (!ctx) throw new Error('useDateFormat must be used within RoboDateFormatProvider');
   return ctx;
 }
@@ -71,7 +71,7 @@ function useDateFormat(): DateFormatContextValue {
  * mounted `RoboDateFormatProvider`. Returns `null` absent a provider.
  */
 function useDateFormatOptional(): DateFormatContextValue | null {
-  return React.useContext(DateFormatContext);
+  return React.use(DateFormatContext);
 }
 
 export { RoboDateFormatProvider, useDateFormat, useDateFormatOptional, DEFAULT_DATE_FORMAT };

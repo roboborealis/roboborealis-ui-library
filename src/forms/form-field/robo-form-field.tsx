@@ -24,7 +24,7 @@ interface FormFieldContextValue {
 const FormFieldContext = React.createContext<FormFieldContextValue | null>(null);
 
 function useFormField() {
-  const ctx = React.useContext(FormFieldContext);
+  const ctx = React.use(FormFieldContext);
   if (!ctx) throw new Error('useFormField must be used inside RoboFormField');
   const { getFieldState, formState } = useFormContext();
   const fieldState = getFieldState(ctx.name, formState);
@@ -89,7 +89,7 @@ function RoboFormField<
   const helperId = `${fieldId}-helper`;
 
   return (
-    <FormFieldContext.Provider value={{ name }}>
+    <FormFieldContext value={{ name }}>
       <Controller
         name={name}
         {...controllerProps}
@@ -131,7 +131,7 @@ function RoboFormField<
           );
         }}
       />
-    </FormFieldContext.Provider>
+    </FormFieldContext>
   );
 }
 RoboFormField.displayName = 'RoboFormField';

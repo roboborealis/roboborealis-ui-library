@@ -91,7 +91,7 @@ const RoboQuickPanelContext = React.createContext<RoboQuickPanelContextValue | n
  * ```
  */
 function useRoboQuickPanel(): RoboQuickPanelContextValue {
-  const ctx = React.useContext(RoboQuickPanelContext);
+  const ctx = React.use(RoboQuickPanelContext);
   if (!ctx) {
     throw new Error('useRoboQuickPanel must be used within a RoboQuickPanel');
   }
@@ -359,7 +359,7 @@ function RoboQuickPanel({
   );
 
   return (
-    <RoboQuickPanelContext.Provider value={contextValue}>
+    <RoboQuickPanelContext value={contextValue}>
       <RoboTooltipProvider>
         <motion.div
           ref={ref}
@@ -448,7 +448,7 @@ function RoboQuickPanel({
           </span>
         </motion.div>
       </RoboTooltipProvider>
-    </RoboQuickPanelContext.Provider>
+    </RoboQuickPanelContext>
   );
 }
 RoboQuickPanel.displayName = 'RoboQuickPanel';

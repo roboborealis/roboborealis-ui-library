@@ -96,7 +96,7 @@ function RoboGlassModeProvider({
     [glassMode, setGlassMode, glassModeAttributes]
   );
 
-  return <GlassModeContext.Provider value={value}>{children}</GlassModeContext.Provider>;
+  return <GlassModeContext value={value}>{children}</GlassModeContext>;
 }
 RoboGlassModeProvider.displayName = 'RoboGlassModeProvider';
 
@@ -106,7 +106,7 @@ RoboGlassModeProvider.displayName = 'RoboGlassModeProvider';
  * back to `{ glassMode: false, setGlassMode: noop }` rather than throwing.
  */
 function useGlassMode(): GlassModeContextValue {
-  const ctx = React.useContext(GlassModeContext);
+  const ctx = React.use(GlassModeContext);
   return ctx ?? NOOP_GLASS_MODE;
 }
 

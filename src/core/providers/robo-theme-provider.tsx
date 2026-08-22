@@ -212,12 +212,12 @@ function RoboThemeProvider({
     [theme, setTheme, mode, setMode, resolvedMode]
   );
 
-  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+  return <ThemeContext value={value}>{children}</ThemeContext>;
 }
 RoboThemeProvider.displayName = 'RoboThemeProvider';
 
 function useTheme(): ThemeContextValue {
-  const ctx = React.useContext(ThemeContext);
+  const ctx = React.use(ThemeContext);
   if (!ctx) throw new Error('useTheme must be used within RoboThemeProvider');
   return ctx;
 }

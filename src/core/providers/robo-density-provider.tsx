@@ -62,12 +62,12 @@ function RoboDensityProvider({
     [density, setDensity, densityAttributes]
   );
 
-  return <DensityContext.Provider value={value}>{children}</DensityContext.Provider>;
+  return <DensityContext value={value}>{children}</DensityContext>;
 }
 RoboDensityProvider.displayName = 'RoboDensityProvider';
 
 function useDensity(): DensityContextValue {
-  const ctx = React.useContext(DensityContext);
+  const ctx = React.use(DensityContext);
   if (!ctx) throw new Error('useDensity must be used within RoboDensityProvider');
   return ctx;
 }

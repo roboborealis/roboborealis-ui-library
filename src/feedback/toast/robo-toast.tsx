@@ -95,7 +95,7 @@ function RoboToastProvider({
   }, []);
 
   return (
-    <RoboToastContext.Provider value={{ toast }}>
+    <RoboToastContext value={{ toast }}>
       <ToastPrimitive.Provider swipeDirection={swipeDirection}>
         {children}
         {toasts.map((t) => (
@@ -118,7 +118,7 @@ function RoboToastProvider({
         ))}
         <RoboToastViewport />
       </ToastPrimitive.Provider>
-    </RoboToastContext.Provider>
+    </RoboToastContext>
   );
 }
 
@@ -138,7 +138,7 @@ function RoboToastProvider({
  * ```
  */
 function useRoboToast(): RoboToastContextValue {
-  const ctx = React.useContext(RoboToastContext);
+  const ctx = React.use(RoboToastContext);
   if (!ctx) {
     throw new Error('useRoboToast must be used inside <RoboToastProvider>');
   }

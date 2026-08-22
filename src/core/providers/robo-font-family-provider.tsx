@@ -69,12 +69,12 @@ function RoboFontFamilyProvider({
     [fontFamily, setFontFamily, fontFamilyAttributes]
   );
 
-  return <FontFamilyContext.Provider value={value}>{children}</FontFamilyContext.Provider>;
+  return <FontFamilyContext value={value}>{children}</FontFamilyContext>;
 }
 RoboFontFamilyProvider.displayName = 'RoboFontFamilyProvider';
 
 function useFontFamily(): FontFamilyContextValue {
-  const ctx = React.useContext(FontFamilyContext);
+  const ctx = React.use(FontFamilyContext);
   if (!ctx) throw new Error('useFontFamily must be used within RoboFontFamilyProvider');
   return ctx;
 }
