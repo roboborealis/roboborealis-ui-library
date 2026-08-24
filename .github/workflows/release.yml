@@ -1,13 +1,15 @@
 name: Release
 
-# On merge to main, tag the version in package.json and cut a GitHub Release with
-# auto-generated notes. No CHANGELOG file is committed — notes live on the Release page.
+# On merge to main, when package.json carries a new version: build the library, publish it to
+# GitHub Packages (private), and cut a GitHub Release with auto-generated notes. No CHANGELOG file
+# is committed — notes live on the Release page.
 on:
   push:
     branches: [main]
 
 permissions:
   contents: write
+  packages: write
 
 concurrency:
   group: release
@@ -21,17 +23,54 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Release if version is new
+      - name: Skip if this version is already released
+        id: check
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           VERSION=$(node -p "require('./package.json').version")
           TAG="v$VERSION"
+          echo "tag=$TAG" >>"$GITHUB_OUTPUT"
           if gh release view "$TAG" >/dev/null 2>&1; then
             echo "Release $TAG already exists — nothing to do."
-            exit 0
+            echo "is_new=false" >>"$GITHUB_OUTPUT"
+          else
+            echo "is_new=true" >>"$GITHUB_OUTPUT"
           fi
-          # gh creates the tag at the target commit and the release together,
-          # so no git identity or manual tag push is needed on the runner.
+
+      - name: Setup Node with GitHub Packages registry
+        if: steps.check.outputs.is_new == 'true'
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+          cache: 'npm'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@roboborealis'
+
+      - name: Install
+        if: steps.check.outputs.is_new == 'true'
+        run: npm ci
+
+      # Full release build: generate-agent-context -> ci:local -> copy-fonts -> build:lib.
+      # copy-fonts is what creates the fonts/ dir the package's ./fonts/* exports point at, so
+      # publishing without this step ships broken font subpaths.
+      - name: Build
+        if: steps.check.outputs.is_new == 'true'
+        run: npm run build:release
+
+      - name: Publish to GitHub Packages
+        if: steps.check.outputs.is_new == 'true'
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Release
+        if: steps.check.outputs.is_new == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          TAG="${{ steps.check.outputs.tag }}"
+          # gh creates the tag at the target commit and the release together, so no git identity or
+          # manual tag push is needed on the runner.
           gh release create "$TAG" --title "$TAG" --generate-notes --target "$GITHUB_SHA"
           echo "Created release $TAG"

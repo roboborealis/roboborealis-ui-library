@@ -1,7 +1,6 @@
 {
   "name": "@roboborealis/components",
-  "version": "0.35.6",
-  "private": true,
+  "version": "0.35.7",
   "workspaces": [
     "capture",
     "designer",
@@ -9,6 +8,14 @@
   ],
   "description": "RoboBorealis — a React + Tailwind UI component library",
   "license": "MIT",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com",
+    "access": "restricted"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roboborealis/roboborealis-ui-library.git"
+  },
   "engines": {
     "node": ">=18.0.0",
     "npm": ">=10.0.0"
