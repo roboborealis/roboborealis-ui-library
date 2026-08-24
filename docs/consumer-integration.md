@@ -6,19 +6,21 @@ How to use `@roboborealis/components` in your application (Next.js, React, etc.)
 
 ## 1. Configure npm Registry
 
-Add to your project's `.npmrc`:
+The package is published **privately to GitHub Packages** under the `roboborealis` org. Add to your
+project's `.npmrc`:
 
 ```
-@roboborealis:registry=https://registry.npmjs.org/
-//registry.npmjs.org/:_authToken=${NPM_TOKEN}
+@roboborealis:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
 ```
 
-Get a token from [npmjs.com → Access Tokens](https://www.npmjs.com/settings/~/tokens):
-- Type: **Granular Access Token** with `Read and Write` or `Read-only` scope on the `@roboborealis` org
-- For local dev: add `NPM_TOKEN=<your-token>` to your `.env.local` (gitignored)
-- For CI pipelines: add `NPM_TOKEN` as a repository secret (`Settings → Secrets → Actions`)
-
-> **Migrating from GitHub Package Registry?** Replace `GITHUB_TOKEN` with `NPM_TOKEN` in your CI secrets and update `.npmrc` as shown above.
+Auth is a **classic Personal Access Token** with the `read:packages` scope:
+- For local dev: add `GITHUB_TOKEN=<your-pat>` to your `.env.local` (gitignored), or drop the token
+  straight into `~/.npmrc`.
+- For CI pipelines: add the token as a repository secret. The consuming repo's built-in
+  `GITHUB_TOKEN` can read a package in the **same** org; a package in a **different** org needs a PAT
+  secret, or the package granted read access to the consuming repo (org → Packages → package
+  settings).
 
 ---
 
@@ -26,11 +28,11 @@ Get a token from [npmjs.com → Access Tokens](https://www.npmjs.com/settings/~/
 
 ```bash
 npm install @roboborealis/components
-npm install radix-ui    # installs all required @radix-ui/* peer dependencies
+npm install radix-ui motion    # required peers: all @radix-ui/* plus motion
 ```
 
-Optional peer dependency:
-- `mapbox-gl` — only needed if you use `@roboborealis/components/maps`
+Optional peer:
+- `@tanstack/react-router` — only needed if you use `@roboborealis/components/router`
 
 ---
 
@@ -47,9 +49,8 @@ import '@roboborealis/components/theme-aurora';  // RoboBorealis apps (UK)
 
 Both themes use CSS variable token swapping — no JavaScript runtime cost.
 
-> **Migrating from `theme-midnight`?** Replace with `theme-midnight` and change
-> `data-theme="midnight"` to `data-theme="midnight"`. The output is identical.
-> `theme-midnight` will be removed in v1.0.
+A third neutral theme is available: `import '@roboborealis/components/theme-sol';` with
+`data-theme="sol"`.
 
 ---
 
@@ -290,12 +291,13 @@ See it live in Storybook under `Showcase/Templates → App Shell — Archetype 1
 | `@roboborealis/components/feedback` | Toast, Alert, Dialog, Spinner, Skeleton, Progress, Tooltip |
 | `@roboborealis/components/layout` | PageShell, Grid, Stack, Divider |
 | `@roboborealis/components/charts` | LineChart, BarChart, AreaChart, PieChart, StatCard |
-| `@roboborealis/components/maps` | Mapbox wrapper, FloatingPanel, MapOverlay, controls |
 | `@roboborealis/components/editor` | RichTextEditor (Slate.js) |
 | `@roboborealis/components/icons` | 200+ Lucide re-exports + maritime icon set |
 | `@roboborealis/components/flags` | Country flags + FlagSelect dropdown |
-| `@roboborealis/components/brand` | RoboBorealis logos and wordmarks |
-| `@roboborealis/components/osint` | Force graphs, sankey, radar, correlation, timeline |
+| `@roboborealis/components/visualizations` | Force graphs, sankey, radar, correlation, timeline |
+| `@roboborealis/components/templates` | Full-page archetypes (AppShell, dashboards, forms) |
+| `@roboborealis/components/animations` | Motion presets and transition helpers |
+| `@roboborealis/components/router` | TanStack Router bindings (optional peer) |
 | `@roboborealis/components/tokens` | TypeScript color constants |
 
 ---
@@ -334,11 +336,11 @@ This installs all `@radix-ui/react-*` packages in a single command.
 
 ### Versioning: pin with `~` until v1.0
 
-This library is pre-1.0. Minor bumps (`0.6.x → 0.7.0`) may include breaking changes.
+This library is pre-1.0. Minor bumps (`0.35.x → 0.36.0`) may include breaking changes.
 Until v1.0, use tilde pinning in your `package.json`:
 
 ```json
-"@roboborealis/components": "~0.6.0"
+"@roboborealis/components": "~0.35.0"
 ```
 
 Until v1.0, minor version bumps may include breaking changes - check the GitHub release notes before upgrading.
@@ -354,7 +356,7 @@ Use this to test unreleased library changes in your consuming app.
 ```bash
 # In roboborealis-ui-library
 npm run build
-npm pack          # produces roboborealis-ui-0.2.0.tgz
+npm pack          # produces roboborealis-components-0.35.7.tgz
 ```
 
 ### Install in consumer
@@ -362,7 +364,7 @@ npm pack          # produces roboborealis-ui-0.2.0.tgz
 ```bash
 # In your consumer app
 rm -rf node_modules/@roboborealis/components
-npm install ../roboborealis-ui-library/roboborealis-ui-0.2.0.tgz
+npm install ../roboborealis-ui-library/roboborealis-components-0.35.7.tgz
 ```
 
 > `rm -rf` first because npm skips re-extraction if the tarball path matches the
@@ -382,7 +384,7 @@ npm run dev
 npm run build && npm pack
 
 # consumer app
-rm -rf node_modules/@roboborealis/components && npm install ../roboborealis-ui-library/roboborealis-ui-0.2.0.tgz
+rm -rf node_modules/@roboborealis/components && npm install ../roboborealis-ui-library/roboborealis-components-0.35.7.tgz
 rm -rf .next && npm run dev
 ```
 
