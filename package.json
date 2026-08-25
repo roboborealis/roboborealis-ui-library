@@ -206,7 +206,7 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "husky": "^9.1.7",
     "lucide-react": "^1.33.0",
-    "motion": "^11.18.2",
+    "motion": "^13.1.1",
     "radix-ui": "^1.4.3",
     "storybook": "^10.3.6",
     "tailwind-merge": "^3.5.0",
