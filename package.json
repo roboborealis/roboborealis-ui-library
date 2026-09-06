@@ -1,6 +1,6 @@
 {
   "name": "@roboborealis/components",
-  "version": "0.35.8",
+  "version": "0.35.9",
   "workspaces": [
     "capture",
     "designer",

@@ -115,3 +115,8 @@ export { RoboTourSettingsCard } from './tour/robo-tour-settings-card';
 export { formatDate, formatDateTime, DATE_FORMAT_OPTIONS } from './formatting/format-date';
 
 export { usePointerGlow, mergePointerGlow, installPointerGlow } from '@/lib/use-pointer-glow';
+
+export { RoboAppProviders } from './settings/robo-app-providers';
+export type { RoboAppProvidersProps } from './settings/robo-app-providers';
+export { RoboSettingsView } from './settings/robo-settings-view';
+export type { RoboSettingsViewProps, RoboSettingSection } from './settings/robo-settings-view';
