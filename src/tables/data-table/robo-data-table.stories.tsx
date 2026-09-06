@@ -121,6 +121,7 @@ const meta: Meta<RoboDataTableProps<SatelliteRow>> = {
     enableColumnResizing: { control: 'boolean' },
     enableColumnPinning: { control: 'boolean' },
     enableExpanding: { control: 'boolean' },
+    expandOnRowClick: { control: 'boolean' },
     isLoading: { control: 'boolean' },
     isFetching: { control: 'boolean' },
     striped: { control: 'boolean' },
@@ -338,6 +339,20 @@ export const ExpandedRows: Story = {
       </div>
     ),
     'aria-label': 'Expandable satellite table',
+  },
+};
+
+/**
+ * expandOnRowClick lets a click anywhere on the row toggle its detail, in
+ * addition to the chevron. Clicks on interactive controls inside the row (the
+ * chevron, links, buttons) are ignored, so those keep working.
+ */
+export const RowClickToExpand: Story = {
+  name: 'Expand On Row Click',
+  args: {
+    ...ExpandedRows.args,
+    expandOnRowClick: true,
+    'aria-label': 'Row-click expandable satellite table',
   },
 };
 

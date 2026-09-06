@@ -418,6 +418,95 @@ describe('RoboDataTable — expanding rows', () => {
     expect(screen.getByTestId('expanded-content')).toBeInTheDocument();
     expect(screen.getByText('Details for Alice')).toBeInTheDocument();
   });
+
+  // A column with an interactive control, to prove a click on the control does
+  // not also toggle the row when expandOnRowClick is on.
+  const rowClickColumns: ColumnDef<TestRow, unknown>[] = [
+    columnHelper.display({
+      id: 'row-link',
+      header: () => <span className="sr-only">Open</span>,
+      cell: ({ row }) => (
+        <a href="#detail" data-testid={`row-link-${row.original.id}`}>
+          open
+        </a>
+      ),
+    }),
+    ...testColumns,
+  ];
+
+  const expandedContent = (row: { original: TestRow }) => (
+    <div data-testid="expanded-content">Details for {row.original.name}</div>
+  );
+
+  it('toggles a row on row click when expandOnRowClick is set', async () => {
+    const user = userEvent.setup();
+    render(
+      <RoboDataTable
+        data={testData}
+        columns={rowClickColumns}
+        getRowId={(row) => row.id}
+        enableExpanding
+        expandOnRowClick
+        renderExpandedRow={expandedContent}
+      />,
+    );
+
+    // Click a plain data cell (not an interactive control) - the click bubbles
+    // to the row handler, which is what a user does when clicking "the row".
+    const aliceCell = screen.getByText('Alice');
+    await user.click(aliceCell);
+    expect(screen.getByTestId('expanded-content')).toBeInTheDocument();
+
+    await user.click(aliceCell);
+    expect(screen.queryByTestId('expanded-content')).not.toBeInTheDocument();
+  });
+
+  it('does NOT toggle when a link inside the row is clicked', async () => {
+    const user = userEvent.setup();
+    render(
+      <RoboDataTable
+        data={testData}
+        columns={rowClickColumns}
+        getRowId={(row) => row.id}
+        enableExpanding
+        expandOnRowClick
+        renderExpandedRow={expandedContent}
+      />,
+    );
+
+    await user.click(screen.getByTestId('row-link-1'));
+    expect(screen.queryByTestId('expanded-content')).not.toBeInTheDocument();
+  });
+
+  it('does NOT toggle on row click when expandOnRowClick is not set', async () => {
+    const user = userEvent.setup();
+    render(
+      <RoboDataTable
+        data={testData}
+        columns={rowClickColumns}
+        getRowId={(row) => row.id}
+        enableExpanding
+        renderExpandedRow={expandedContent}
+      />,
+    );
+
+    await user.click(screen.getByText('Alice'));
+    expect(screen.queryByTestId('expanded-content')).not.toBeInTheDocument();
+  });
+
+  it('has no axe violations with expandOnRowClick enabled', async () => {
+    const { container } = render(
+      <RoboDataTable
+        data={testData}
+        columns={rowClickColumns}
+        getRowId={(row) => row.id}
+        enableExpanding
+        expandOnRowClick
+        renderExpandedRow={expandedContent}
+      />,
+    );
+    expect(await axe(container)).toHaveNoViolations();
+  });
 });
 
 // ---------------------------------------------------------------------------

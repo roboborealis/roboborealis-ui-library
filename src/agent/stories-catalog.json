@@ -1,8 +1,8 @@
 {
-  "generated": "2026-08-24T19:43:46.420Z",
+  "generated": "2026-09-06T20:11:09.190Z",
   "version": "1.0.0",
   "description": "NLP-searchable story catalog for @roboborealis/components Storybook. Auto-generated — do not edit manually.",
-  "storyCount": 815,
+  "storyCount": 816,
   "stories": [
     {
       "id": "components-animated-layout--divider-entrance",
@@ -7343,6 +7343,22 @@
         "nested",
         "rows",
         "sub",
+        "table",
+        "tables"
+      ]
+    },
+    {
+      "id": "data-tables-robodatatable--row-click-to-expand",
+      "title": "Data/Tables/RoboDataTable/RowClickToExpand",
+      "storyName": "RowClickToExpand",
+      "urlPattern": "?path=/story/data-tables-robodatatable--row-click-to-expand",
+      "component": "RoboDataTable",
+      "export": "@roboborealis/components/tables",
+      "keywords": [
+        "click",
+        "data",
+        "expand",
+        "row",
         "table",
         "tables"
       ]

@@ -34,6 +34,8 @@ export interface TableBodyProps<TData> {
   errorState?: React.ReactNode;
   /** Custom expansion template for expanded rows */
   renderExpandedRow?: (row: Row<TData>) => React.ReactNode;
+  /** Toggle a row's expansion on row click, not only the chevron. Default: false */
+  expandOnRowClick?: boolean;
   /** Inline editing callback */
   onCellEdit?: (rowId: string, columnId: string, value: unknown) => void;
   /** Inline edit state from useInlineEdit hook */
@@ -55,6 +57,7 @@ export function TableBody<TData>({
   emptyState,
   errorState,
   renderExpandedRow,
+  expandOnRowClick = false,
   onCellEdit,
   inlineEdit,
   keyboardNav,
@@ -125,6 +128,7 @@ export function TableBody<TData>({
               row={row}
               rowIndex={virtualItem.index + 1}
               renderExpandedRow={renderExpandedRow}
+              expandOnRowClick={expandOnRowClick}
               visibleColumnCount={visibleColumnCount}
               onCellEdit={onCellEdit}
               inlineEdit={inlineEdit}
@@ -165,6 +169,7 @@ export function TableBody<TData>({
           row={row}
           rowIndex={index + 1}
           renderExpandedRow={renderExpandedRow}
+          expandOnRowClick={expandOnRowClick}
           visibleColumnCount={visibleColumnCount}
           onCellEdit={onCellEdit}
           inlineEdit={inlineEdit}
