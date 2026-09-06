@@ -201,6 +201,13 @@ export interface RoboDataTableProps<TData = Record<string, unknown>> {
   renderExpandedRow?: (row: Row<TData>) => React.ReactNode;
   /** Allow multiple rows expanded at once (default: false) */
   allowMultipleExpanded?: boolean;
+  /**
+   * Toggle a row's expansion when the row itself is clicked, not only the
+   * chevron (default: false). Additive: the chevron stays the keyboard/AT
+   * control. Clicks that land on an interactive descendant (link, button,
+   * input, etc.) are ignored, so controls inside the row keep working.
+   */
+  expandOnRowClick?: boolean;
 
   // --- Row Selection ---
   /** Enable select-all checkbox in header */

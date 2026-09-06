@@ -21,6 +21,8 @@ export interface TableRowProps<TData> {
   rowIndex: number;
   /** Custom expansion template for expanded rows */
   renderExpandedRow?: (row: Row<TData>) => React.ReactNode;
+  /** Toggle expansion on row click, not only the chevron. Default: false */
+  expandOnRowClick?: boolean;
   /** Number of visible columns (used for expanded row colSpan) */
   visibleColumnCount: number;
   /** Inline editing callback */
@@ -41,6 +43,7 @@ export function TableRow<TData>({
   row,
   rowIndex,
   renderExpandedRow,
+  expandOnRowClick = false,
   visibleColumnCount,
   onCellEdit,
   inlineEdit,
@@ -51,15 +54,36 @@ export function TableRow<TData>({
 }: TableRowProps<TData>) {
   const isSelected = row.getIsSelected();
   const isExpanded = row.getIsExpanded();
+  const rowClickToggles = expandOnRowClick && row.getCanExpand();
+
+  // Additive mouse affordance: toggle expansion when the row is clicked. Clicks
+  // that originate on an interactive descendant (a link, button, input, the
+  // chevron itself, etc.) are ignored so those controls keep working. The
+  // chevron button remains the keyboard/AT path, so no row-level role or tab stop
+  // is added - that would break table-row semantics for screen readers.
+  const handleRowClick = rowClickToggles
+    ? (e: React.MouseEvent<HTMLTableRowElement>) => {
+        if (
+          (e.target as HTMLElement).closest(
+            'a,button,input,select,textarea,label,[role="button"],[contenteditable]',
+          )
+        ) {
+          return;
+        }
+        row.getToggleExpandedHandler()();
+      }
+    : undefined;
 
   return (
     <>
       <tr
         aria-selected={isSelected || undefined}
         data-state={isSelected ? 'selected' : undefined}
+        onClick={handleRowClick}
         style={animationDelay ? { animationDelay } : undefined}
         className={cn(
           'border-b border-[var(--border)] hover:bg-[var(--accent)] transition-colors',
+          rowClickToggles && 'cursor-pointer',
           isStriped && !isSelected && 'bg-[var(--border)]/70',
           isSelected && 'bg-[var(--primary)]/10',
           animationDelay && 'animate-in fade-in duration-[var(--duration-normal)]',

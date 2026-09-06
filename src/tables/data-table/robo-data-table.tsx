@@ -115,6 +115,7 @@ function RoboDataTable<TData = Record<string, unknown>>(
     getSubRows,
     renderExpandedRow,
     allowMultipleExpanded,
+    expandOnRowClick = false,
 
     // Row Selection (passed to hook)
     enableSelectAll: _enableSelectAll = true,
@@ -355,6 +356,7 @@ function RoboDataTable<TData = Record<string, unknown>>(
             emptyState={emptyState}
             errorState={errorState}
             renderExpandedRow={renderExpandedRow}
+            expandOnRowClick={expandOnRowClick}
             onCellEdit={onCellEdit}
             inlineEdit={inlineEdit}
             keyboardNav={keyboardNav}
