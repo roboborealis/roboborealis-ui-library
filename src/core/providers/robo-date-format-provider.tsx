@@ -3,7 +3,12 @@
 import * as React from 'react';
 
 import { type StorageAdapter, createLocalStorageAdapter } from '../storage-adapter';
-import { type DateFormatId, formatDate, formatDateTime } from '../formatting/format-date';
+import {
+  type DateFormatId,
+  formatDate,
+  formatDateLong,
+  formatDateTime,
+} from '../formatting/format-date';
 
 const DEFAULT_DATE_FORMAT: DateFormatId = 'MM/DD/YYYY';
 const defaultStorageAdapter = createLocalStorageAdapter();
@@ -15,6 +20,8 @@ interface DateFormatContextValue {
   formatDate: (input: Date | string | number | null | undefined) => string;
   /** Formats a date + UTC time using the current setting. Bound for convenience — equivalent to `formatDateTime(input, dateFormat)`. */
   formatDateTime: (input: Date | string | number | null | undefined) => string;
+  /** Long, spelled-out date for tooltips, e.g. "March 9th, 2026". Fixed form, independent of the setting. */
+  formatLong: (input: Date | string | number | null | undefined) => string;
 }
 
 const DateFormatContext = React.createContext<DateFormatContextValue | null>(null);
@@ -51,6 +58,7 @@ function RoboDateFormatProvider({
       setDateFormat,
       formatDate: (input) => formatDate(input, dateFormat),
       formatDateTime: (input) => formatDateTime(input, dateFormat),
+      formatLong: (input) => formatDateLong(input),
     }),
     [dateFormat, setDateFormat]
   );

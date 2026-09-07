@@ -4,7 +4,17 @@ import { format } from 'date-fns';
 // Types
 // ---------------------------------------------------------------------------
 
-export type DateFormatId = 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'MMM D, YYYY';
+export type DateFormatId =
+  | 'MM/DD/YYYY'
+  | 'M/D/YYYY'
+  | 'MM.DD.YYYY'
+  | 'MM-DD-YYYY'
+  | 'DD/MM/YYYY'
+  | 'YYYY-MM-DD'
+  | 'MMM D, YYYY'
+  | 'MMMM D, YYYY'
+  | 'MMMM Do, YYYY'
+  | 'ddd, MMM D, YYYY';
 
 // ---------------------------------------------------------------------------
 // Patterns
@@ -12,9 +22,15 @@ export type DateFormatId = 'MM/DD/YYYY' | 'DD/MM/YYYY' | 'YYYY-MM-DD' | 'MMM D, 
 
 const DATE_FNS_PATTERNS: Record<DateFormatId, string> = {
   'MM/DD/YYYY': 'MM/dd/yyyy',
+  'M/D/YYYY': 'M/d/yyyy',
+  'MM.DD.YYYY': 'MM.dd.yyyy',
+  'MM-DD-YYYY': 'MM-dd-yyyy',
   'DD/MM/YYYY': 'dd/MM/yyyy',
   'YYYY-MM-DD': 'yyyy-MM-dd',
   'MMM D, YYYY': 'MMM d, yyyy',
+  'MMMM D, YYYY': 'MMMM d, yyyy',
+  'MMMM Do, YYYY': 'MMMM do, yyyy',
+  'ddd, MMM D, YYYY': 'EEE, MMM d, yyyy',
 };
 
 // ---------------------------------------------------------------------------
@@ -67,6 +83,16 @@ export function formatDateTime(
 ): string {
   const d = parseInput(input);
   return d ? format(toUtcShifted(d), `${DATE_FNS_PATTERNS[formatId]} HH:mm:ss'Z'`) : '—';
+}
+
+/**
+ * Long, spelled-out date for tooltips/hover, e.g. "March 9th, 2026". Fixed form,
+ * not affected by the display-format setting. Returns '—' for null/invalid input.
+ */
+export function formatDateLong(input: Date | string | number | null | undefined): string {
+  // The same spelled-out form the 'MMMM Do, YYYY' display option produces,
+  // reused rather than duplicated so the two never drift.
+  return formatDate(input, 'MMMM Do, YYYY');
 }
 
 /** Dropdown options for a date-format setting — each label embeds a live example. */
