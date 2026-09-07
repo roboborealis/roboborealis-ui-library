@@ -33,12 +33,6 @@ const DATE_FNS_PATTERNS: Record<DateFormatId, string> = {
   'ddd, MMM D, YYYY': 'EEE, MMM d, yyyy',
 };
 
-/**
- * date-fns pattern for the spelled-out long form shown in date tooltips,
- * e.g. "March 9th, 2026" — independent of the user's chosen display format.
- */
-const LONG_DATE_PATTERN = 'MMMM do, yyyy';
-
 // ---------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------
@@ -96,8 +90,9 @@ export function formatDateTime(
  * not affected by the display-format setting. Returns '—' for null/invalid input.
  */
 export function formatDateLong(input: Date | string | number | null | undefined): string {
-  const d = parseInput(input);
-  return d ? format(toUtcShifted(d), LONG_DATE_PATTERN) : '—';
+  // The same spelled-out form the 'MMMM Do, YYYY' display option produces,
+  // reused rather than duplicated so the two never drift.
+  return formatDate(input, 'MMMM Do, YYYY');
 }
 
 /** Dropdown options for a date-format setting — each label embeds a live example. */
