@@ -112,7 +112,12 @@ export { RoboProductTour } from './tour/robo-product-tour';
 export type { RoboProductTourProps, RoboTourStep } from './tour/robo-product-tour';
 export { RoboTourSettingsCard } from './tour/robo-tour-settings-card';
 
-export { formatDate, formatDateTime, DATE_FORMAT_OPTIONS } from './formatting/format-date';
+export {
+  formatDate,
+  formatDateLong,
+  formatDateTime,
+  DATE_FORMAT_OPTIONS,
+} from './formatting/format-date';
 
 export { usePointerGlow, mergePointerGlow, installPointerGlow } from '@/lib/use-pointer-glow';
 

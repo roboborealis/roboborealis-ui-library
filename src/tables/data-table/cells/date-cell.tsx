@@ -3,6 +3,7 @@
 import * as React from 'react';
 import type { CellContext } from '@tanstack/react-table';
 
+import { formatDateLong } from '@/core/formatting/format-date';
 import { useDateFormatOptional } from '@/core/providers/robo-date-format-provider';
 
 // ---------------------------------------------------------------------------
@@ -99,7 +100,7 @@ export function createDateCell<TData>(
     const iso = date.toISOString();
 
     return (
-      <time dateTime={iso} title={iso}>
+      <time dateTime={iso} title={formatDateLong(date)}>
         <span>{formatted}</span>
         {showRelative && (
           <span className="block text-xs text-[var(--muted-foreground)]">

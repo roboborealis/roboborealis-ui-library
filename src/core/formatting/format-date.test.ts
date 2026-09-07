@@ -1,4 +1,4 @@
-import { formatDate, formatDateTime, DATE_FORMAT_OPTIONS } from './format-date';
+import { formatDate, formatDateLong, formatDateTime, DATE_FORMAT_OPTIONS } from './format-date';
 
 // A UTC instant: 2026-03-04T15:06:07Z
 const SAMPLE = '2026-03-04T15:06:07.000Z';
@@ -18,6 +18,30 @@ describe('formatDate', () => {
 
   it('formats MMM D, YYYY', () => {
     expect(formatDate(SAMPLE, 'MMM D, YYYY')).toBe('Mar 4, 2026');
+  });
+
+  it('formats M/D/YYYY without leading zeros', () => {
+    expect(formatDate(SAMPLE, 'M/D/YYYY')).toBe('3/4/2026');
+  });
+
+  it('formats MM.DD.YYYY', () => {
+    expect(formatDate(SAMPLE, 'MM.DD.YYYY')).toBe('03.04.2026');
+  });
+
+  it('formats MM-DD-YYYY', () => {
+    expect(formatDate(SAMPLE, 'MM-DD-YYYY')).toBe('03-04-2026');
+  });
+
+  it('formats MMMM D, YYYY', () => {
+    expect(formatDate(SAMPLE, 'MMMM D, YYYY')).toBe('March 4, 2026');
+  });
+
+  it('formats MMMM Do, YYYY', () => {
+    expect(formatDate(SAMPLE, 'MMMM Do, YYYY')).toBe('March 4th, 2026');
+  });
+
+  it('formats ddd, MMM D, YYYY', () => {
+    expect(formatDate(SAMPLE, 'ddd, MMM D, YYYY')).toBe('Wed, Mar 4, 2026');
   });
 
   it('accepts a Date object', () => {
@@ -57,9 +81,23 @@ describe('formatDateTime', () => {
   });
 });
 
+describe('formatDateLong', () => {
+  it('spells out the month with an ordinal day', () => {
+    expect(formatDateLong(SAMPLE)).toBe('March 4th, 2026');
+  });
+
+  it('uses the UTC calendar date, not the host timezone', () => {
+    expect(formatDateLong('2026-01-01T23:30:00.000Z')).toBe('January 1st, 2026');
+  });
+
+  it('returns an em dash for null', () => {
+    expect(formatDateLong(null)).toBe('—');
+  });
+});
+
 describe('DATE_FORMAT_OPTIONS', () => {
   it('has one entry per DateFormatId with a live example embedded in the label', () => {
-    expect(DATE_FORMAT_OPTIONS).toHaveLength(4);
+    expect(DATE_FORMAT_OPTIONS).toHaveLength(10);
     const isoOption = DATE_FORMAT_OPTIONS.find((o) => o.value === 'YYYY-MM-DD');
     expect(isoOption?.label).toMatch(/^YYYY-MM-DD \(\d{4}-\d{2}-\d{2}\)$/);
   });
