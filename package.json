@@ -231,7 +231,7 @@
     "@fontsource/sora": "^5.2.8",
     "@fontsource/varela": "^5.2.8",
     "@hookform/resolvers": "^5.9.1",
-    "@tanstack/react-table": "^8.21.3",
+    "@tanstack/react-table": "^9.2.4",
     "@tanstack/react-virtual": "^3.14.10",
     "cmdk": "^1.1.1",
     "date-fns": "^4.1.0",
