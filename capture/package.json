@@ -12,9 +12,9 @@
   "devDependencies": {
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^22.0.0",
-    "js-yaml": "^5.4.1",
-    "playwright": "^1.62.1",
-    "tsx": "^4.23.13",
+    "js-yaml": "^5.4.3",
+    "playwright": "^1.64.0",
+    "tsx": "^4.23.15",
     "vitest": "^3.0.0"
   }
 }
