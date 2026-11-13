@@ -13,17 +13,17 @@
   "dependencies": {
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "lucide-react": "^1.66.0",
+    "lucide-react": "^1.70.0",
     "react": "19.3.1",
     "react-dom": "19.3.1",
     "tailwind-merge": "^3.7.0"
   },
   "devDependencies": {
     "@jest/globals": "^30.5.2",
-    "@storybook/addon-a11y": "^10.6.5",
-    "@storybook/react": "^10.6.5",
-    "@storybook/react-vite": "^10.6.5",
-    "@tailwindcss/postcss": "^4.3.4",
+    "@storybook/addon-a11y": "^10.6.6",
+    "@storybook/react": "^10.6.6",
+    "@storybook/react-vite": "^10.6.6",
+    "@tailwindcss/postcss": "^4.3.5",
     "@testing-library/jest-dom": "^7.0.1",
     "@testing-library/react": "^16.3.3",
     "@testing-library/user-event": "^14.6.8",
